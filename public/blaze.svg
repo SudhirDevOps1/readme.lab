@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240"><rect width="240" height="240" rx="24" fill="#1a0a00"/>
+      <defs><radialGradient id="ph"><stop offset="0" stop-color="#fde68a"/><stop offset="1" stop-color="#ff0000"/></radialGradient><filter id="phg"><feGaussianBlur stdDeviation="4"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+      <g transform="translate(120 120) scale(1)" filter="url(#phg)"><animateTransform attributeName="transform" type="translate" values="120 120;120 114;120 120" dur="3s" repeatCount="indefinite"/>
+      <path d="M0 -50 Q30 -20 25 20 Q45 0 40 -30 Q50 10 30 40 Q10 55 0 45 Q-10 55 -30 40 Q-50 10 -40 -30 Q-45 0 -25 20 Q-30 -20 0 -50" fill="url(#ph)"/>
+      <circle cx="-10" cy="0" r="4" fill="#0f172a"/><circle cx="10" cy="0" r="4" fill="#0f172a"/>
+      <circle cx="0" cy="-45" r="3" fill="#fef08a"><animate attributeName="cy" values="-45;-65;-45" dur="1.7999999999999998s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0;1" dur="1.7999999999999998s" repeatCount="indefinite"/></circle>
+      <circle cx="15" cy="-40" r="2" fill="#fbbf24"><animate attributeName="cy" values="-40;-60;-40" dur="1.5s" repeatCount="indefinite"/></circle>
+      </g><text x="120" y="215" text-anchor="middle" font-family="monospace" font-size="12" fill="#ff0000">rebirth · phoenix</text></svg>
