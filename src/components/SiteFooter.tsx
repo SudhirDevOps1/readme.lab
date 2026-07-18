@@ -111,13 +111,13 @@ export function SiteFooter({ total, counts }: {
         {/* links row */}
         <div className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-slate-800/70 pt-6 sm:flex-row">
           <div className="flex flex-wrap items-center gap-4 font-mono text-[11px] text-slate-500">
-            <a href="https://github.com/SudhirDevOps1/readme.lab" target="_blank" rel="noreferrer" className="transition-colors hover:text-amber-400">Repository</a>
+            <a href="https://github.com/SudhirDevOps1" target="_blank" rel="noreferrer" className="transition-colors hover:text-amber-400">GitHub</a>
             <span className="text-slate-700">·</span>
-            <a href="https://readme-lab.pages.dev/" target="_blank" rel="noreferrer" className="transition-colors hover:text-amber-400">Live app</a>
+            <a href="#" className="transition-colors hover:text-amber-400">Docs</a>
             <span className="text-slate-700">·</span>
-            <a href="https://github.com/SudhirDevOps1/readme.lab#how-to-use-it" target="_blank" rel="noreferrer" className="transition-colors hover:text-amber-400">Docs</a>
+            <a href="#" className="transition-colors hover:text-amber-400">Examples</a>
             <span className="text-slate-700">·</span>
-            <a href="https://github.com/SudhirDevOps1/readme.lab/issues" target="_blank" rel="noreferrer" className="transition-colors hover:text-amber-400">Report bug</a>
+            <a href="#" className="transition-colors hover:text-amber-400">Report bug</a>
           </div>
           <div className="flex items-center gap-2 font-mono text-[11px] text-slate-600">
             <span className="inline-flex h-1.5 w-1.5 rounded-full bg-lime-400" style={{ animation: 'pulseSoft 2s infinite' }} />

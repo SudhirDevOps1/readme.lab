@@ -1,20 +1,127 @@
-import { useEffect, useMemo, useState } from 'react';
-import { BANNERS, fillBanner } from './data/banners';
+import { useMemo, useState } from 'react';
+import { BANNERS_LIGHT_BG as BANNERS, fillBanner } from './data/banners';
 import { PETS, renderPet } from './data/pets';
 import { GAMES_META } from './games';
 import { TEMPLATES, fillTemplate } from './data/templates';
 import { SNIPPETS, SNIPPET_CATEGORIES, fillSnippet } from './data/snippets';
 import { CodeBlock } from './components/CodeBlock';
 import { SiteFooter } from './components/SiteFooter';
+import { SvgEditor } from './components/SvgEditor';
+import { MermaidView } from './components/MermaidView';
+import { MERMAID_TEMPLATES, MERMAID_CATEGORIES, fillMermaid, mermaidToMarkdown } from './data/mermaid';
 
-type Tab = 'banners' | 'templates' | 'snippets' | 'pets' | 'games' | 'stats' | 'statcards' | 'badges';
+type Tab = 'generator' | 'banners' | 'templates' | 'snippets' | 'pets' | 'mermaid' | 'games' | 'stats' | 'statcards' | 'badges';
 
-const LIVE_URL = 'https://readme-lab.pages.dev/';
-const REPO_URL = 'https://github.com/SudhirDevOps1/readme.lab';
+// Lightweight README markdown → HTML preview (renders images, headings, links, lists)
+function renderReadmePreview(md: string): string {
+  let h = md
+    .replace(/^#{2}\s+(.*)$/gm, '<h2>$1</h2>')
+    .replace(/^#{1}\s+(.*)$/gm, '<h1>$1</h1>')
+    .replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1"/>')
+    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noreferrer">$1</a>')
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/`([^`]+)`/g, '<code style="background:#1e293b;padding:1px 4px;border-radius:3px;color:#a3e635">$1</code>')
+    .replace(/^-\s+(.*)$/gm, '<li>$1</li>');
+  h = h.replace(/(<li>[\s\S]*?<\/li>\n?)+/g, m => `<ul>${m}</ul>`);
+  return h;
+}
 
 const STAT_THEMES = ['default','dark','radical','merko','gruvbox','tokyonight','onedark','cobalt','synthwave','highcontrast','dracula','prussian','monokai','vue','vue-dark','shades-of-purple','nightowl','buefy','blue-green','algolia','great-gatsby','darcula','bear','solarized-dark','solarized-light','chartreuse-dark','nord','gotham','material-palenight','graywhite','vision-friendly-dark','ayu-mirage','calm','flag-india','omni','react','jolly','maroongold','yeblu','blueberry','slateorange','kacho_ga','outrun','ocean_dark','city_lights','github_dark','github','discord','aura_dark','panda','noctis_minimus','cobalt2','swift','aura','apprentice','moltack','codeSTACKr','rose_pine','catppuccin_latte','catppuccin_mocha','date_night','one_dark_pro','rose','holi','neon','blue_navy','calm_pink','ambient_gradient','react-dark','github_dark_dimmed','github_compact','transparent','shadow_red','shadow_green','shadow_blue','dark-violet','github_light','react-light','midnight-purple','light'];
 
 const BADGE_COLORS = ['000000','ffffff','FF0000','FF4500','FF6B35','FFA500','FFD700','FFFF00','ADFF2F','00FF00','00FA9A','00CED1','00BFFF','1E90FF','4169E1','0000FF','4B0082','8A2BE2','9400D3','FF00FF','FF1493','FF69B4','FFB6C1','DC143C','B22222','800000','808000','006400','2F4F4F','191970','483D8B','2c3e50','34495e','7f8c8d','95a5a6','bdc3c7','ecf0f1','e74c3c','e67e22','f1c40f','2ecc71','1abc9c','3498db','9b59b6','34495e'];
+
+// ============ Mermaid sub-component ============
+function MermaidTab({ name, role, handle, copied, onCopy, onDownload }: {
+  name: string; role: string; handle: string;
+  copied: string | null;
+  onCopy: (t: string, id: string) => void;
+  onDownload: (t: string, f: string, m: string) => void;
+}) {
+  const [active, setActive] = useState<string>(MERMAID_TEMPLATES[0].id);
+  const [cat, setCat] = useState('all');
+  const [search, setSearch] = useState('');
+  const [edited, setEdited] = useState<Record<string, string>>({});
+  const [view, setView] = useState<'preview' | 'edit' | 'source'>('preview');
+  const [title, setTitle] = useState('diagram');
+
+  const list = MERMAID_TEMPLATES.filter(t => {
+    if (cat !== 'all' && t.cat !== cat) return false;
+    if (search && !t.name.toLowerCase().includes(search.toLowerCase()) && !t.cat.toLowerCase().includes(search.toLowerCase())) return false;
+    return true;
+  });
+  const current = MERMAID_TEMPLATES.find(t => t.id === active) || MERMAID_TEMPLATES[0];
+  const base = edited[current.id] ?? current.code;
+  const filled = fillMermaid(base, { name, role, handle });
+  const md = mermaidToMarkdown(filled);
+
+  return (
+    <div className="grid gap-5 lg:grid-cols-[280px_1fr]">
+      {/* sidebar */}
+      <div className="rounded-2xl border border-slate-800 bg-[#12151a] p-3 lg:sticky lg:top-20 lg:self-start lg:max-h-[calc(100vh-120px)] lg:overflow-y-auto">
+        <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="search diagrams…" className="mb-2 w-full rounded-lg border border-slate-800 bg-[#0b0d10] px-3 py-2 text-xs text-white placeholder-slate-600 focus:border-amber-500 focus:outline-none"/>
+        <div className="mb-2 flex flex-wrap gap-1">
+          <button onClick={()=>setCat('all')} className={`rounded px-2 py-1 font-mono text-[9px] ${cat==='all'?'bg-amber-500 text-[#0b0d10]':'bg-slate-800 text-slate-400'}`}>all</button>
+          {MERMAID_CATEGORIES.map(c=>(
+            <button key={c} onClick={()=>setCat(c)} className={`rounded px-2 py-1 font-mono text-[9px] ${cat===c?'bg-amber-500 text-[#0b0d10]':'bg-slate-800 text-slate-400 hover:text-white'}`}>{c}</button>
+          ))}
+        </div>
+        <div className="space-y-1">
+          {list.map(t=>(
+            <button key={t.id} onClick={()=>{setActive(t.id); setView('preview');}} className={`flex w-full items-center gap-2 rounded-lg p-2 text-left transition-all ${active===t.id?'bg-gradient-to-br from-amber-400 to-lime-400 text-[#0b0d10]':'text-slate-300 hover:bg-slate-800'}`}>
+              <span className="rounded bg-black/20 px-1 py-0.5 font-mono text-[8px]">{t.cat}</span>
+              <span className="text-xs font-bold">{t.name}{edited[t.id]!==undefined && ' •'}</span>
+            </button>
+          ))}
+        </div>
+        <div className="mt-2 text-center font-mono text-[10px] text-slate-500">{list.length} of {MERMAID_TEMPLATES.length}</div>
+      </div>
+
+      {/* editor + preview */}
+      <div className="rounded-2xl border border-slate-800 bg-[#12151a] p-5">
+        <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+          <div className="min-w-0">
+            <div className="flex items-center gap-2">
+              <span className="text-lg">🧜</span>
+              <input value={title} onChange={e=>setTitle(e.target.value)} className="w-36 bg-transparent font-display text-xl text-white border-b border-dashed border-slate-700 focus:border-amber-400 focus:outline-none"/>
+              <span className="font-mono text-[11px] text-slate-600">.md ✎</span>
+            </div>
+            <p className="font-mono text-[11px] text-slate-500 mt-1">{current.name} · {current.cat} diagram · GitHub renders this natively</p>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <button onClick={()=>onCopy(md, `mmd-${current.id}`)} className={copied===`mmd-${current.id}`?'rounded-lg bg-lime-400 px-3 py-2 text-xs font-bold text-[#0b0d10]':'rounded-lg bg-amber-500 px-3 py-2 text-xs font-bold text-[#0b0d10] hover:bg-amber-400'}>{copied===`mmd-${current.id}`?'✓ copied':'⎘ copy markdown'}</button>
+            <button onClick={()=>onDownload(md, `${title||'diagram'}.md`, 'text/markdown')} className="rounded-lg bg-slate-800 px-3 py-2 text-xs text-slate-200 hover:bg-slate-700">↓ .md</button>
+          </div>
+        </div>
+        <div className="mb-3 flex gap-1 rounded-lg border border-slate-800 bg-[#0b0d10] p-1 w-fit">
+          {(['preview','edit','source'] as const).map(v=>(
+            <button key={v} onClick={()=>setView(v)} className={`rounded-md px-3 py-1.5 font-mono text-[11px] transition-all ${view===v?'bg-gradient-to-br from-amber-400 to-lime-400 font-bold text-[#0b0d10]':'text-slate-400 hover:text-white'}`}>
+              {v==='preview'?'👁 preview':v==='edit'?'✎ edit':'</> markdown'}
+            </button>
+          ))}
+          {edited[current.id]!==undefined && <button onClick={()=>setEdited(p=>{const n={...p};delete n[current.id];return n;})} className="rounded-md px-3 py-1.5 font-mono text-[11px] text-red-400 hover:bg-slate-800">↺ revert</button>}
+        </div>
+        {view==='preview' && (
+          <div className="rounded-lg border border-slate-800 bg-[#0b0d10] p-6">
+            <MermaidView code={filled}/>
+          </div>
+        )}
+        {view==='edit' && (
+          <div>
+            <div className="mb-2 font-mono text-[10px] text-slate-500">edit the mermaid code — preview updates live. use <span className="text-amber-400">{'{{NAME}}'}</span> <span className="text-amber-400">{'{{ROLE}}'}</span> placeholders.</div>
+            <div className="grid gap-3 lg:grid-cols-2">
+              <textarea value={base} onChange={e=>setEdited(p=>({...p, [current.id]: e.target.value}))} spellCheck={false}
+                className="h-[360px] w-full rounded-lg border border-slate-800 bg-[#0b0d10] p-3 font-mono text-[12px] leading-relaxed text-slate-200 focus:border-amber-500 focus:outline-none resize-none"/>
+              <div className="rounded-lg border border-slate-800 bg-[#0b0d10] p-4"><MermaidView code={filled}/></div>
+            </div>
+          </div>
+        )}
+        {view==='source' && (
+          <CodeBlock code={md} lang="md" filename={`${title||'diagram'}.md`} maxHeight={400} onDownload={()=>onDownload(md, `${title||'diagram'}.md`, 'text/markdown')}/>
+        )}
+      </div>
+    </div>
+  );
+}
 
 // ============ Banners sub-component ============
 function BannerTab({ name, role, handle, copied, onCopy, onDownload }: {
@@ -58,14 +165,17 @@ function BannerTab({ name, role, handle, copied, onCopy, onDownload }: {
           </div>
           <div className="space-y-3">
             <div>
-              <div className="mb-2 font-mono text-[10px] uppercase tracking-widest text-slate-500">SVG source · syntax highlighted</div>
-              <CodeBlock code={filled} lang="xml" filename={`${fname}.svg`} maxHeight={340} onDownload={()=>onDownload(filled,`${fname}.svg`,'image/svg+xml')}/>
-            </div>
-            <div>
               <div className="mb-2 font-mono text-[10px] uppercase tracking-widest text-slate-500">embed in README.md</div>
               <CodeBlock code={md} lang="md" filename="README.md" maxHeight={80} showLineNumbers={false}/>
             </div>
+            <div className="rounded-xl border border-lime-500/20 bg-lime-500/5 p-3">
+              <p className="text-[11px] text-lime-200/80"><span className="font-bold">💡</span> Use the live editor below to tweak this SVG's code — change colors, animation speeds, shapes — and preview instantly before downloading.</p>
+            </div>
           </div>
+        </div>
+        <div className="mt-5">
+          <div className="mb-2 font-mono text-[10px] uppercase tracking-widest text-slate-500">✎ live SVG editor</div>
+          <SvgEditor key={current.id} initialSvg={filled} filename={`${fname}.svg`} onCopy={onCopy} onDownload={onDownload} copied={copied}/>
         </div>
       </div>
     );
@@ -111,8 +221,9 @@ function BannerTab({ name, role, handle, copied, onCopy, onDownload }: {
 }
 
 // ============ Snippets sub-component ============
-function SnippetTab({ name, role, handle, copied, onCopy, onDownload }: {
+function SnippetTab({ name, role, handle, location, email, company, website, copied, onCopy, onDownload }: {
   name: string; role: string; handle: string;
+  location?: string; email?: string; company?: string; website?: string;
   copied: string | null;
   onCopy: (t: string, id: string) => void;
   onDownload: (t: string, f: string, m: string) => void;
@@ -121,6 +232,7 @@ function SnippetTab({ name, role, handle, copied, onCopy, onDownload }: {
   const [search, setSearch] = useState('');
   const [expanded, setExpanded] = useState<string | null>(null);
   const [bucket, setBucket] = useState<string[]>([]);
+  const idn = { name, role, handle, location, email, company, website };
 
   const filtered = SNIPPETS.filter(s => {
     if (filterCat !== 'all' && s.cat !== filterCat) return false;
@@ -130,7 +242,7 @@ function SnippetTab({ name, role, handle, copied, onCopy, onDownload }: {
 
   const readme = bucket.map(id => {
     const sn = SNIPPETS.find(s => s.id === id);
-    return sn ? fillSnippet(sn.md, { name, role, handle }) : '';
+    return sn ? fillSnippet(sn.md, idn) : '';
   }).join('\n\n');
 
   const isImageSnippet = (md: string) => /^!\[|^<p|^<img|^<a|^\[!\[/.test(md.trim());
@@ -148,7 +260,7 @@ function SnippetTab({ name, role, handle, copied, onCopy, onDownload }: {
         </div>
         <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
           {filtered.map(s => {
-            const filled = fillSnippet(s.md, { name, role, handle });
+            const filled = fillSnippet(s.md, idn);
             const inBucket = bucket.includes(s.id);
             return (
               <article key={s.id} className="rounded-xl border border-slate-800 bg-[#12151a] p-3 hover:border-amber-500/40 transition-all">
@@ -297,8 +409,8 @@ function PetTab({ handle, copied, onCopy, onDownload }: {
         </div>
         <div className="rounded-lg border border-slate-800 bg-[#0b0d10] p-6 flex items-center justify-center [&>svg]:max-w-[240px] [&>svg]:w-full" dangerouslySetInnerHTML={{__html: svgStr}}/>
         <div className="mt-3">
-          <div className="mb-2 font-mono text-[10px] uppercase tracking-widest text-slate-500">SVG source · syntax highlighted</div>
-          <CodeBlock code={svgStr} lang="xml" filename={`${fileName}.svg`} maxHeight={260} onDownload={()=>onDownload(svgStr, `${fileName}.svg`, 'image/svg+xml')}/>
+          <div className="mb-2 font-mono text-[10px] uppercase tracking-widest text-slate-500">✎ live SVG editor — edit code, preview updates instantly</div>
+          <SvgEditor key={`${current.id}-${svgStr.length}`} initialSvg={svgStr} filename={`${fileName}.svg`} onCopy={onCopy} onDownload={onDownload} copied={copied}/>
         </div>
         <div className="mt-3">
           <div className="mb-2 font-mono text-[10px] uppercase tracking-widest text-slate-500">embed in README.md</div>
@@ -421,13 +533,20 @@ function TemplateTab({ name, role, handle, copied, onCopy, onDownload }: {
 }
 
 export default function App() {
-  const [tab, setTab] = useState<Tab>('banners');
+  const [tab, setTab] = useState<Tab>('generator');
+  const [gameSearch, setGameSearch] = useState('');
   const [name, setName] = useState('Sudhir Singh');
   const [role, setRole] = useState('Full-Stack Developer');
   const [handle, setHandle] = useState('SudhirDevOps1');
+  const [location, setLocation] = useState('India');
+  const [email, setEmail] = useState('sudhir@example.com');
+  const [company, setCompany] = useState('Open Source');
+  const [website, setWebsite] = useState('https://sudhirdevops.dev');
+  const [showMore, setShowMore] = useState(false);
   const [githubInput, setGithubInput] = useState('');
   const [loadingUser, setLoadingUser] = useState(false);
   const [copied, setCopied] = useState<string | null>(null);
+  const [accent, setAccent] = useState<'amber' | 'violet' | 'cyan' | 'rose' | 'emerald'>('amber');
 
   const [theme, setTheme] = useState('tokyonight');
   const [hideBorder, setHideBorder] = useState(true);
@@ -438,38 +557,6 @@ export default function App() {
   const [badgeLabel, setBadgeLabel] = useState('GitHub');
   const [badgeValue, setBadgeValue] = useState('SudhirDevOps1');
   const [badgeStyle, setBadgeStyle] = useState('for-the-badge');
-  const [hydrated, setHydrated] = useState(false);
-  const [saved, setSaved] = useState(false);
-
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem('readme-lab-config');
-      if (raw) {
-        const c = JSON.parse(raw);
-        if (c.name) setName(c.name);
-        if (c.role) setRole(c.role);
-        if (c.handle) setHandle(c.handle);
-        if (c.theme) setTheme(c.theme);
-        if (typeof c.hideBorder === 'boolean') setHideBorder(c.hideBorder);
-        if (typeof c.showIcons === 'boolean') setShowIcons(c.showIcons);
-        if (typeof c.allCommits === 'boolean') setAllCommits(c.allCommits);
-        if (c.badgeColor) setBadgeColor(c.badgeColor);
-        if (c.badgeLabel) setBadgeLabel(c.badgeLabel);
-        if (c.badgeValue) setBadgeValue(c.badgeValue);
-        if (c.badgeStyle) setBadgeStyle(c.badgeStyle);
-      }
-    } catch {}
-    setHydrated(true);
-  }, []);
-
-  useEffect(() => {
-    if (!hydrated) return;
-    const config = { name, role, handle, theme, hideBorder, showIcons, allCommits, badgeColor, badgeLabel, badgeValue, badgeStyle };
-    localStorage.setItem('readme-lab-config', JSON.stringify(config));
-    setSaved(true);
-    const t = window.setTimeout(() => setSaved(false), 900);
-    return () => window.clearTimeout(t);
-  }, [hydrated, name, role, handle, theme, hideBorder, showIcons, allCommits, badgeColor, badgeLabel, badgeValue, badgeStyle]);
 
   const copy = async (text: string, id: string) => {
     try {
@@ -487,33 +574,6 @@ export default function App() {
     URL.revokeObjectURL(url);
   };
 
-  const exportConfig = () => {
-    const config = { version: 1, name, role, handle, theme, hideBorder, showIcons, allCommits, badgeColor, badgeLabel, badgeValue, badgeStyle };
-    downloadFile(JSON.stringify(config, null, 2), 'readme-lab.config.json', 'application/json');
-  };
-
-  const importConfig = (file?: File) => {
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = () => {
-      try {
-        const c = JSON.parse(String(reader.result));
-        if (c.name) setName(c.name);
-        if (c.role) setRole(c.role);
-        if (c.handle) setHandle(c.handle);
-        if (c.theme) setTheme(c.theme);
-        if (typeof c.hideBorder === 'boolean') setHideBorder(c.hideBorder);
-        if (typeof c.showIcons === 'boolean') setShowIcons(c.showIcons);
-        if (typeof c.allCommits === 'boolean') setAllCommits(c.allCommits);
-        if (c.badgeColor) setBadgeColor(c.badgeColor);
-        if (c.badgeLabel) setBadgeLabel(c.badgeLabel);
-        if (c.badgeValue) setBadgeValue(c.badgeValue);
-        if (c.badgeStyle) setBadgeStyle(c.badgeStyle);
-      } catch { alert('Invalid readme.lab config file'); }
-    };
-    reader.readAsText(file);
-  };
-
   const loadFromGitHub = async () => {
     if (!githubInput.trim()) return;
     setLoadingUser(true);
@@ -524,6 +584,10 @@ export default function App() {
       setName(u.name || u.login);
       setHandle(u.login);
       if (u.bio) setRole(u.bio.split('\n')[0].replace(/[|·]/g,'').trim() || role);
+      if (u.location) setLocation(u.location);
+      if (u.email) setEmail(u.email);
+      if (u.company) setCompany(u.company.replace('@',''));
+      if (u.blog) setWebsite(u.blog.startsWith('http') ? u.blog : `https://${u.blog}`);
     } catch { alert('user not found'); }
     finally { setLoadingUser(false); }
   };
@@ -534,8 +598,9 @@ export default function App() {
   const themeCount = STAT_THEMES.length;
   const colorCount = BADGE_COLORS.length;
   const snippetCount = SNIPPETS.length;
+  const mermaidCount = MERMAID_TEMPLATES.length;
   const statCardCount = themeCount * 5; // 5 real card types per theme
-  const total = bannerCount + petCount + gameCount + statCardCount + colorCount + TEMPLATES.length + snippetCount;
+  const total = bannerCount + petCount + gameCount + statCardCount + colorCount + TEMPLATES.length + snippetCount + mermaidCount;
 
   const statsMd = useMemo(() => `![stats](https://github-readme-stats.vercel.app/api?username=${handle}&theme=${theme}&hide_border=${hideBorder}&show_icons=${showIcons}&show=all_commits)
 
@@ -549,12 +614,39 @@ export default function App() {
 
   const badgeMd = useMemo(() => `![${badgeLabel}](https://img.shields.io/badge/${encodeURIComponent(badgeLabel)}-${encodeURIComponent(badgeValue)}-${badgeColor}?style=${badgeStyle})`, [badgeLabel, badgeValue, badgeColor, badgeStyle]);
 
+  // ===== FULL PROFILE README GENERATOR (fully customizable) =====
+  const [genOpts, setGenOpts] = useState({
+    header: true, typing: true, about: true, techStack: true, stats: true,
+    streak: true, langs: true, trophies: true, activity: true, snake: true,
+    social: true, visitor: true, quote: false, footer: true,
+  });
+  const genTech = 'ts,react,nextjs,nodejs,python,tailwind,docker,git,github,vscode';
+  const generatorMd = useMemo(() => {
+    const g = genOpts; const parts: string[] = [];
+    if (g.header) parts.push(`<h1 align="center">Hi 👋, I'm ${name}</h1>`);
+    if (g.typing) parts.push(`<p align="center">\n  <img src="https://readme-typing-svg.herokuapp.com?font=Fira+Code&size=26&duration=3000&color=${badgeColor}&center=true&vCenter=true&width=600&lines=${encodeURIComponent(role)};Based+in+${encodeURIComponent(location)};Open+to+collaborate" />\n</p>`);
+    if (g.visitor) parts.push(`<p align="center">\n  <img src="https://komarev.com/ghpvc/?username=${handle}&label=Profile+Views&color=${badgeColor}&style=flat" />\n</p>`);
+    if (g.about) parts.push(`## 🚀 About Me\n- 💻 I'm a **${role}**\n- 🌍 Based in **${location}**\n- 💼 Currently at **${company}**\n- 🌐 Portfolio: [${website}](${website})\n- 📫 Reach me: **${email}**`);
+    if (g.techStack) parts.push(`## 🛠️ Tech Stack\n<p align="center">\n  <img src="https://skillicons.dev/icons?i=${genTech}" />\n</p>`);
+    if (g.stats) parts.push(`## 📊 GitHub Stats\n<p align="center">\n  <img height="180" src="https://github-readme-stats.vercel.app/api?username=${handle}&theme=${theme}&hide_border=${hideBorder}&show_icons=true&include_all_commits=true&count_private=true" />\n  ${g.langs ? `<img height="180" src="https://github-readme-stats.vercel.app/api/top-langs/?username=${handle}&layout=compact&theme=${theme}&hide_border=${hideBorder}" />` : ''}\n</p>`);
+    if (g.streak) parts.push(`<p align="center">\n  <img src="https://github-readme-streak-stats.herokuapp.com/?user=${handle}&theme=${theme}&hide_border=${hideBorder}" />\n</p>`);
+    if (g.trophies) parts.push(`## 🏆 Trophies\n<p align="center">\n  <img src="https://github-profile-trophy.vercel.app/?username=${handle}&theme=${theme}&no-frame=${hideBorder}&row=1&column=7" />\n</p>`);
+    if (g.activity) parts.push(`## 📈 Activity Graph\n<p align="center">\n  <img src="https://github-readme-activity-graph.vercel.app/graph?username=${handle}&theme=${theme}&hide_border=${hideBorder}" />\n</p>`);
+    if (g.snake) parts.push(`## 🐍 Contribution Snake\n<p align="center">\n  <img src="https://raw.githubusercontent.com/${handle}/${handle}/output/github-contribution-grid-snake.svg" />\n</p>`);
+    if (g.quote) parts.push(`## 💭 Dev Quote\n<p align="center">\n  <img src="https://quotes-github-readme.vercel.app/api?type=horizontal&theme=${theme}" />\n</p>`);
+    if (g.social) parts.push(`## 🤝 Connect With Me\n<p align="center">\n  <a href="https://github.com/${handle}"><img src="https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white"/></a>\n  <a href="https://linkedin.com/in/${handle}"><img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white"/></a>\n  <a href="mailto:${email}"><img src="https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white"/></a>\n  <a href="${website}"><img src="https://img.shields.io/badge/Portfolio-000000?style=for-the-badge&logo=vercel&logoColor=white"/></a>\n</p>`);
+    if (g.footer) parts.push(`<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=100&section=footer" />\n<p align="center"><sub>Made with ❤ by ${name}</sub></p>`);
+    return parts.join('\n\n');
+  }, [genOpts, name, role, handle, location, email, company, website, theme, hideBorder, badgeColor]);
+
   const templateCount = TEMPLATES.length;
   const tabs: { id: Tab; label: string; icon: string; count: number }[] = [
+    { id: 'generator', label: 'Profile Builder', icon: '⚡', count: 0 },
     { id: 'banners', label: 'SVG Banners', icon: '◼', count: bannerCount },
     { id: 'templates', label: 'READMEs', icon: '§', count: templateCount },
     { id: 'snippets', label: 'Snippets', icon: '✂', count: snippetCount },
     { id: 'pets', label: 'Pets', icon: '🐾', count: petCount },
+    { id: 'mermaid', label: 'Mermaid', icon: '🧜', count: mermaidCount },
     { id: 'games', label: 'Games', icon: '▶', count: gameCount },
     { id: 'stats', label: 'Stats', icon: '▦', count: themeCount },
     { id: 'statcards', label: 'Stat Cards', icon: '▤', count: statCardCount },
@@ -573,25 +665,13 @@ export default function App() {
             </div>
             <div className="min-w-0">
               <div className="font-display text-base font-black tracking-tight text-white sm:text-lg">readme.lab</div>
-              <div className="font-mono text-[10px] text-slate-500 hidden sm:block">{total}+ real, working assets · every one copyable</div>
+              <div className="font-mono text-[10px] text-slate-500 hidden sm:block">{total}+ real, working assets · fully customizable</div>
             </div>
           </div>
           <div className="flex items-center gap-2">
-            <a
-              href={LIVE_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="hidden rounded-lg border border-lime-400/20 bg-lime-400/10 px-3 py-2 font-mono text-[11px] text-lime-300 transition-all hover:border-lime-400/50 hover:bg-lime-400/15 sm:inline-flex"
-            >
-              ● live
-            </a>
-            <a
-              href={REPO_URL}
-              target="_blank"
-              rel="noreferrer"
-              className="hidden rounded-lg border border-slate-800 bg-[#12151a] px-3 py-2 font-mono text-[11px] text-slate-300 transition-all hover:border-amber-400/40 hover:text-amber-300 sm:inline-flex"
-            >
-              &lt;/&gt; repo
+            <a href="https://github.com/SudhirDevOps1/readme.lab" target="_blank" rel="noreferrer" className="hidden lg:flex items-center gap-1.5 rounded-lg border border-slate-800 bg-[#12151a] px-3 py-2 font-mono text-[11px] text-slate-400 hover:border-slate-700 hover:text-white transition-colors">
+              <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+              Star on GitHub
             </a>
             <div className="hidden md:flex items-center gap-1 rounded-lg border border-slate-800 bg-[#12151a] p-1">
               <span className="pl-2 font-mono text-[11px] text-slate-600">github.com/</span>
@@ -617,18 +697,15 @@ export default function App() {
               <span className="text-lime-400">not one that bores.</span>
             </h1>
             <p className="mt-4 max-w-xl text-sm text-slate-400">
-              {bannerCount} animated SVG banners · {templateCount} README templates · {snippetCount} snippets · {petCount} live-editable pets · {gameCount} playable games · {statCardCount} stat cards. Live edit, preview, rename &amp; copy — everything drops straight into your <code className="rounded bg-slate-900 px-1 text-lime-400">README.md</code>.
+              {bannerCount} animated SVG banners · {templateCount} README templates · {snippetCount} snippets · {petCount} live-editable pets · {mermaidCount} mermaid diagrams · {gameCount} playable games · {statCardCount} stat cards. <span className="text-white">Edit any SVG/mermaid code live</span>, preview instantly, rename &amp; copy — everything drops straight into your <code className="rounded bg-slate-900 px-1 text-lime-400">README.md</code>.
             </p>
-            <div className="mt-4 flex flex-wrap gap-2">
-              <a href={LIVE_URL} target="_blank" rel="noreferrer" className="rounded-lg bg-gradient-to-r from-amber-400 to-lime-400 px-4 py-2 text-xs font-bold text-[#0b0d10] transition-transform hover:scale-[1.03]">open live app ↗</a>
-              <a href={REPO_URL} target="_blank" rel="noreferrer" className="rounded-lg border border-slate-700 bg-[#0b0d10] px-4 py-2 text-xs font-medium text-slate-200 transition-colors hover:border-amber-400/50 hover:text-amber-300">view source on GitHub ↗</a>
-            </div>
             <div className="mt-6 grid grid-cols-3 gap-3 sm:grid-cols-6 lg:grid-cols-7">
               {[
                 {n:bannerCount, l:'SVG banners', c:'text-amber-400'},
                 {n:templateCount, l:'READMEs', c:'text-rose-400'},
                 {n:snippetCount, l:'snippets', c:'text-violet-400'},
                 {n:petCount, l:'pets', c:'text-lime-400'},
+                {n:mermaidCount, l:'mermaid', c:'text-teal-400'},
                 {n:gameCount, l:'games', c:'text-cyan-400'},
                 {n:statCardCount, l:'stat cards', c:'text-pink-400'},
                 {n:colorCount, l:'badge colors', c:'text-orange-400'},
@@ -658,12 +735,14 @@ export default function App() {
           <div className="mb-3 flex flex-wrap items-center gap-2">
             <span className="font-mono text-[10px] uppercase tracking-widest text-slate-500">// identity</span>
             <span className="text-[11px] text-slate-500">— applies to every preview below</span>
-            <span className={`ml-auto font-mono text-[10px] transition-colors ${saved ? 'text-lime-400' : 'text-slate-600'}`}>{saved ? '✓ autosaved' : 'autosave on'}</span>
-            <button onClick={exportConfig} className="rounded-md bg-slate-800 px-2.5 py-1 font-mono text-[10px] text-slate-300 hover:bg-slate-700">↓ export config</button>
-            <label className="cursor-pointer rounded-md bg-slate-800 px-2.5 py-1 font-mono text-[10px] text-slate-300 hover:bg-slate-700">
-              ↑ import config
-              <input type="file" accept="application/json,.json" className="hidden" onChange={e=>importConfig(e.target.files?.[0])}/>
-            </label>
+            <div className="ml-auto flex items-center gap-2">
+              <span className="font-mono text-[10px] text-slate-500">accent:</span>
+              {(['amber','violet','cyan','rose','emerald'] as const).map(a=>(
+                <button key={a} onClick={()=>setAccent(a)} title={a}
+                  className={`h-5 w-5 rounded-full border-2 transition-all ${accent===a?'border-white scale-110':'border-transparent'}`}
+                  style={{background: a==='amber'?'#f59e0b':a==='violet'?'#8b5cf6':a==='cyan'?'#06b6d4':a==='rose'?'#f43f5e':'#10b981'}}/>
+              ))}
+            </div>
           </div>
           <div className="grid gap-3 sm:grid-cols-3">
             <label className="block">
@@ -679,6 +758,29 @@ export default function App() {
               <input value={handle} onChange={e=>setHandle(e.target.value)} className="w-full rounded-lg border border-slate-800 bg-[#0b0d10] px-3 py-2 text-sm text-white focus:border-amber-500 focus:outline-none"/>
             </label>
           </div>
+          {showMore && (
+            <div className="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              <label className="block">
+                <span className="mb-1 block font-mono text-[10px] uppercase tracking-widest text-lime-400">location</span>
+                <input value={location} onChange={e=>setLocation(e.target.value)} className="w-full rounded-lg border border-slate-800 bg-[#0b0d10] px-3 py-2 text-sm text-white focus:border-lime-500 focus:outline-none"/>
+              </label>
+              <label className="block">
+                <span className="mb-1 block font-mono text-[10px] uppercase tracking-widest text-lime-400">email</span>
+                <input value={email} onChange={e=>setEmail(e.target.value)} className="w-full rounded-lg border border-slate-800 bg-[#0b0d10] px-3 py-2 text-sm text-white focus:border-lime-500 focus:outline-none"/>
+              </label>
+              <label className="block">
+                <span className="mb-1 block font-mono text-[10px] uppercase tracking-widest text-lime-400">company</span>
+                <input value={company} onChange={e=>setCompany(e.target.value)} className="w-full rounded-lg border border-slate-800 bg-[#0b0d10] px-3 py-2 text-sm text-white focus:border-lime-500 focus:outline-none"/>
+              </label>
+              <label className="block">
+                <span className="mb-1 block font-mono text-[10px] uppercase tracking-widest text-lime-400">website</span>
+                <input value={website} onChange={e=>setWebsite(e.target.value)} className="w-full rounded-lg border border-slate-800 bg-[#0b0d10] px-3 py-2 text-sm text-white focus:border-lime-500 focus:outline-none"/>
+              </label>
+            </div>
+          )}
+          <button onClick={()=>setShowMore(v=>!v)} className="mt-3 rounded-lg bg-slate-800 px-3 py-1.5 font-mono text-[11px] text-slate-300 hover:bg-slate-700">
+            {showMore ? '− fewer fields' : '+ more fields (location, email, company, website)'}
+          </button>
         </div>
       </section>
 
@@ -711,6 +813,14 @@ githubusercontent.com/USER/
 USER/main/pet.svg" />`}</pre>
             </div>
           </div>
+          <div className="mt-3 grid gap-3 md:grid-cols-2">
+            <div className="rounded-xl border border-teal-500/20 bg-teal-500/5 p-3">
+              <p className="text-[11px] text-teal-200/80"><span className="font-bold">🧜 Mermaid:</span> GitHub renders <code className="rounded bg-slate-900 px-1 text-teal-300">```mermaid</code> code blocks natively. Copy any diagram markdown and paste it directly — no image upload needed.</p>
+            </div>
+            <div className="rounded-xl border border-lime-500/20 bg-lime-500/5 p-3">
+              <p className="text-[11px] text-lime-200/80"><span className="font-bold">✎ Live editor:</span> Open any banner or pet → use the built-in SVG editor to tweak code (colors, sizes, animation timing) and watch the preview update instantly before you download.</p>
+            </div>
+          </div>
           <div className="mt-3 rounded-xl border border-amber-500/20 bg-amber-500/5 p-3">
             <p className="text-[11px] text-amber-200/80"><span className="font-bold">💡 Pro tip:</span> Create a repo named exactly like your username (e.g. <span className="font-mono text-white">{handle}/{handle}</span>) — its README.md shows on your profile. The stat cards &amp; badges auto-render your live GitHub data.</p>
           </div>
@@ -732,6 +842,49 @@ USER/main/pet.svg" />`}</pre>
 
       {/* Tab content */}
       <main className="mx-auto max-w-[1600px] px-4 py-6 sm:px-6">
+        {tab === 'generator' && (
+          <div className="grid gap-5 lg:grid-cols-[300px_1fr]">
+            {/* controls */}
+            <div className="rounded-2xl border border-slate-800 bg-[#12151a] p-4 lg:sticky lg:top-20 lg:self-start">
+              <h3 className="mb-1 font-display text-lg text-white">⚡ Profile Builder</h3>
+              <p className="mb-4 text-[11px] text-slate-500">Toggle sections — full README assembles live from your identity fields above.</p>
+              <div className="space-y-1.5">
+                {([
+                  ['header','Header title'],['typing','Typing animation'],['visitor','Visitor counter'],
+                  ['about','About Me'],['techStack','Tech stack icons'],['stats','GitHub stats'],
+                  ['langs','Top languages'],['streak','Streak stats'],['trophies','Trophies'],
+                  ['activity','Activity graph'],['snake','Snake animation'],['quote','Dev quote'],
+                  ['social','Social links'],['footer','Waving footer'],
+                ] as const).map(([k,lbl])=>(
+                  <label key={k} className="flex cursor-pointer items-center justify-between rounded-lg border border-slate-800 bg-[#0b0d10] px-3 py-2 hover:border-slate-700">
+                    <span className="text-xs text-slate-300">{lbl}</span>
+                    <input type="checkbox" checked={genOpts[k as keyof typeof genOpts]} onChange={e=>setGenOpts(o=>({...o,[k]:e.target.checked}))} className="h-4 w-4 accent-amber-500"/>
+                  </label>
+                ))}
+              </div>
+              <div className="mt-4 flex gap-2">
+                <button onClick={()=>copy(generatorMd,'gen-copy')} className={copied==='gen-copy'?'flex-1 rounded-lg bg-lime-400 px-3 py-2 text-xs font-bold text-[#0b0d10]':'flex-1 rounded-lg bg-amber-500 px-3 py-2 text-xs font-bold text-[#0b0d10] hover:bg-amber-400'}>{copied==='gen-copy'?'✓ copied':'⎘ copy README'}</button>
+                <button onClick={()=>downloadFile(generatorMd,'README.md','text/markdown')} className="rounded-lg bg-slate-800 px-3 py-2 text-xs text-slate-200 hover:bg-slate-700">↓</button>
+              </div>
+              <div className="mt-2 grid grid-cols-2 gap-2">
+                <button onClick={()=>setGenOpts(o=>Object.fromEntries(Object.keys(o).map(k=>[k,true])) as typeof o)} className="rounded-lg bg-slate-800 px-2 py-1.5 text-[11px] text-slate-300 hover:bg-slate-700">all on</button>
+                <button onClick={()=>setGenOpts(o=>Object.fromEntries(Object.keys(o).map(k=>[k,false])) as typeof o)} className="rounded-lg bg-slate-800 px-2 py-1.5 text-[11px] text-slate-300 hover:bg-slate-700">all off</button>
+              </div>
+            </div>
+            {/* live preview + source */}
+            <div className="space-y-4">
+              <div className="rounded-2xl border border-slate-800 bg-[#12151a] p-5">
+                <div className="mb-3 font-mono text-[10px] uppercase tracking-widest text-slate-500">👁 live rendered preview</div>
+                <div className="rounded-lg border border-slate-800 bg-[#0b0d10] p-5 max-h-[420px] overflow-auto [&_img]:inline-block [&_img]:my-1 [&_h1]:text-2xl [&_h1]:font-bold [&_h1]:text-white [&_h1]:my-2 [&_h2]:text-lg [&_h2]:font-bold [&_h2]:text-lime-400 [&_h2]:mt-4 [&_h2]:mb-2 [&_p]:my-2 [&_li]:text-slate-300 [&_li]:text-sm [&_a]:text-amber-400 [&_ul]:my-2 [&_sub]:text-slate-500" dangerouslySetInnerHTML={{__html: renderReadmePreview(generatorMd)}}/>
+              </div>
+              <div>
+                <div className="mb-2 font-mono text-[10px] uppercase tracking-widest text-slate-500">markdown source · syntax highlighted</div>
+                <CodeBlock code={generatorMd} lang="md" filename="README.md" maxHeight={400} onDownload={()=>downloadFile(generatorMd,'README.md','text/markdown')}/>
+              </div>
+            </div>
+          </div>
+        )}
+
         {tab === 'banners' && (
           <BannerTab name={name} role={role} handle={handle} copied={copied} onCopy={copy} onDownload={downloadFile}/>
         )}
@@ -747,15 +900,24 @@ USER/main/pet.svg" />`}</pre>
           <PetTab name={name} role={role} handle={handle} copied={copied} onCopy={copy} onDownload={downloadFile}/>
         )}
 
+        {tab === 'mermaid' && (
+          <MermaidTab name={name} role={role} handle={handle} copied={copied} onCopy={copy} onDownload={downloadFile}/>
+        )}
+
         {tab === 'games' && (
-          <div className="space-y-8">
+          <div className="space-y-4">
+            <div className="flex items-center gap-2">
+              <input value={gameSearch} onChange={e=>setGameSearch(e.target.value)} placeholder="search games…" className="rounded-lg border border-slate-800 bg-[#0b0d10] px-3 py-2 text-xs text-white placeholder-slate-600 focus:border-cyan-500 focus:outline-none w-56"/>
+              <span className="font-mono text-[11px] text-slate-500">{GAMES_META.filter(g=>!gameSearch||g.name.toLowerCase().includes(gameSearch.toLowerCase())).length} of {GAMES_META.length} · all fully playable</span>
+            </div>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-              {GAMES_META.map(g => {
+              {GAMES_META.filter(g=>!gameSearch||g.name.toLowerCase().includes(gameSearch.toLowerCase())).map(g => {
                 const Cmp = g.cmp;
                 return (
                   <article key={g.id} className="overflow-hidden rounded-2xl border border-slate-800 bg-[#12151a] transition-all hover:border-cyan-400/40">
-                    <div className="border-b border-slate-800 px-4 py-2">
+                    <div className="border-b border-slate-800 px-4 py-2 flex items-center justify-between">
                       <h3 className="font-display text-sm font-bold text-white">{g.emoji} {g.name}</h3>
+                      <span className="rounded bg-cyan-500/10 px-1.5 py-0.5 font-mono text-[9px] text-cyan-400">playable</span>
                     </div>
                     <div className="p-4"><Cmp/></div>
                   </article>
@@ -866,7 +1028,7 @@ USER/main/pet.svg" />`}</pre>
         )}
 
         {tab === 'snippets' && (
-          <SnippetTab name={name} role={role} handle={handle} copied={copied} onCopy={copy} onDownload={downloadFile}/>
+          <SnippetTab name={name} role={role} handle={handle} location={location} email={email} company={company} website={website} copied={copied} onCopy={copy} onDownload={downloadFile}/>
         )}
       </main>
 
@@ -877,6 +1039,7 @@ USER/main/pet.svg" />`}</pre>
           { label: 'READMEs', n: templateCount, c: 'text-rose-400' },
           { label: 'snippets', n: snippetCount, c: 'text-violet-400' },
           { label: 'pets', n: petCount, c: 'text-lime-400' },
+          { label: 'mermaid', n: mermaidCount, c: 'text-teal-400' },
           { label: 'games', n: gameCount, c: 'text-cyan-400' },
           { label: 'stat cards', n: statCardCount, c: 'text-pink-400' },
           { label: 'badges', n: colorCount, c: 'text-orange-400' },

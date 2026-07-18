@@ -225,14 +225,154 @@ const profileSections: Snippet[] = [
   s('section','Footer','---\n<p align="center">\n  <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=100&section=footer" />\n</p>\n<p align="center">Made with ❤ by <a href="https://github.com/{{HANDLE}}">{{NAME}}</a></p>'),
 ];
 
+// ---- DIVIDERS / SEPARATORS (24 animated + static) ----
+const dividers: Snippet[] = [
+  s('divider','Rainbow line','![divider](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rainbow.png)'),
+  s('divider','Colored bar','![divider](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/colored.png)'),
+  s('divider','Gradient bar','![divider](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/aqua.png)'),
+  s('divider','Rounded rail','![divider](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/rounded-rail.png)'),
+  s('divider','Solid divider','![divider](https://raw.githubusercontent.com/andreasbm/readme/master/assets/lines/solid.png)'),
+  s('divider','Dashed','<hr/>'),
+  s('divider','Capsule thin','<img src="https://capsule-render.vercel.app/api?type=rect&color=gradient&height=2"/>'),
+  s('divider','Capsule wave sep','<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=60&section=footer"/>'),
+  s('divider','Star row','<p align="center">⭐ ⭐ ⭐ ⭐ ⭐</p>'),
+  s('divider','Dot row','<p align="center">· · · · · · · · ·</p>'),
+  s('divider','Emoji fire','<p align="center">🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥</p>'),
+  s('divider','Snake sep','<img src="https://raw.githubusercontent.com/platane/snk/output/github-contribution-grid-snake.svg"/>'),
+  s('divider','Diamond row','<p align="center">◆ ◇ ◆ ◇ ◆ ◇ ◆ ◇ ◆</p>'),
+  s('divider','Arrow flow','<p align="center">→ → → → → → → → →</p>'),
+  s('divider','Wave text','<p align="center">〰️〰️〰️〰️〰️〰️〰️〰️</p>'),
+  s('divider','Sparkle','<p align="center">✦ ⋆ ✦ ⋆ ✦ ⋆ ✦ ⋆ ✦</p>'),
+  s('divider','Neon pipe','<p align="center">━━━━━━━━━━━━━━━━━━━━</p>'),
+  s('divider','Double line','<p align="center">════════════════════</p>'),
+  s('divider','Block bar','<p align="center">████████████████████</p>'),
+  s('divider','Gradient text bar','<p align="center"><img width="100%" src="https://capsule-render.vercel.app/api?type=rect&color=0:8b5cf6,100:06b6d4&height=3"/></p>'),
+  s('divider','Section break','\\n\\n---\\n\\n'),
+  s('divider','Blank space','<br/>'),
+  s('divider','Big space','<br/><br/><br/>'),
+  s('divider','Center rule','<div align="center">━━━━━━━ ⋆⋆⋆ ━━━━━━━</div>'),
+];
+
+// ---- CONTACT / INFO ROWS (20, use {{LOCATION}} {{EMAIL}} {{COMPANY}} {{WEBSITE}}) ----
+const contact: Snippet[] = [
+  s('contact','Location line','- 🌍 Based in **{{LOCATION}}**'),
+  s('contact','Email line','- 📫 Reach me at **{{EMAIL}}**'),
+  s('contact','Company line','- 💼 Working at **{{COMPANY}}**'),
+  s('contact','Website line','- 🌐 Portfolio: [{{WEBSITE}}]({{WEBSITE}})'),
+  s('contact','Full info block','## 📌 Quick Info\\n- 👤 **{{NAME}}**\\n- 💻 **{{ROLE}}**\\n- 🌍 **{{LOCATION}}**\\n- 📫 **{{EMAIL}}**\\n- 🌐 **{{WEBSITE}}**'),
+  s('contact','Email badge','[![Email](https://img.shields.io/badge/Email-{{EMAIL}}-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:{{EMAIL}})'),
+  s('contact','Website badge','[![Website](https://img.shields.io/badge/Portfolio-{{WEBSITE}}-000000?style=for-the-badge&logo=vercel&logoColor=white)]({{WEBSITE}})'),
+  s('contact','Location badge','![Location](https://img.shields.io/badge/Location-{{LOCATION}}-22c55e?style=for-the-badge&logo=googlemaps&logoColor=white)'),
+  s('contact','Company badge','![Company](https://img.shields.io/badge/@-{{COMPANY}}-181717?style=for-the-badge&logo=github&logoColor=white)'),
+  s('contact','Availability open','![Status](https://img.shields.io/badge/Status-Open_to_Work-brightgreen?style=for-the-badge)'),
+  s('contact','Availability busy','![Status](https://img.shields.io/badge/Status-Busy-red?style=for-the-badge)'),
+  s('contact','Freelance yes','![Freelance](https://img.shields.io/badge/Freelance-Available-blue?style=for-the-badge)'),
+  s('contact','Hire me button','<a href="mailto:{{EMAIL}}"><img src="https://img.shields.io/badge/Hire_Me-FF5722?style=for-the-badge&logo=minutemailer&logoColor=white"/></a>'),
+  s('contact','Resume button','<a href="{{WEBSITE}}/resume.pdf"><img src="https://img.shields.io/badge/Resume-2ea44f?style=for-the-badge&logo=readdotcv&logoColor=white"/></a>'),
+  s('contact','Contact table','## 📞 Contact\\n| Platform | Handle |\\n|----------|--------|\\n| Email | {{EMAIL}} |\\n| Location | {{LOCATION}} |\\n| Website | {{WEBSITE}} |'),
+  s('contact','Signature','<sub>Reach out anytime — {{NAME}} · {{EMAIL}}</sub>'),
+  s('contact','Timezone','- ⏰ Timezone: **UTC+5:30 (IST)**'),
+  s('contact','Languages spoken','- 🗣️ Speaks: **English, Hindi**'),
+  s('contact','Pronouns','- 🏷️ Pronouns: **he/him**'),
+  s('contact','Currently building','- 🔭 Currently building: **{{ROLE}} projects**'),
+];
+
+// ---- FUN / EXTRAS (24) ----
+const fun: Snippet[] = [
+  s('fun','Now playing Spotify','[![Spotify](https://spotify-github-profile.kittinanx.com/api/view?uid={{HANDLE}}&cover_image=true&theme=default)](https://spotify-github-profile.kittinanx.com/api/view?uid={{HANDLE}}&redirect=true)'),
+  s('fun','Dev metrics','![Metrics](https://metrics.lecoq.io/{{HANDLE}}?template=classic&base.header=1&base.activity=1&base.community=1&base.repositories=1&base.metadata=0)'),
+  s('fun','Coffee counter','![Coffee](https://img.shields.io/badge/Coffee-∞_cups-6F4E37?style=for-the-badge&logo=buymeacoffee&logoColor=white)'),
+  s('fun','Uptime badge','![Uptime](https://img.shields.io/badge/Coding_since-2020-9cf?style=for-the-badge)'),
+  s('fun','Lines of code','![LOC](https://img.shields.io/badge/Lines_of_Code-1M+-blueviolet?style=for-the-badge)'),
+  s('fun','Bugs fixed','![Bugs](https://img.shields.io/badge/Bugs_Fixed-999+-critical?style=for-the-badge)'),
+  s('fun','Coffee level','☕☕☕☕☕ **Caffeine: MAX**'),
+  s('fun','Skill bar HTML','**HTML5** ████████████████████ 100%'),
+  s('fun','Skill bar JS','**JavaScript** ██████████████████░░ 90%'),
+  s('fun','Skill bar React','**React** █████████████████░░░ 85%'),
+  s('fun','Skill bar Python','**Python** ███████████████░░░░░ 75%'),
+  s('fun','Skill bar Node','**Node.js** ████████████████░░░░ 80%'),
+  s('fun','GitHub streak flame','<img src="https://streak-stats.demolab.com?user={{HANDLE}}&theme=dark&fire=true"/>'),
+  s('fun','Random gif','![gif](https://media.giphy.com/media/coxQHKASG60HrHtvkt/giphy.gif)'),
+  s('fun','Coding gif','<img src="https://raw.githubusercontent.com/mayhemantt/mayhemantt/Update/svg/Bottom.svg" width="100%"/>'),
+  s('fun','Matrix rain','![Matrix](https://raw.githubusercontent.com/BEPb/BEPb/main/assets/Bottom_up.svg)'),
+  s('fun','Dinosaur','<img src="https://raw.githubusercontent.com/Platane/snk/output/github-contribution-grid-snake-dark.svg"/>'),
+  s('fun','Cat typing','<img src="https://user-images.githubusercontent.com/74038190/216122041-518ac897-8d92-4c6b-9b3f-ca01dcaf38ee.png" width="30"/> **Meow!**'),
+  s('fun','Hand wave gif','<img src="https://user-images.githubusercontent.com/74038190/216122065-2f028bae-25d6-4a3c-bc9f-175394ed5011.png" width="35"/>'),
+  s('fun','Rocket launch','🚀 **Shipping code at light speed**'),
+  s('fun','Achievement box','<details><summary>🏆 Achievements</summary>\\n\\n- 🥇 100+ repos\\n- 🌟 500+ stars\\n- 🔥 365-day streak\\n\\n</details>'),
+  s('fun','Weekly breakdown','<!--START_SECTION:waka-->\\n<!--END_SECTION:waka-->'),
+  s('fun','Joke of the day','![Joke](https://readme-jokes.vercel.app/api?theme=tokyonight&hideBorder)'),
+  s('fun','Random quote box','![Quote](https://quotes-github-readme.vercel.app/api?type=horizontal&theme=tokyonight)'),
+];
+
+// ---- MORE SKILL BADGES (60 extra technologies) ----
+const skills2: Snippet[] = [
+  ...['Zig-F7A41D-zig','Nim-FFE953-nim','Crystal-000000-crystal','Haskell-5D4F85-haskell','Erlang-A90533-erlang','Clojure-5881D8-clojure','FSharp-378BBA-fsharp','OCaml-EC6813-ocaml','Julia-9558B2-julia','Fortran-734F96-fortran','COBOL-005CA5-cobol','Assembly-6E4C13-assemblyscript','Solidity-363636-solidity','Move-4A90D9-move','Cairo-000000-starknet','Vyper-2980B9-python','WebGL-990000-webgl','WebGPU-005A9C-webgpu','Deno-000000-deno','Bun-000000-bun','Turbo-EF4444-turborepo','Nx-143055-nx','pnpm-F69220-pnpm','Rollup-EC4A3F-rollupdotjs','esbuild-FFCF00-esbuild','SWC-F8C457-swc','Parcel-21374B-parcel','Snowpack-2E5E82-snowpack','Gulp-CF4647-gulp','Grunt-FAA918-grunt','Alpine.js-8BC0D0-alpinedotjs','Lit-324FFF-lit','Stencil-16161D-stenciljs','Qwik-AC7EF4-qwik','Preact-673AB8-preact','Ember-E04E39-emberdotjs','Backbone-0071B5-backbonedotjs','jQuery-0769AD-jquery','Redux-764ABC-redux','MobX-FF9955-mobx','Zustand-443E38-react','Recoil-3578E5-recoil','XState-2C3E50-xstate','RxJS-B7178C-reactivex','Jotai-000000-react','Framer-0055FF-framer','GSAP-88CE02-greensock','Anime.js-EF4444-anime','Lottie-00DDB3-lottiefiles','Motion-0055FF-framer','Recharts-8884D8-react','Victory-000000-react','Nivo-000000-d3dotjs','Plotly-3F4F75-plotly','Bokeh-E97627-python','Seaborn-4C72B0-python','Matplotlib-11557C-python','Pandas-150458-pandas','NumPy-013243-numpy','SciPy-8CAAE6-scipy'].map(b => {
+    const parts = b.split('-'); const nm = parts[0]; const clr = parts[1]; const ico = parts[2];
+    return s('tech', decodeURIComponent(nm), `![${decodeURIComponent(nm)}](https://img.shields.io/badge/${encodeURIComponent(nm)}-${clr}?style=for-the-badge&logo=${ico}&logoColor=white)`);
+  }),
+];
+
+// ---- WORKFLOW / GITHUB ACTION SNIPPETS (16) ----
+const workflows: Snippet[] = [
+  s('workflow','Snake action','# .github/workflows/snake.yml\\nname: Generate Snake\\non:\\n  schedule: [{cron: "0 0 * * *"}]\\n  workflow_dispatch:\\njobs:\\n  generate:\\n    runs-on: ubuntu-latest\\n    steps:\\n      - uses: Platane/snk@v3\\n        with:\\n          github_user_name: {{HANDLE}}\\n          outputs: dist/snake.svg'),
+  s('workflow','Blog post action','# updates README with latest blog posts\\n- uses: gautamkrishnar/blog-post-workflow@master\\n  with:\\n    feed_list: "https://dev.to/feed/{{HANDLE}}"'),
+  s('workflow','WakaTime action','# .github/workflows/waka.yml\\n- uses: athul/waka-readme@master\\n  with:\\n    WAKATIME_API_KEY: SECRET_WAKATIME_API_KEY'),
+  s('workflow','Metrics action','- uses: lowlighter/metrics@latest\\n  with:\\n    token: SECRET_METRICS_TOKEN\\n    user: {{HANDLE}}'),
+  s('workflow','Profile 3D action','- uses: yoshi389111/github-profile-3d-contrib@main\\n  with:\\n    username: {{HANDLE}}'),
+  s('workflow','Contribution graph','# renders animated contribution graph\\n- uses: ashutosh00710/github-readme-activity-graph@master'),
+  s('workflow','Auto commit','- uses: stefanzweifel/git-auto-commit-action@v5\\n  with:\\n    commit_message: "chore: update README"'),
+  s('workflow','Deploy Pages','- uses: actions/deploy-pages@v4'),
+  s('workflow','Node CI','- uses: actions/setup-node@v4\\n  with:\\n    node-version: 20\\n- run: npm ci && npm test'),
+  s('workflow','Cron daily','on:\\n  schedule:\\n    - cron: "0 0 * * *"'),
+  s('workflow','Checkout','- uses: actions/checkout@v4'),
+  s('workflow','Cache deps','- uses: actions/cache@v4\\n  with:\\n    path: ~/.npm\\n    key: runner-os-node'),
+  s('workflow','Matrix build','strategy:\\n  matrix:\\n    node: [18, 20, 22]'),
+  s('workflow','Release please','- uses: googleapis/release-please-action@v4'),
+  s('workflow','CodeQL scan','- uses: github/codeql-action/analyze@v3'),
+  s('workflow','Dependabot','# .github/dependabot.yml\\nversion: 2\\nupdates:\\n  - package-ecosystem: "npm"\\n    directory: "/"\\n    schedule: {interval: "weekly"}'),
+];
+
+// ---- STAT WIDGET VARIANTS (24) ----
+const statWidgets: Snippet[] = [
+  s('widget','3D contrib','![3D](https://raw.githubusercontent.com/{{HANDLE}}/{{HANDLE}}/main/profile-3d-contrib/profile-night-view.svg)'),
+  s('widget','Isometric calendar','![iso](https://raw.githubusercontent.com/{{HANDLE}}/{{HANDLE}}/main/profile-3d-contrib/profile-green-animate.svg)'),
+  s('widget','Repos card','![repos](https://github-readme-stats.vercel.app/api/top-langs/?username={{HANDLE}}&layout=donut-vertical&theme=react)'),
+  s('widget','Gist card','![gist](https://github-readme-stats.vercel.app/api/gist?id=GIST_ID)'),
+  s('widget','PR stats','![prs](https://github-readme-stats.vercel.app/api?username={{HANDLE}}&show=prs_merged,prs_merged_percentage)'),
+  s('widget','Discussion stats','![disc](https://github-readme-stats.vercel.app/api?username={{HANDLE}}&show=discussions_started,discussions_answered)'),
+  s('widget','Reviews stat','![rev](https://github-readme-stats.vercel.app/api?username={{HANDLE}}&show=reviews)'),
+  s('widget','Rank icon','![rank](https://github-readme-stats.vercel.app/api?username={{HANDLE}}&rank_icon=github)'),
+  s('widget','Percentile rank','![pct](https://github-readme-stats.vercel.app/api?username={{HANDLE}}&rank_icon=percentile)'),
+  s('widget','Hide rank','![norank](https://github-readme-stats.vercel.app/api?username={{HANDLE}}&hide_rank=true)'),
+  s('widget','Custom title','![t](https://github-readme-stats.vercel.app/api?username={{HANDLE}}&custom_title=My+Stats)'),
+  s('widget','Compact langs','![c](https://github-readme-stats.vercel.app/api/top-langs/?username={{HANDLE}}&layout=compact&langs_count=8)'),
+  s('widget','Exclude repos','![e](https://github-readme-stats.vercel.app/api/top-langs/?username={{HANDLE}}&exclude_repo=repo1,repo2)'),
+  s('widget','Hide langs','![h](https://github-readme-stats.vercel.app/api/top-langs/?username={{HANDLE}}&hide=html,css)'),
+  s('widget','Streak current','![sc](https://streak-stats.demolab.com?user={{HANDLE}}&mode=daily)'),
+  s('widget','Streak weekly','![sw](https://streak-stats.demolab.com?user={{HANDLE}}&mode=weekly)'),
+  s('widget','Trophy compact','![tc](https://github-profile-trophy.vercel.app/?username={{HANDLE}}&row=2&column=3&margin-w=8)'),
+  s('widget','Trophy titles','![tt](https://github-profile-trophy.vercel.app/?username={{HANDLE}}&title=Stars,Commits,Followers)'),
+  s('widget','Followers card','![fc](https://github-readme-stats.vercel.app/api?username={{HANDLE}}&show_icons=true&hide=issues)'),
+  s('widget','Activity muted','![am](https://github-readme-activity-graph.vercel.app/graph?username={{HANDLE}}&bg_color=0d1117&color=00ff88&line=00ff88&point=ffffff&area=true)'),
+  s('widget','Activity area','![aa](https://github-readme-activity-graph.vercel.app/graph?username={{HANDLE}}&area=true&theme=github-dark)'),
+  s('widget','Summary repos','![sr](https://github-profile-summary-cards.vercel.app/api/cards/repos-per-language?username={{HANDLE}}&theme=github_dark)'),
+  s('widget','Summary stats','![ss](https://github-profile-summary-cards.vercel.app/api/cards/stats?username={{HANDLE}}&theme=github_dark)'),
+  s('widget','Summary commit','![scm](https://github-profile-summary-cards.vercel.app/api/cards/most-commit-language?username={{HANDLE}}&theme=github_dark)'),
+];
+
 // ---- COMBINE ALL ----
-export const SNIPPETS: Snippet[] = [...headers, ...socials, ...skills, ...stats, ...footers, ...layout, ...iconRows, ...widgets, ...techBadges, ...themeSnippets, ...profileSections];
+export const SNIPPETS: Snippet[] = [...headers, ...socials, ...skills, ...stats, ...footers, ...layout, ...iconRows, ...widgets, ...techBadges, ...themeSnippets, ...profileSections, ...dividers, ...contact, ...fun, ...skills2, ...workflows, ...statWidgets];
 
-export const SNIPPET_CATEGORIES = ['header','social','skill','stat','footer','layout','icons','widget','tech','theme','section'];
+export const SNIPPET_CATEGORIES = ['header','social','skill','stat','footer','layout','icons','widget','tech','theme','section','divider','contact','fun','workflow'];
 
-export function fillSnippet(md: string, data: { name: string; role: string; handle: string }) {
+export function fillSnippet(md: string, data: { name: string; role: string; handle: string; location?: string; email?: string; company?: string; website?: string }) {
   return md
     .replace(/\{\{NAME\}\}/g, data.name || 'Your Name')
     .replace(/\{\{ROLE\}\}/g, data.role || 'Developer')
-    .replace(/\{\{HANDLE\}\}/g, data.handle || 'username');
+    .replace(/\{\{HANDLE\}\}/g, data.handle || 'username')
+    .replace(/\{\{LOCATION\}\}/g, data.location || 'Earth')
+    .replace(/\{\{EMAIL\}\}/g, data.email || 'you@example.com')
+    .replace(/\{\{COMPANY\}\}/g, data.company || 'Freelance')
+    .replace(/\{\{WEBSITE\}\}/g, data.website || 'https://yoursite.dev');
 }

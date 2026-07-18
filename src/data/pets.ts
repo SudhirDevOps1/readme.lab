@@ -14,7 +14,7 @@ const w = 240;
 const h = 240;
 
 const petFrame = (inner: string, bg = '#0f172a') =>
-  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}"><rect width="${w}" height="${h}" rx="24" fill="${bg}"/>${inner}</svg>`;
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}"><rect width="${w}" height="${h}" rx="24" fill="none" stroke="${bg}" stroke-opacity="0.2"/>${inner}</svg>`;
 
 // ===== ORIGINAL 12 PETS =====
 const origPets: Pet[] = [
@@ -839,7 +839,412 @@ const premiumPets: Pet[] = [
   },
 ];
 
-export const PETS: Pet[] = [...origPets, ...extraPets, ...premiumPets];
+// ===== 34 MORE PETS (v3 batch — more variety & effects) =====
+const morePets: Pet[] = [
+  {
+    id: 'tiger', name: 'Stripes', emoji: '🐯', vibe: 'fierce · orange',
+    svg: ({ color = '#f97316', speed = 2, scale = 1 } = {}) => petFrame(`
+      <g transform="translate(${w/2*scale} ${h/2*scale}) scale(${scale})"><animateTransform attributeName="transform" type="translate" values="${w/2*scale} ${h/2*scale};${w/2*scale} ${h/2*scale-3};${w/2*scale} ${h/2*scale}" dur="${speed}s" repeatCount="indefinite"/>
+      <circle cx="-38" cy="-30" r="12" fill="${color}"/><circle cx="38" cy="-30" r="12" fill="${color}"/>
+      <ellipse cx="0" cy="0" rx="48" ry="44" fill="${color}"/>
+      <ellipse cx="0" cy="12" rx="34" ry="28" fill="#fed7aa"/>
+      <path d="M-30 -25 L-25 -10 M-15 -35 L-12 -18 M0 -38 L0 -20 M15 -35 L12 -18 M30 -25 L25 -10" stroke="#7c2d12" stroke-width="3"/>
+      <circle cx="-15" cy="-2" r="5" fill="#0f172a"/><circle cx="15" cy="-2" r="5" fill="#0f172a"/>
+      <path d="M-8 12 L0 18 L8 12" fill="#ec4899"/>
+      <path d="M-6 18 Q0 24 6 18" stroke="#0f172a" stroke-width="2" fill="none"/>
+      </g><text x="${w/2}" y="${h-25}" text-anchor="middle" font-family="monospace" font-size="12" fill="${color}">roar · tiger</text>`, '#1a0e00'),
+  },
+  {
+    id: 'monkey', name: 'Cheeky', emoji: '🐵', vibe: 'playful · banana',
+    svg: ({ color = '#92400e', speed = 1.5, scale = 1 } = {}) => petFrame(`
+      <g transform="translate(${w/2*scale} ${h/2*scale}) scale(${scale})"><animateTransform attributeName="transform" type="translate" values="${w/2*scale} ${h/2*scale};${w/2*scale} ${h/2*scale-4};${w/2*scale} ${h/2*scale}" dur="${speed}s" repeatCount="indefinite"/>
+      <circle cx="-42" cy="-8" r="14" fill="${color}"/><circle cx="42" cy="-8" r="14" fill="${color}"/>
+      <circle cx="-42" cy="-8" r="8" fill="#d6bfa8"/><circle cx="42" cy="-8" r="8" fill="#d6bfa8"/>
+      <circle cx="0" cy="0" r="42" fill="${color}"/>
+      <ellipse cx="0" cy="10" rx="32" ry="28" fill="#e7d3bf"/>
+      <circle cx="-13" cy="-5" r="5" fill="#0f172a"/><circle cx="13" cy="-5" r="5" fill="#0f172a"/>
+      <ellipse cx="0" cy="8" rx="6" ry="4" fill="#7c2d12"/>
+      <path d="M-10 16 Q0 24 10 16" stroke="#7c2d12" stroke-width="2" fill="none"/>
+      </g><text x="${w/2}" y="${h-25}" text-anchor="middle" font-family="monospace" font-size="12" fill="${color}">ooh ooh · monkey</text>`, '#1c1006'),
+  },
+  {
+    id: 'pig', name: 'Oink', emoji: '🐷', vibe: 'pink · happy',
+    svg: ({ color = '#f9a8d4', speed = 1.8, scale = 1 } = {}) => petFrame(`
+      <g transform="translate(${w/2*scale} ${h/2*scale}) scale(${scale})"><animateTransform attributeName="transform" type="translate" values="${w/2*scale} ${h/2*scale};${w/2*scale} ${h/2*scale-3};${w/2*scale} ${h/2*scale}" dur="${speed}s" repeatCount="indefinite"/>
+      <polygon points="-35,-28 -25,-45 -15,-28" fill="${color}"/><polygon points="35,-28 25,-45 15,-28" fill="${color}"/>
+      <circle cx="0" cy="0" r="45" fill="${color}"/>
+      <circle cx="-15" cy="-5" r="5" fill="#0f172a"/><circle cx="15" cy="-5" r="5" fill="#0f172a"/>
+      <ellipse cx="0" cy="12" rx="16" ry="12" fill="#f472b6"/>
+      <circle cx="-5" cy="12" r="3" fill="#9d174d"/><circle cx="5" cy="12" r="3" fill="#9d174d"/>
+      </g><text x="${w/2}" y="${h-25}" text-anchor="middle" font-family="monospace" font-size="12" fill="${color}">oink · piggy</text>`, '#2a0a1a'),
+  },
+  {
+    id: 'cow', name: 'Moo', emoji: '🐮', vibe: 'farm · spotty',
+    svg: ({ color = '#fff', speed = 2, scale = 1 } = {}) => petFrame(`
+      <g transform="translate(${w/2*scale} ${h/2*scale}) scale(${scale})"><animateTransform attributeName="transform" type="translate" values="${w/2*scale} ${h/2*scale};${w/2*scale} ${h/2*scale-3};${w/2*scale} ${h/2*scale}" dur="${speed}s" repeatCount="indefinite"/>
+      <ellipse cx="-40" cy="-5" rx="12" ry="16" fill="#f9a8d4"/><ellipse cx="40" cy="-5" rx="12" ry="16" fill="#f9a8d4"/>
+      <path d="M-42 -25 Q-48 -35 -40 -38" stroke="#d6d3d1" stroke-width="5" fill="none"/><path d="M42 -25 Q48 -35 40 -38" stroke="#d6d3d1" stroke-width="5" fill="none"/>
+      <ellipse cx="0" cy="0" rx="45" ry="42" fill="${color}"/>
+      <ellipse cx="-22" cy="-18" rx="12" ry="10" fill="#0f172a"/><ellipse cx="18" cy="15" rx="14" ry="10" fill="#0f172a"/>
+      <circle cx="-15" cy="-3" r="5" fill="#0f172a"/><circle cx="15" cy="-3" r="5" fill="#0f172a"/>
+      <ellipse cx="0" cy="16" rx="20" ry="14" fill="#f9a8d4"/>
+      <circle cx="-7" cy="16" r="3" fill="#9d174d"/><circle cx="7" cy="16" r="3" fill="#9d174d"/>
+      </g><text x="${w/2}" y="${h-25}" text-anchor="middle" font-family="monospace" font-size="12" fill="#94a3b8">moo · cow</text>`, '#0f172a'),
+  },
+  {
+    id: 'sheep', name: 'Woolly', emoji: '🐑', vibe: 'fluffy · cloud',
+    svg: ({ color = '#f1f5f9', speed = 2.5, scale = 1 } = {}) => petFrame(`
+      <g transform="translate(${w/2*scale} ${h/2*scale}) scale(${scale})"><animateTransform attributeName="transform" type="translate" values="${w/2*scale} ${h/2*scale};${w/2*scale} ${h/2*scale-3};${w/2*scale} ${h/2*scale}" dur="${speed}s" repeatCount="indefinite"/>
+      ${Array.from({length:8}).map((_,i)=>{const a=(i/8)*Math.PI*2;return `<circle cx="${Math.cos(a)*38}" cy="${Math.sin(a)*32}" r="16" fill="${color}"/>`;}).join('')}
+      <circle cx="0" cy="0" r="32" fill="${color}"/>
+      <ellipse cx="0" cy="5" rx="24" ry="26" fill="#1e293b"/>
+      <circle cx="-9" cy="0" r="4" fill="#fff"/><circle cx="9" cy="0" r="4" fill="#fff"/>
+      <circle cx="-9" cy="0" r="2" fill="#0f172a"/><circle cx="9" cy="0" r="2" fill="#0f172a"/>
+      </g><text x="${w/2}" y="${h-25}" text-anchor="middle" font-family="monospace" font-size="12" fill="#cbd5e1">baa · sheep</text>`, '#0f172a'),
+  },
+  {
+    id: 'deer', name: 'Fawn', emoji: '🦌', vibe: 'graceful · forest',
+    svg: ({ color = '#a16207', speed = 3, scale = 1 } = {}) => petFrame(`
+      <g transform="translate(${w/2*scale} ${h/2*scale}) scale(${scale})"><animateTransform attributeName="transform" type="translate" values="${w/2*scale} ${h/2*scale};${w/2*scale} ${h/2*scale-3};${w/2*scale} ${h/2*scale}" dur="${speed}s" repeatCount="indefinite"/>
+      <path d="M-25 -35 Q-35 -55 -45 -50 M-25 -35 Q-30 -58 -20 -55 M-25 -35 L-25 -20" stroke="#78350f" stroke-width="3" fill="none"/>
+      <path d="M25 -35 Q35 -55 45 -50 M25 -35 Q30 -58 20 -55 M25 -35 L25 -20" stroke="#78350f" stroke-width="3" fill="none"/>
+      <ellipse cx="0" cy="0" rx="38" ry="42" fill="${color}"/>
+      <ellipse cx="0" cy="18" rx="24" ry="22" fill="#fde68a"/>
+      <circle cx="-13" cy="-5" r="5" fill="#0f172a"/><circle cx="13" cy="-5" r="5" fill="#0f172a"/>
+      <ellipse cx="0" cy="14" rx="6" ry="4" fill="#0f172a"/>
+      <circle cx="-20" cy="10" r="3" fill="#fef3c7"/><circle cx="20" cy="10" r="3" fill="#fef3c7"/>
+      </g><text x="${w/2}" y="${h-25}" text-anchor="middle" font-family="monospace" font-size="12" fill="${color}">graceful · deer</text>`, '#0a1a0a'),
+  },
+  {
+    id: 'crocodile', name: 'Snappy', emoji: '🐊', vibe: 'snappy · swamp',
+    svg: ({ color = '#16a34a', speed = 2.5, scale = 1 } = {}) => petFrame(`
+      <g transform="translate(${w/2*scale} ${h/2*scale}) scale(${scale})"><animateTransform attributeName="transform" type="translate" values="${w/2*scale} ${h/2*scale};${w/2*scale+8} ${h/2*scale};${w/2*scale} ${h/2*scale}" dur="${speed}s" repeatCount="indefinite"/>
+      <ellipse cx="0" cy="0" rx="58" ry="20" fill="${color}"/>
+      <path d="M-58 0 Q-80 -5 -75 8" stroke="${color}" stroke-width="5" fill="none"/>
+      <ellipse cx="35" cy="-2" rx="30" ry="14" fill="${color}"/>
+      <path d="M10 -12 L65 -8 L60 -2 L10 -4Z" fill="#86efac"/>
+      <path d="M12 -10 L20 -4 M28 -9 L34 -4 M44 -8 L50 -4" stroke="#fff" stroke-width="2"/>
+      <circle cx="25" cy="-14" r="5" fill="#fde68a"/><circle cx="25" cy="-14" r="2" fill="#0f172a"/>
+      <path d="M-30 -12 L-35 -20 M-15 -14 L-18 -22" stroke="${color}" stroke-width="4"/>
+      </g><text x="${w/2}" y="${h-25}" text-anchor="middle" font-family="monospace" font-size="12" fill="${color}">snap · croc</text>`, '#052012'),
+  },
+  {
+    id: 'hippo', name: 'Chonk', emoji: '🦛', vibe: 'chunky · river',
+    svg: ({ color = '#a78bfa', speed = 3, scale = 1 } = {}) => petFrame(`
+      <g transform="translate(${w/2*scale} ${h/2*scale}) scale(${scale})"><animateTransform attributeName="transform" type="translate" values="${w/2*scale} ${h/2*scale};${w/2*scale} ${h/2*scale-2};${w/2*scale} ${h/2*scale}" dur="${speed}s" repeatCount="indefinite"/>
+      <ellipse cx="0" cy="0" rx="52" ry="44" fill="${color}"/>
+      <circle cx="-30" cy="-32" r="8" fill="${color}"/><circle cx="30" cy="-32" r="8" fill="${color}"/>
+      <circle cx="-30" cy="-32" r="4" fill="#0f172a"/><circle cx="30" cy="-32" r="4" fill="#0f172a"/>
+      <ellipse cx="0" cy="20" rx="40" ry="24" fill="#c4b5fd"/>
+      <circle cx="-18" cy="16" r="5" fill="#6d28d9"/><circle cx="18" cy="16" r="5" fill="#6d28d9"/>
+      <circle cx="-16" cy="0" r="4" fill="#0f172a"/><circle cx="16" cy="0" r="4" fill="#0f172a"/>
+      </g><text x="${w/2}" y="${h-25}" text-anchor="middle" font-family="monospace" font-size="12" fill="${color}">chonk · hippo</text>`, '#160f2e'),
+  },
+  {
+    id: 'squirrel', name: 'Nutty', emoji: '🐿️', vibe: 'nutty · quick',
+    svg: ({ color = '#b45309', speed = 1.2, scale = 1 } = {}) => petFrame(`
+      <g transform="translate(${w/2*scale} ${h/2*scale}) scale(${scale})"><animateTransform attributeName="transform" type="translate" values="${w/2*scale} ${h/2*scale};${w/2*scale} ${h/2*scale-4};${w/2*scale} ${h/2*scale}" dur="${speed}s" repeatCount="indefinite"/>
+      <path d="M40 30 Q75 10 60 -40 Q50 -10 35 15 Z" fill="${color}"><animateTransform attributeName="transform" type="rotate" values="0 40 30;12 40 30;0 40 30" dur="${speed*.8}s" repeatCount="indefinite"/></path>
+      <ellipse cx="0" cy="10" rx="35" ry="32" fill="${color}"/>
+      <polygon points="-25,-22 -18,-42 -10,-24" fill="${color}"/><polygon points="25,-22 18,-42 10,-24" fill="${color}"/>
+      <ellipse cx="0" cy="16" rx="22" ry="18" fill="#fde68a"/>
+      <circle cx="-11" cy="0" r="5" fill="#0f172a"/><circle cx="11" cy="0" r="5" fill="#0f172a"/>
+      <ellipse cx="0" cy="10" rx="4" ry="3" fill="#0f172a"/>
+      <ellipse cx="0" cy="20" rx="7" ry="5" fill="#a16207"/>
+      </g><text x="${w/2}" y="${h-25}" text-anchor="middle" font-family="monospace" font-size="12" fill="${color}">nom · squirrel</text>`, '#1c1206'),
+  },
+  {
+    id: 'bat', name: 'Echo', emoji: '🦇', vibe: 'night · sonar',
+    svg: ({ color = '#6366f1', speed = 1, scale = 1 } = {}) => petFrame(`
+      <g transform="translate(${w/2*scale} ${h/2*scale}) scale(${scale})"><animateTransform attributeName="transform" type="translate" values="${w/2*scale} ${h/2*scale};${w/2*scale} ${h/2*scale-6};${w/2*scale} ${h/2*scale}" dur="${speed*2}s" repeatCount="indefinite"/>
+      <path d="M-15 0 Q-55 -25 -70 0 Q-55 -8 -50 5 Q-40 -5 -30 8 Z" fill="${color}"><animateTransform attributeName="transform" type="rotate" values="0 -15 0;-15 -15 0;0 -15 0" dur="${speed}s" repeatCount="indefinite"/></path>
+      <path d="M15 0 Q55 -25 70 0 Q55 -8 50 5 Q40 -5 30 8 Z" fill="${color}"><animateTransform attributeName="transform" type="rotate" values="0 15 0;15 15 0;0 15 0" dur="${speed}s" repeatCount="indefinite"/></path>
+      <circle cx="0" cy="0" r="20" fill="${color}"/>
+      <polygon points="-14,-16 -8,-28 -4,-16" fill="${color}"/><polygon points="14,-16 8,-28 4,-16" fill="${color}"/>
+      <circle cx="-7" cy="-3" r="3" fill="#fbbf24"/><circle cx="7" cy="-3" r="3" fill="#fbbf24"/>
+      <path d="M-5 6 L0 10 L5 6" fill="#fff"/>
+      </g><text x="${w/2}" y="${h-25}" text-anchor="middle" font-family="monospace" font-size="12" fill="${color}">screech · bat</text>`, '#0a0a1a'),
+  },
+  {
+    id: 'ant', name: 'Marcher', emoji: '🐜', vibe: 'tiny · worker',
+    svg: ({ color = '#7c2d12', speed = 1, scale = 1 } = {}) => petFrame(`
+      <g transform="translate(${w/2*scale} ${h/2*scale}) scale(${scale})"><animateTransform attributeName="transform" type="translate" values="${w/2*scale} ${h/2*scale};${w/2*scale+5} ${h/2*scale};${w/2*scale} ${h/2*scale}" dur="${speed}s" repeatCount="indefinite"/>
+      <circle cx="30" cy="0" r="16" fill="${color}"/>
+      <circle cx="5" cy="0" r="12" fill="${color}"/>
+      <ellipse cx="-25" cy="0" rx="20" ry="16" fill="${color}"/>
+      <circle cx="35" cy="-4" r="3" fill="#fff"/><circle cx="35" cy="-4" r="1.5" fill="#0f172a"/>
+      <line x1="40" y1="-10" x2="50" y2="-22" stroke="${color}" stroke-width="2"/><line x1="44" y1="-8" x2="55" y2="-16" stroke="${color}" stroke-width="2"/>
+      ${[-30,-20,-10].map(x=>`<line x1="${x}" y1="12" x2="${x-6}" y2="26" stroke="${color}" stroke-width="2"/><line x1="${x}" y1="-12" x2="${x-6}" y2="-24" stroke="${color}" stroke-width="2"/>`).join('')}
+      </g><text x="${w/2}" y="${h-25}" text-anchor="middle" font-family="monospace" font-size="12" fill="${color}">march · ant</text>`, '#1a0a00'),
+  },
+  {
+    id: 'spider', name: 'Webby', emoji: '🕷️', vibe: 'creepy · web',
+    svg: ({ color = '#1e293b', speed = 1.5, scale = 1 } = {}) => petFrame(`
+      <g transform="translate(${w/2*scale} ${h/2*scale}) scale(${scale})"><animateTransform attributeName="transform" type="translate" values="${w/2*scale} ${h/2*scale-40};${w/2*scale} ${h/2*scale};${w/2*scale} ${h/2*scale-40}" dur="${speed*2}s" repeatCount="indefinite"/>
+      <line x1="0" y1="-90" x2="0" y2="-25" stroke="#64748b" stroke-width="1"/>
+      <ellipse cx="0" cy="10" rx="28" ry="32" fill="${color}"/>
+      <circle cx="0" cy="-18" r="18" fill="${color}"/>
+      <circle cx="-7" cy="-20" r="4" fill="#ef4444"/><circle cx="7" cy="-20" r="4" fill="#ef4444"/>
+      <circle cx="-7" cy="-20" r="2" fill="#fff"/><circle cx="7" cy="-20" r="2" fill="#fff"/>
+      ${[-1,1].map(s=>[0,1,2,3].map(i=>`<path d="M${s*15} ${i*10-5} Q${s*45} ${i*8-15} ${s*50} ${i*12+5}" stroke="${color}" stroke-width="3" fill="none"/>`).join('')).join('')}
+      </g><text x="${w/2}" y="${h-25}" text-anchor="middle" font-family="monospace" font-size="12" fill="#94a3b8">creep · spider</text>`, '#0a0a0a'),
+  },
+  {
+    id: 'snowman', name: 'Frosty', emoji: '⛄', vibe: 'winter · jolly',
+    svg: ({ color = '#f1f5f9', speed = 3, scale = 1 } = {}) => petFrame(`
+      <g transform="translate(${w/2*scale} ${h/2*scale}) scale(${scale})"><animateTransform attributeName="transform" type="translate" values="${w/2*scale} ${h/2*scale};${w/2*scale} ${h/2*scale-2};${w/2*scale} ${h/2*scale}" dur="${speed}s" repeatCount="indefinite"/>
+      <circle cx="0" cy="30" r="30" fill="${color}"/>
+      <circle cx="0" cy="-10" r="22" fill="${color}"/>
+      <circle cx="-8" cy="-14" r="3" fill="#0f172a"/><circle cx="8" cy="-14" r="3" fill="#0f172a"/>
+      <polygon points="0,-8 18,-5 0,-2" fill="#f97316"/>
+      <path d="M-8 -2 Q0 4 8 -2" stroke="#0f172a" stroke-width="1.5" fill="none" stroke-dasharray="1 3"/>
+      <circle cx="0" cy="20" r="3" fill="#0f172a"/><circle cx="0" cy="35" r="3" fill="#0f172a"/>
+      <rect x="-25" y="-38" width="50" height="8" fill="#0f172a"/><rect x="-14" y="-55" width="28" height="18" fill="#0f172a"/>
+      <line x1="-30" y1="20" x2="-55" y2="8" stroke="#78350f" stroke-width="3"/><line x1="30" y1="20" x2="55" y2="8" stroke="#78350f" stroke-width="3"/>
+      </g><text x="${w/2}" y="${h-25}" text-anchor="middle" font-family="monospace" font-size="12" fill="#cbd5e1">brr · snowman</text>`, '#0c1e3a'),
+  },
+  {
+    id: 'ninja-cat', name: 'Shinobi', emoji: '🐱‍👤', vibe: 'stealth · feline',
+    svg: ({ color = '#0f172a', speed = 2, scale = 1 } = {}) => petFrame(`
+      <g transform="translate(${w/2*scale} ${h/2*scale}) scale(${scale})"><animateTransform attributeName="transform" type="translate" values="${w/2*scale} ${h/2*scale};${w/2*scale+4} ${h/2*scale-3};${w/2*scale} ${h/2*scale}" dur="${speed}s" repeatCount="indefinite"/>
+      <polygon points="-40,-28 -22,-58 -12,-30" fill="${color}"/><polygon points="40,-28 22,-58 12,-30" fill="${color}"/>
+      <circle cx="0" cy="0" r="44" fill="${color}"/>
+      <rect x="-44" y="-8" width="88" height="18" fill="#dc2626"/>
+      <path d="M40 -5 Q60 0 62 -15" stroke="#dc2626" stroke-width="5" fill="none"><animate attributeName="d" values="M40 -5 Q60 0 62 -15;M40 -5 Q60 8 62 -5;M40 -5 Q60 0 62 -15" dur="${speed}s" repeatCount="indefinite"/></path>
+      <ellipse cx="-13" cy="1" rx="7" ry="5" fill="#fde68a"/><ellipse cx="13" cy="1" rx="7" ry="5" fill="#fde68a"/>
+      <ellipse cx="-13" cy="1" rx="2" ry="4" fill="#0f172a"/><ellipse cx="13" cy="1" rx="2" ry="4" fill="#0f172a"/>
+      </g><text x="${w/2}" y="${h-25}" text-anchor="middle" font-family="monospace" font-size="12" fill="#94a3b8">silent · ninja cat</text>`, '#000000'),
+  },
+  {
+    id: 'boba', name: 'Pearl', emoji: '🧋', vibe: 'sweet · drink',
+    svg: ({ color = '#c084fc', speed = 3, scale = 1 } = {}) => petFrame(`
+      <g transform="translate(${w/2*scale} ${h/2*scale}) scale(${scale})"><animateTransform attributeName="transform" type="translate" values="${w/2*scale} ${h/2*scale};${w/2*scale} ${h/2*scale-3};${w/2*scale} ${h/2*scale}" dur="${speed}s" repeatCount="indefinite"/>
+      <path d="M-28 -35 L28 -35 L22 45 L-22 45 Z" fill="${color}" opacity=".85"/>
+      <rect x="-30" y="-42" width="60" height="10" rx="3" fill="#e9d5ff"/>
+      <rect x="8" y="-60" width="8" height="45" fill="#f472b6" transform="rotate(12 12 -40)"/>
+      ${[-14,-2,10,-8,4,16].map((x,i)=>`<circle cx="${x}" cy="${28+(i%2)*8}" r="5" fill="#3b1d0e"/>`).join('')}
+      <circle cx="-10" cy="0" r="4" fill="#0f172a"/><circle cx="10" cy="0" r="4" fill="#0f172a"/>
+      <path d="M-6 8 Q0 12 6 8" stroke="#0f172a" stroke-width="1.5" fill="none"/>
+      </g><text x="${w/2}" y="${h-25}" text-anchor="middle" font-family="monospace" font-size="12" fill="${color}">sip · boba</text>`, '#1a0a2e'),
+  },
+  {
+    id: 'donut', name: 'Sprinkle', emoji: '🍩', vibe: 'sweet · glazed',
+    svg: ({ color = '#f472b6', speed = 6, scale = 1 } = {}) => petFrame(`
+      <g transform="translate(${w/2*scale} ${h/2*scale}) scale(${scale})"><animateTransform attributeName="transform" type="rotate" values="0;360" dur="${speed}s" repeatCount="indefinite"/>
+      <circle cx="0" cy="0" r="45" fill="#a16207"/>
+      <path d="M-45 0 A45 45 0 0 1 45 0 A45 45 0 0 1 -45 0" fill="${color}"/>
+      <circle cx="0" cy="0" r="18" fill="#1a0a2e"/>
+      ${['#22c55e','#3b82f6','#fbbf24','#ef4444','#a855f7'].map((c,i)=>{const a=i*72*Math.PI/180;return `<rect x="${Math.cos(a)*32-4}" y="${Math.sin(a)*32-1}" width="8" height="3" rx="1" fill="${c}" transform="rotate(${i*40} ${Math.cos(a)*32} ${Math.sin(a)*32})"/>`;}).join('')}
+      </g><text x="${w/2}" y="${h-25}" text-anchor="middle" font-family="monospace" font-size="12" fill="${color}">yum · donut</text>`, '#1a0a1a'),
+  },
+  {
+    id: 'rocket', name: 'Zoom', emoji: '🚀', vibe: 'launch · fast',
+    svg: ({ color = '#ef4444', speed = 1.5, scale = 1 } = {}) => petFrame(`
+      <g transform="translate(${w/2*scale} ${h/2*scale}) scale(${scale})"><animateTransform attributeName="transform" type="translate" values="${w/2*scale} ${h/2*scale};${w/2*scale} ${h/2*scale-8};${w/2*scale} ${h/2*scale}" dur="${speed}s" repeatCount="indefinite"/>
+      <path d="M0 -50 Q22 -20 22 20 L-22 20 Q-22 -20 0 -50Z" fill="#e2e8f0"/>
+      <path d="M0 -50 Q22 -20 22 20 L0 20 Z" fill="#cbd5e1"/>
+      <circle cx="0" cy="-15" r="10" fill="#38bdf8"/><circle cx="0" cy="-15" r="5" fill="#0ea5e9"/>
+      <path d="M-22 5 L-38 25 L-22 20Z" fill="${color}"/><path d="M22 5 L38 25 L22 20Z" fill="${color}"/>
+      <path d="M-12 20 Q0 60 12 20Z" fill="#f97316"><animate attributeName="d" values="M-12 20 Q0 60 12 20Z;M-12 20 Q0 40 12 20Z;M-12 20 Q0 60 12 20Z" dur="${speed*.3}s" repeatCount="indefinite"/></path>
+      <path d="M-7 20 Q0 45 7 20Z" fill="#fbbf24"/>
+      </g><text x="${w/2}" y="${h-25}" text-anchor="middle" font-family="monospace" font-size="12" fill="${color}">launch · rocket</text>`, '#050510'),
+  },
+  {
+    id: 'skull', name: 'Bones', emoji: '💀', vibe: 'spooky · edgy',
+    svg: ({ color = '#f1f5f9', speed = 2.5, scale = 1 } = {}) => petFrame(`
+      <g transform="translate(${w/2*scale} ${h/2*scale}) scale(${scale})"><animateTransform attributeName="transform" type="translate" values="${w/2*scale} ${h/2*scale};${w/2*scale} ${h/2*scale-3};${w/2*scale} ${h/2*scale}" dur="${speed}s" repeatCount="indefinite"/>
+      <path d="M-38 -5 Q-38 -50 0 -50 Q38 -50 38 -5 Q38 20 20 25 L20 38 L-20 38 L-20 25 Q-38 20 -38 -5Z" fill="${color}"/>
+      <ellipse cx="-16" cy="-8" rx="12" ry="14" fill="#0f172a"><animate attributeName="ry" values="14;14;3;14" dur="${speed*1.6}s" repeatCount="indefinite" keyTimes="0;.85;.9;1"/></ellipse>
+      <ellipse cx="16" cy="-8" rx="12" ry="14" fill="#0f172a"><animate attributeName="ry" values="14;14;3;14" dur="${speed*1.6}s" repeatCount="indefinite" keyTimes="0;.85;.9;1"/></ellipse>
+      <polygon points="0,5 -6,18 6,18" fill="#0f172a"/>
+      <rect x="-16" y="30" width="4" height="8" fill="${color}"/><rect x="-6" y="30" width="4" height="8" fill="${color}"/><rect x="4" y="30" width="4" height="8" fill="${color}"/><rect x="12" y="30" width="4" height="8" fill="${color}"/>
+      </g><text x="${w/2}" y="${h-25}" text-anchor="middle" font-family="monospace" font-size="12" fill="#94a3b8">spooky · skull</text>`, '#0a0a0a'),
+  },
+  {
+    id: 'heart', name: 'Lovely', emoji: '❤️', vibe: 'love · beat',
+    svg: ({ color = '#ef4444', speed = 1, scale = 1 } = {}) => petFrame(`
+      <g transform="translate(${w/2*scale} ${h/2*scale}) scale(${scale})"><animateTransform attributeName="transform" type="scale" values="${scale};${scale*1.12};${scale}" dur="${speed}s" repeatCount="indefinite" additive="sum"/>
+      <path d="M0 40 C-45 5 -45 -30 -20 -35 Q0 -38 0 -15 Q0 -38 20 -35 C45 -30 45 5 0 40Z" fill="${color}"/>
+      <circle cx="-14" cy="-8" r="4" fill="#0f172a"/><circle cx="14" cy="-8" r="4" fill="#0f172a"/>
+      <circle cx="-13" cy="-9" r="1.5" fill="#fff"/><circle cx="15" cy="-9" r="1.5" fill="#fff"/>
+      <path d="M-8 2 Q0 8 8 2" stroke="#0f172a" stroke-width="2" fill="none"/>
+      <circle cx="-22" cy="2" r="4" fill="#fca5a5" opacity=".7"/><circle cx="22" cy="2" r="4" fill="#fca5a5" opacity=".7"/>
+      </g><text x="${w/2}" y="${h-25}" text-anchor="middle" font-family="monospace" font-size="12" fill="${color}">beat · heart</text>`, '#2a0a0a'),
+  },
+  {
+    id: 'clover', name: 'Lucky', emoji: '🍀', vibe: 'lucky · green',
+    svg: ({ color = '#22c55e', speed = 4, scale = 1 } = {}) => petFrame(`
+      <g transform="translate(${w/2*scale} ${h/2*scale}) scale(${scale})"><animateTransform attributeName="transform" type="rotate" values="0;8;-8;0" dur="${speed}s" repeatCount="indefinite"/>
+      ${[0,90,180,270].map(a=>`<path d="M0 0 Q-18 -18 0 -36 Q18 -18 0 0Z" fill="${color}" transform="rotate(${a})"/>`).join('')}
+      <line x1="0" y1="0" x2="8" y2="40" stroke="#16a34a" stroke-width="3"/>
+      <circle cx="-8" cy="-14" r="3" fill="#0f172a"/><circle cx="8" cy="-14" r="3" fill="#0f172a"/>
+      <path d="M-5 -6 Q0 -2 5 -6" stroke="#0f172a" stroke-width="1.5" fill="none"/>
+      </g><text x="${w/2}" y="${h-25}" text-anchor="middle" font-family="monospace" font-size="12" fill="${color}">lucky · clover</text>`, '#031a0a'),
+  },
+  {
+    id: 'diamond', name: 'Shiny', emoji: '💠', vibe: 'gem · sparkle',
+    svg: ({ color = '#38bdf8', speed = 2, scale = 1 } = {}) => petFrame(`
+      <defs><linearGradient id="dm" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e0f2fe"/><stop offset="1" stop-color="${color}"/></linearGradient></defs>
+      <g transform="translate(${w/2*scale} ${h/2*scale}) scale(${scale})"><animateTransform attributeName="transform" type="translate" values="${w/2*scale} ${h/2*scale};${w/2*scale} ${h/2*scale-4};${w/2*scale} ${h/2*scale}" dur="${speed}s" repeatCount="indefinite"/>
+      <polygon points="0,-40 35,-10 0,45 -35,-10" fill="url(#dm)"/>
+      <polygon points="0,-40 35,-10 0,-10" fill="#fff" opacity=".4"/>
+      <polygon points="0,-40 -35,-10 0,-10" fill="#0369a1" opacity=".2"/>
+      <line x1="-35" y1="-10" x2="35" y2="-10" stroke="#fff" stroke-width="1" opacity=".5"/>
+      <circle cx="15" cy="-18" r="2" fill="#fff"><animate attributeName="opacity" values="0;1;0" dur="${speed*.7}s" repeatCount="indefinite"/></circle>
+      <circle cx="-10" cy="-25" r="4" fill="#0f172a"/><circle cx="10" cy="-25" r="4" fill="#0f172a"/>
+      </g><text x="${w/2}" y="${h-25}" text-anchor="middle" font-family="monospace" font-size="12" fill="${color}">shine · diamond</text>`, '#041520'),
+  },
+  {
+    id: 'ramen', name: 'Slurp', emoji: '🍜', vibe: 'warm · noodle',
+    svg: ({ color = '#f59e0b', speed = 2.5, scale = 1 } = {}) => petFrame(`
+      <g transform="translate(${w/2*scale} ${h/2*scale}) scale(${scale})"><animateTransform attributeName="transform" type="translate" values="${w/2*scale} ${h/2*scale};${w/2*scale} ${h/2*scale-2};${w/2*scale} ${h/2*scale}" dur="${speed}s" repeatCount="indefinite"/>
+      <path d="M-45 0 Q-45 40 0 45 Q45 40 45 0 Z" fill="#dc2626"/>
+      <ellipse cx="0" cy="0" rx="45" ry="12" fill="#fbbf24"/>
+      <ellipse cx="0" cy="0" rx="38" ry="9" fill="#fde68a"/>
+      <circle cx="-12" cy="-2" r="8" fill="#fff"/><circle cx="-12" cy="-2" r="4" fill="#f59e0b"/>
+      <path d="M15 -2 Q20 -25 30 -22" stroke="#a16207" stroke-width="2" fill="none"/><path d="M8 -3 Q10 -28 20 -30" stroke="#a16207" stroke-width="2" fill="none"/>
+      <rect x="20" y="-40" width="3" height="45" fill="#78350f" transform="rotate(15 21 -18)"/><rect x="28" y="-40" width="3" height="45" fill="#78350f" transform="rotate(20 29 -18)"/>
+      <path d="M-8 3 Q-12 8 -18 6" stroke="#0f172a" stroke-width="1.5" fill="none"/>
+      <circle cx="-20" cy="-4" r="2.5" fill="#0f172a"/><circle cx="6" cy="-4" r="2.5" fill="#0f172a"/>
+      </g><text x="${w/2}" y="${h-25}" text-anchor="middle" font-family="monospace" font-size="12" fill="${color}">slurp · ramen</text>`, '#1a0e00'),
+  },
+  {
+    id: 'cactus-pot', name: 'Spike', emoji: '🪴', vibe: 'desk · plant',
+    svg: ({ color = '#16a34a', speed = 4, scale = 1 } = {}) => petFrame(`
+      <g transform="translate(${w/2*scale} ${h/2*scale}) scale(${scale})"><animateTransform attributeName="transform" type="rotate" values="-2;2;-2" dur="${speed}s" repeatCount="indefinite"/>
+      <path d="M-25 50 L-18 15 L18 15 L25 50Z" fill="#ea580c"/>
+      <rect x="-28" y="8" width="56" height="10" rx="2" fill="#f97316"/>
+      <rect x="-12" y="-40" width="24" height="55" rx="12" fill="${color}"/>
+      <rect x="-32" y="-15" width="16" height="30" rx="8" fill="${color}"/>
+      <rect x="16" y="-25" width="16" height="30" rx="8" fill="${color}"/>
+      <circle cx="-8" cy="-25" r="4" fill="#0f172a"/><circle cx="8" cy="-25" r="4" fill="#0f172a"/>
+      <path d="M-5 -16 Q0 -12 5 -16" stroke="#0f172a" stroke-width="1.5" fill="none"/>
+      <circle cx="0" cy="-42" r="5" fill="#f472b6"/>
+      </g><text x="${w/2}" y="${h-25}" text-anchor="middle" font-family="monospace" font-size="12" fill="${color}">grow · plant</text>`, '#031a0a'),
+  },
+  {
+    id: 'ladybird2', name: 'Spot', emoji: '🐞', vibe: 'red · fly',
+    svg: ({ color = '#dc2626', speed = 3, scale = 1 } = {}) => petFrame(`
+      <g transform="translate(${w/2*scale} ${h/2*scale}) scale(${scale})"><animateTransform attributeName="transform" type="translate" values="${w/2*scale} ${h/2*scale};${w/2*scale} ${h/2*scale-3};${w/2*scale} ${h/2*scale}" dur="${speed}s" repeatCount="indefinite"/>
+      <ellipse cx="0" cy="5" rx="40" ry="42" fill="${color}"/>
+      <path d="M0 -37 L0 45" stroke="#0f172a" stroke-width="3"/>
+      <circle cx="-16" cy="-10" r="6" fill="#0f172a"/><circle cx="16" cy="-5" r="6" fill="#0f172a"/><circle cx="-14" cy="18" r="6" fill="#0f172a"/><circle cx="15" cy="22" r="6" fill="#0f172a"/>
+      <circle cx="0" cy="-38" r="16" fill="#0f172a"/>
+      <circle cx="-6" cy="-40" r="3" fill="#fff"/><circle cx="6" cy="-40" r="3" fill="#fff"/>
+      <line x1="-6" y1="-52" x2="-12" y2="-60" stroke="#0f172a" stroke-width="2"/><line x1="6" y1="-52" x2="12" y2="-60" stroke="#0f172a" stroke-width="2"/>
+      </g><text x="${w/2}" y="${h-25}" text-anchor="middle" font-family="monospace" font-size="12" fill="${color}">fly · ladybird</text>`, '#1a0505'),
+  },
+  {
+    id: 'comet', name: 'Streak', emoji: '☄️', vibe: 'cosmic · fast',
+    svg: ({ color = '#38bdf8', speed = 2, scale = 1 } = {}) => petFrame(`
+      <defs><linearGradient id="cmt" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${color}" stop-opacity="0"/><stop offset="1" stop-color="${color}"/></linearGradient></defs>
+      <g transform="translate(${w/2*scale} ${h/2*scale}) scale(${scale})"><animateTransform attributeName="transform" type="translate" values="${w/2*scale} ${h/2*scale};${w/2*scale+6} ${h/2*scale-6};${w/2*scale} ${h/2*scale}" dur="${speed}s" repeatCount="indefinite"/>
+      <path d="M20 -20 L-50 50 L-30 30 L-45 40 L-25 20Z" fill="url(#cmt)"/>
+      <circle cx="20" cy="-20" r="22" fill="#fbbf24"/>
+      <circle cx="20" cy="-20" r="14" fill="#f97316"/>
+      <circle cx="14" cy="-24" r="4" fill="#0f172a"/><circle cx="26" cy="-24" r="4" fill="#0f172a"/>
+      <path d="M14 -14 Q20 -10 26 -14" stroke="#0f172a" stroke-width="2" fill="none"/>
+      </g><text x="${w/2}" y="${h-25}" text-anchor="middle" font-family="monospace" font-size="12" fill="${color}">whoosh · comet</text>`, '#050510'),
+  },
+  {
+    id: 'mushroom2', name: 'Toadie', emoji: '🍄', vibe: 'red · dotty',
+    svg: ({ color = '#dc2626', speed = 2.5, scale = 1 } = {}) => petFrame(`
+      <g transform="translate(${w/2*scale} ${h/2*scale}) scale(${scale})"><animateTransform attributeName="transform" type="translate" values="${w/2*scale} ${h/2*scale};${w/2*scale} ${h/2*scale-3};${w/2*scale} ${h/2*scale}" dur="${speed}s" repeatCount="indefinite"/>
+      <path d="M-45 5 Q-45 -40 0 -40 Q45 -40 45 5 Z" fill="${color}"/>
+      <circle cx="-22" cy="-15" r="7" fill="#fff"/><circle cx="12" cy="-25" r="6" fill="#fff"/><circle cx="24" cy="-8" r="5" fill="#fff"/><circle cx="-5" cy="-8" r="5" fill="#fff"/>
+      <path d="M-25 5 Q-25 45 0 45 Q25 45 25 5Z" fill="#fef3c7"/>
+      <circle cx="-10" cy="18" r="4" fill="#0f172a"/><circle cx="10" cy="18" r="4" fill="#0f172a"/>
+      <ellipse cx="-16" cy="26" rx="5" ry="3" fill="#fca5a5"/><ellipse cx="16" cy="26" rx="5" ry="3" fill="#fca5a5"/>
+      <path d="M-6 28 Q0 33 6 28" stroke="#0f172a" stroke-width="1.5" fill="none"/>
+      </g><text x="${w/2}" y="${h-25}" text-anchor="middle" font-family="monospace" font-size="12" fill="${color}">1-up · mushroom</text>`, '#1a0505'),
+  },
+  {
+    id: 'yeti', name: 'Frostbite', emoji: '🦣', vibe: 'snow · big',
+    svg: ({ color = '#bae6fd', speed = 3, scale = 1 } = {}) => petFrame(`
+      <g transform="translate(${w/2*scale} ${h/2*scale}) scale(${scale})"><animateTransform attributeName="transform" type="translate" values="${w/2*scale} ${h/2*scale};${w/2*scale} ${h/2*scale-3};${w/2*scale} ${h/2*scale}" dur="${speed}s" repeatCount="indefinite"/>
+      <ellipse cx="0" cy="5" rx="50" ry="46" fill="${color}"/>
+      <ellipse cx="0" cy="14" rx="34" ry="30" fill="#e0f2fe"/>
+      <circle cx="-16" cy="-8" r="6" fill="#0369a1"/><circle cx="16" cy="-8" r="6" fill="#0369a1"/>
+      <circle cx="-16" cy="-8" r="3" fill="#0f172a"/><circle cx="16" cy="-8" r="3" fill="#0f172a"/>
+      <path d="M-16 12 Q0 22 16 12" stroke="#0369a1" stroke-width="2" fill="none"/>
+      <path d="M-12 16 L-12 24 M12 16 L12 24" stroke="#fff" stroke-width="4"/>
+      <ellipse cx="-42" cy="0" rx="12" ry="18" fill="${color}"/><ellipse cx="42" cy="0" rx="12" ry="18" fill="${color}"/>
+      </g><text x="${w/2}" y="${h-25}" text-anchor="middle" font-family="monospace" font-size="12" fill="#7dd3fc">grr · yeti</text>`, '#0c1e3a'),
+  },
+  {
+    id: 'ghost-pac', name: 'Blinky', emoji: '👾', vibe: 'arcade · retro',
+    svg: ({ color = '#ef4444', speed = 1.5, scale = 1 } = {}) => petFrame(`
+      <g transform="translate(${w/2*scale} ${h/2*scale}) scale(${scale})"><animateTransform attributeName="transform" type="translate" values="${w/2*scale} ${h/2*scale};${w/2*scale+6} ${h/2*scale};${w/2*scale-6} ${h/2*scale};${w/2*scale} ${h/2*scale}" dur="${speed*2}s" repeatCount="indefinite"/>
+      <path d="M-35 40 L-35 -5 Q-35 -45 0 -45 Q35 -45 35 -5 L35 40 L26 30 L18 40 L9 30 L0 40 L-9 30 L-18 40 L-26 30Z" fill="${color}"/>
+      <circle cx="-14" cy="-8" r="10" fill="#fff"/><circle cx="14" cy="-8" r="10" fill="#fff"/>
+      <circle cx="-10" cy="-8" r="5" fill="#1e3a8a"><animate attributeName="cx" values="-10;-18;-10;-6;-10" dur="${speed*2}s" repeatCount="indefinite"/></circle>
+      <circle cx="18" cy="-8" r="5" fill="#1e3a8a"><animate attributeName="cx" values="18;10;18;22;18" dur="${speed*2}s" repeatCount="indefinite"/></circle>
+      </g><text x="${w/2}" y="${h-25}" text-anchor="middle" font-family="monospace" font-size="12" fill="${color}">wokka · ghost</text>`, '#000010'),
+  },
+  {
+    id: 'jellybean', name: 'Beany', emoji: '🫘', vibe: 'squishy · candy',
+    svg: ({ color = '#a855f7', speed = 1.5, scale = 1 } = {}) => petFrame(`
+      <g transform="translate(${w/2*scale} ${h/2*scale}) scale(${scale})"><animateTransform attributeName="transform" type="scale" values="1 1;1.08 .92;1 1" dur="${speed}s" repeatCount="indefinite" additive="sum"/>
+      <ellipse cx="0" cy="0" rx="35" ry="45" fill="${color}"/>
+      <ellipse cx="-12" cy="-18" rx="10" ry="16" fill="#fff" opacity=".4"/>
+      <circle cx="-12" cy="0" r="5" fill="#0f172a"/><circle cx="12" cy="0" r="5" fill="#0f172a"/>
+      <circle cx="-10" cy="-2" r="1.5" fill="#fff"/><circle cx="14" cy="-2" r="1.5" fill="#fff"/>
+      <path d="M-8 12 Q0 20 8 12" stroke="#0f172a" stroke-width="2" fill="none"/>
+      <circle cx="-20" cy="8" r="4" fill="#fff" opacity=".3"/><circle cx="20" cy="8" r="4" fill="#fff" opacity=".3"/>
+      </g><text x="${w/2}" y="${h-25}" text-anchor="middle" font-family="monospace" font-size="12" fill="${color}">boing · jellybean</text>`, '#1a0a2e'),
+  },
+  {
+    id: 'firefly', name: 'Glow', emoji: '✨', vibe: 'night · glow',
+    svg: ({ color = '#fde047', speed = 2, scale = 1 } = {}) => petFrame(`
+      <defs><radialGradient id="ff"><stop offset="0" stop-color="#fef9c3"/><stop offset="1" stop-color="${color}"/></radialGradient><filter id="ffg"><feGaussianBlur stdDeviation="4"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+      <g transform="translate(${w/2*scale} ${h/2*scale}) scale(${scale})" filter="url(#ffg)"><animateTransform attributeName="transform" type="translate" values="${w/2*scale} ${h/2*scale};${w/2*scale+10} ${h/2*scale-10};${w/2*scale-8} ${h/2*scale+6};${w/2*scale} ${h/2*scale}" dur="${speed*2}s" repeatCount="indefinite"/>
+      <ellipse cx="0" cy="10" rx="14" ry="20" fill="#4b5563"/>
+      <ellipse cx="0" cy="22" rx="12" ry="14" fill="url(#ff)"><animate attributeName="opacity" values="1;.3;1" dur="${speed}s" repeatCount="indefinite"/></ellipse>
+      <ellipse cx="-16" cy="-2" rx="14" ry="8" fill="#fff" opacity=".3"/><ellipse cx="16" cy="-2" rx="14" ry="8" fill="#fff" opacity=".3"/>
+      <circle cx="-5" cy="-8" r="2.5" fill="#0f172a"/><circle cx="5" cy="-8" r="2.5" fill="#0f172a"/>
+      ${[[-30,-20],[30,-15],[-25,20],[28,25]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="2" fill="${color}"><animate attributeName="opacity" values="0;1;0" dur="${speed*.8}s" repeatCount="indefinite"/></circle>`).join('')}
+      </g><text x="${w/2}" y="${h-25}" text-anchor="middle" font-family="monospace" font-size="12" fill="${color}">glow · firefly</text>`, '#0a0a1a'),
+  },
+  {
+    id: 'toucan', name: 'Beaky', emoji: '🦜', vibe: 'tropical · bright',
+    svg: ({ color = '#0f172a', speed = 2, scale = 1 } = {}) => petFrame(`
+      <g transform="translate(${w/2*scale} ${h/2*scale}) scale(${scale})"><animateTransform attributeName="transform" type="translate" values="${w/2*scale} ${h/2*scale};${w/2*scale} ${h/2*scale-4};${w/2*scale} ${h/2*scale}" dur="${speed}s" repeatCount="indefinite"/>
+      <ellipse cx="-8" cy="8" rx="38" ry="42" fill="${color}"/>
+      <path d="M20 -20 Q65 -15 60 5 Q55 15 20 8Z" fill="#f59e0b"/>
+      <path d="M20 -18 Q55 -14 52 -2" stroke="#dc2626" stroke-width="4" fill="none"/>
+      <circle cx="0" cy="-12" r="10" fill="#fff"/><circle cx="2" cy="-12" r="5" fill="#0f172a"/>
+      <ellipse cx="-15" cy="20" rx="20" ry="16" fill="#fbbf24"/>
+      </g><text x="${w/2}" y="${h-25}" text-anchor="middle" font-family="monospace" font-size="12" fill="#f59e0b">squawk · toucan</text>`, '#0a1a0a'),
+  },
+  {
+    id: 'robot2', name: 'Bolt', emoji: '🤖', vibe: 'mech · retro',
+    svg: ({ color = '#f59e0b', speed = 2, scale = 1 } = {}) => petFrame(`
+      <g transform="translate(${w/2*scale} ${h/2*scale}) scale(${scale})"><animateTransform attributeName="transform" type="translate" values="${w/2*scale} ${h/2*scale};${w/2*scale} ${h/2*scale-3};${w/2*scale} ${h/2*scale}" dur="${speed}s" repeatCount="indefinite"/>
+      <line x1="0" y1="-50" x2="0" y2="-38" stroke="${color}" stroke-width="3"/>
+      <circle cx="0" cy="-54" r="6" fill="#22c55e"><animate attributeName="fill" values="#22c55e;#ef4444;#22c55e" dur="${speed}s" repeatCount="indefinite"/></circle>
+      <rect x="-40" y="-38" width="80" height="60" rx="14" fill="${color}"/>
+      <rect x="-30" y="-28" width="60" height="34" rx="8" fill="#1e293b"/>
+      <rect x="-22" y="-20" width="18" height="18" rx="3" fill="#22d3ee"><animate attributeName="opacity" values="1;.4;1" dur="${speed*.8}s" repeatCount="indefinite"/></rect>
+      <rect x="6" y="-20" width="18" height="18" rx="3" fill="#22d3ee"><animate attributeName="opacity" values="1;.4;1" dur="${speed*.8}s" repeatCount="indefinite"/></rect>
+      <rect x="-14" y="10" width="28" height="5" rx="2" fill="#22d3ee"/>
+      <rect x="-46" y="-20" width="8" height="30" rx="3" fill="#d97706"/><rect x="38" y="-20" width="8" height="30" rx="3" fill="#d97706"/>
+      </g><text x="${w/2}" y="${h-25}" text-anchor="middle" font-family="monospace" font-size="12" fill="${color}">beep · bolt</text>`, '#0a0a0a'),
+  },
+  {
+    id: 'jelly-cube', name: 'Cubey', emoji: '🟩', vibe: 'blocky · bounce',
+    svg: ({ color = '#22c55e', speed = 1.5, scale = 1 } = {}) => petFrame(`
+      <g transform="translate(${w/2*scale} ${h/2*scale}) scale(${scale})"><animateTransform attributeName="transform" type="scale" values="1 1;1.06 .9;1 1" dur="${speed}s" repeatCount="indefinite" additive="sum"/>
+      <rect x="-38" y="-38" width="76" height="76" rx="14" fill="${color}"/>
+      <rect x="-30" y="-30" width="24" height="24" rx="6" fill="#fff" opacity=".25"/>
+      <circle cx="-13" cy="0" r="6" fill="#0f172a"/><circle cx="13" cy="0" r="6" fill="#0f172a"/>
+      <circle cx="-11" cy="-2" r="2" fill="#fff"/><circle cx="15" cy="-2" r="2" fill="#fff"/>
+      <path d="M-10 15 Q0 24 10 15" stroke="#0f172a" stroke-width="2.5" fill="none"/>
+      <ellipse cx="-22" cy="12" rx="5" ry="3" fill="#fff" opacity=".3"/><ellipse cx="22" cy="12" rx="5" ry="3" fill="#fff" opacity=".3"/>
+      </g><text x="${w/2}" y="${h-25}" text-anchor="middle" font-family="monospace" font-size="12" fill="${color}">bounce · cube</text>`, '#031a0a'),
+  },
+];
+
+export const PETS: Pet[] = [...origPets, ...extraPets, ...premiumPets, ...morePets];
 
 export function renderPet(pet: Pet, opts?: { color?: string; speed?: number; scale?: number }) {
   return pet.svg(opts);

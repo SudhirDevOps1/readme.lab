@@ -4,11 +4,10 @@
 
 ### Craft a GitHub profile that *breathes* — not one that bores.
 
-**1100+ real, working assets** · animated SVG banners · live-editable pets · playable games · badges · stat cards · README templates
-Every item previews live, edits inline, renames, copies & drops straight into your `README.md`.
+**1500+ real, working assets** · a live **Profile Builder** · animated SVG banners · live-editable pets · mermaid diagrams · playable games · badges · stat cards · README templates
+Every item previews live, edits inline, renames, copies & drops straight into your `README.md`. A built-in **live SVG code editor** lets you tweak any banner or pet's code and see it render instantly.
 
-[![Live App](https://img.shields.io/badge/OPEN_LIVE_APP-readme--lab.pages.dev-A3E635?style=for-the-badge&logo=cloudflarepages&logoColor=111111)](https://readme-lab.pages.dev/)
-[![Repository](https://img.shields.io/badge/SOURCE-GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/SudhirDevOps1/readme.lab)
+🔗 **Live:** [readme-lab.pages.dev](https://readme-lab.pages.dev/) · **Repo:** [github.com/SudhirDevOps1/readme.lab](https://github.com/SudhirDevOps1/readme.lab)
 
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
 ![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
@@ -17,29 +16,35 @@ Every item previews live, edits inline, renames, copies & drops straight into yo
 
 </div>
 
-## Demo
-
-<div align="center">
-  <img src="./public/sudhir.svg" alt="Blaze logo" width="1000" />
-</div>
-
-
 ---
 
 ## ✨ What's inside
 
 | Section | Count | What each item is |
 |---------|-------|-------------------|
-| ◼ **SVG Banners** | 136 | Real animated SVG (SMIL) · fills your name/role/handle live · copy + download |
+| ⚡ **Profile Builder** | 1 | Toggle 14 sections · assembles a full README live from your identity fields |
+| ◼ **SVG Banners** | 208 | Real animated SVG (SMIL) · **live code editor** · fills name/role/handle live |
 | § **READMEs** | 24 | Full markdown templates · live preview / edit / source view |
-| ✂ **Snippets** | 469 | Real shields.io / skillicons / capsule-render markdown, each copyable |
-| 🐾 **Pets** | 66 | Animated SVGs · live color / speed / size editing + rename |
-| ▶ **Games** | 24 | Fully playable React mini-games |
+| ✂ **Snippets** | 637 | Real shields.io / skillicons / capsule / workflow markdown · README builder |
+| 🐾 **Pets** | 126 | Animated SVGs · **live code editor** + color / speed / size + rename |
+| 🧜 **Mermaid** | 39 | Live-rendered diagrams (flowchart, pie, mindmap, sequence…) · edit + preview |
+| ▶ **Games** | 24 | Fully playable React mini-games · searchable |
 | ▦ **Stats** | 80 | Real themes with live GitHub image previews |
 | ▤ **Stat Cards** | 400 | 80 themes × 5 card types · each copyable with thumbnail |
 | ◉ **Badges** | 45 | Live shields.io badge maker with color swatches |
 
-> Every number above is computed at runtime from real data — **zero fakes**.
+> Every number above is computed at runtime from real data — **zero fakes**. Total **1500+**.
+
+## 🎛️ Full customization
+
+- **Live SVG code editor** — open any banner/pet, edit the raw SVG (colors, shapes, animation timing) in a split code+preview view, then copy or download
+- **Live Mermaid editor** — edit diagram code, see it render instantly (GitHub renders `` ```mermaid `` natively)
+- **Identity fields** — name, role, handle, **location, email, company, website** all flow into every asset
+- **Accent picker** — 5 accent themes (amber, violet, cyan, rose, emerald)
+- **GitHub loader** — pull any user's real profile (name, bio, location, company, blog) via the API
+- **Profile Builder** — check/uncheck 14 sections, live rendered preview + syntax-highlighted source
+- **Snippet README builder** — stack any snippets, reorder, assemble a custom README
+- **Per-item editing** — rename files, edit markdown/SVG live, tweak pet colors/speed/size
 
 ---
 
@@ -60,23 +65,8 @@ npm run dev
 npm run build
 ```
 
-The production build outputs a single self-contained `dist/index.html` you can host anywhere.
-
-- **Live:** https://readme-lab.pages.dev/
-- **Repository:** https://github.com/SudhirDevOps1/readme.lab
-
-### Deploy to Cloudflare Pages
-
-Connect `SudhirDevOps1/readme.lab` in Cloudflare Pages and use:
-
-| Setting | Value |
-|---------|-------|
-| Framework preset | Vite |
-| Build command | `npm run build` |
-| Output directory | `dist` |
-| Node version | `22` |
-
-Every push to the default branch will update `https://readme-lab.pages.dev/` automatically.
+The production build outputs a single self-contained `dist/index.html` you can host anywhere
+(GitHub Pages, Vercel, Netlify).
 
 ---
 
@@ -109,14 +99,17 @@ src/
 ├─ App.tsx                 # main app shell, tabs, identity inputs
 ├─ components/
 │  ├─ CodeBlock.tsx        # syntax-highlighted code viewer (copy/download)
+│  ├─ SvgEditor.tsx        # live SVG code editor (edit + instant preview)
+│  ├─ MermaidView.tsx      # live mermaid diagram renderer
 │  └─ SiteFooter.tsx       # animated footer
 ├─ lib/
 │  └─ highlight.ts         # markdown + xml/svg syntax highlighter
 ├─ data/
-│  ├─ banners.ts           # ← add SVG banner templates here
+│  ├─ banners.ts           # ← add SVG banner templates here (t01..t32)
 │  ├─ pets.ts              # ← add animated pets here
 │  ├─ templates.ts         # ← add README templates here
-│  └─ snippets.ts          # ← add markdown snippets here
+│  ├─ snippets.ts          # ← add markdown snippets here
+│  └─ mermaid.ts           # ← add mermaid diagram templates here
 ├─ games.tsx               # ← add playable games here (React components)
 └─ index.css               # fonts, theme tokens, animations
 ```
@@ -134,11 +127,34 @@ src/
 }
 ```
 
+### Add a new banner (SVG template)
+
+```ts
+// src/data/banners.ts  →  write a t## function, then add to TEMPLATES[]
+const t33 = (p: Pal, n: string, r: string, h: string) =>
+  `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200" width="800" height="200">
+     <rect width="800" height="200" fill="${'${p.bg1}'}" rx="16"/>
+     <text x="40" y="90" font-size="42" fill="${'${p.tx}'}">${'${n}'}</text>
+     <text x="40" y="125" fill="${'${p.ac1}'}">${'${r}'}</text>
+   </svg>`;
+// then: const TEMPLATES = [...existing, t33];
+// each template auto-generates 6 palette variants
+```
+
 ### Add a new snippet
 
 ```ts
 // src/data/snippets.ts
 s('widget', 'My Badge', '![My Badge](https://img.shields.io/badge/Label-Value-blue)'),
+```
+
+### Add a new Mermaid diagram
+
+```ts
+// src/data/mermaid.ts  →  add via m(category, name, code)
+m('flowchart', 'My Flow', `flowchart LR
+  A[Start] --> B[Middle] --> C[End]`),
+// GitHub renders ```mermaid blocks natively — no image upload needed
 ```
 
 ### Add a new README template
@@ -165,17 +181,17 @@ export function MyGame() { /* React state + JSX */ }
 
 ## 🎨 Features
 
+- **Live SVG code editor** — split code + preview, edit any banner/pet's raw SVG
+- **Live Mermaid editor** — 39 diagram templates, edit code, render instantly
 - **Live editing** everywhere — sliders, color pickers, inline markdown editor
-- **Automatic local save** — identity, stats and badge settings persist between visits
-- **Config import/export** — move a complete setup between browsers as JSON
 - **Syntax highlighting** for Markdown & SVG/XML (custom, zero-dependency)
-- **Three view modes** for templates: preview · edit · source
+- **Three view modes** for templates & mermaid: preview · edit · source
 - **Rename** files before download
 - **Search & filter** in every large tab
 - **Fully responsive** — mobile, tablet, desktop
 - **Animated footer** with waves + floating particles
-- **GitHub API loader** — pull any user's name/bio/handle instantly
-- **Production links** — live app and repository are available in the header and animated footer
+- **GitHub API loader** — pull any user's name/bio/handle/location/company instantly
+- **Transparent backgrounds** — banners & pets blend into any GitHub theme
 
 ---
 
@@ -188,9 +204,9 @@ export function MyGame() { /* React state + JSX */ }
 ---
 
 <div align="center">
-  <img src="./public/blaze.svg" alt="Blaze logo" width="1100" />
-  <br>
-  Made with ❤ by <a href="https://github.com/SudhirDevOps1">SudhirDevOps1</a> · MIT License · 2026
-  <br>
-  <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=100&section=footer" />
+
+Made with ❤ by [SudhirDevOps1](https://github.com/SudhirDevOps1) · MIT License · 2026
+
+<img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=100&section=footer" />
+
 </div>
