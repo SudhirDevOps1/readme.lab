@@ -1,8 +1,279 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" width="240" height="240"><rect width="240" height="240" rx="24" fill="none" stroke="#1a0a00" stroke-opacity="0.2"/>
-      <defs><radialGradient id="ph"><stop offset="0" stop-color="#fde68a"/><stop offset="1" stop-color="#ff0000"/></radialGradient><filter id="phg"><feGaussianBlur stdDeviation="4"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
-      <g transform="translate(120 120) scale(1)" filter="url(#phg)"><animateTransform attributeName="transform" type="translate" values="120 120;120 114;120 120" dur="2s" repeatCount="indefinite"/>
-      <path d="M0 -50 Q30 -20 25 20 Q45 0 40 -30 Q50 10 30 40 Q10 55 0 45 Q-10 55 -30 40 Q-50 10 -40 -30 Q-45 0 -25 20 Q-30 -20 0 -50" fill="url(#ph)"/>
-      <circle cx="-10" cy="0" r="4" fill="#0f172a"/><circle cx="10" cy="0" r="4" fill="#0f172a"/>
-      <circle cx="0" cy="-45" r="3" fill="#fef08a"><animate attributeName="cy" values="-45;-65;-45" dur="1.2s" repeatCount="indefinite"/><animate attributeName="opacity" values="1;0;1" dur="1.2s" repeatCount="indefinite"/></circle>
-      <circle cx="15" cy="-40" r="2" fill="#fbbf24"><animate attributeName="cy" values="-40;-60;-40" dur="1s" repeatCount="indefinite"/></circle>
-      </g><text x="120" y="215" text-anchor="middle" font-family="monospace" font-size="12" fill="#ff0000">rebirth · phoenix</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" width="100%" height="100%">
+  <defs>
+    <!-- Night Sky Gradient -->
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#05080f" />
+      <stop offset="40%" stop-color="#0f1429" />
+      <stop offset="100%" stop-color="#1a1a3e" />
+    </linearGradient>
+    <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff8dc" stop-opacity="0.8" />
+      <stop offset="60%" stop-color="#fff8dc" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#fff8dc" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="owlBody" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#c0761e" />
+      <stop offset="60%" stop-color="#8b5a2b" />
+      <stop offset="100%" stop-color="#4a2e1b" />
+    </radialGradient>
+    <radialGradient id="bellyGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#f5c542" />
+      <stop offset="100%" stop-color="#d97706" />
+    </radialGradient>
+    <radialGradient id="eyeGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ffdd44" stop-opacity="1" />
+      <stop offset="60%" stop-color="#ff8800" stop-opacity="0.4" />
+      <stop offset="100%" stop-color="#ff8800" stop-opacity="0" />
+    </radialGradient>
+    <radialGradient id="starGlow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#fff" stop-opacity="1" />
+      <stop offset="100%" stop-color="#fff" stop-opacity="0" />
+    </radialGradient>
+    <filter id="glowFilter" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur" />
+      <feMerge>
+        <feMergeNode in="blur" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Sky Background -->
+  <rect width="1000" height="600" fill="url(#sky)" />
+
+  <!-- Stars (Scattered) -->
+  <g fill="#fff">
+    <circle cx="80" cy="60" r="2"><animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite"/></circle>
+    <circle cx="150" cy="140" r="1.5"><animate attributeName="opacity" values="0.5;1;0.5" dur="2.5s" repeatCount="indefinite"/></circle>
+    <circle cx="220" cy="40" r="2.5"><animate attributeName="opacity" values="0.2;0.9;0.2" dur="1.8s" repeatCount="indefinite"/></circle>
+    <circle cx="320" cy="100" r="1.8"><animate attributeName="opacity" values="0.4;1;0.4" dur="3s" repeatCount="indefinite"/></circle>
+    <circle cx="410" cy="50" r="2"><animate attributeName="opacity" values="0.3;0.8;0.3" dur="2.2s" repeatCount="indefinite"/></circle>
+    <circle cx="520" cy="120" r="1.5"><animate attributeName="opacity" values="0.6;1;0.6" dur="1.6s" repeatCount="indefinite"/></circle>
+    <circle cx="620" cy="30" r="2.2"><animate attributeName="opacity" values="0.2;0.9;0.2" dur="2.8s" repeatCount="indefinite"/></circle>
+    <circle cx="730" cy="90" r="1.8"><animate attributeName="opacity" values="0.4;1;0.4" dur="2.1s" repeatCount="indefinite"/></circle>
+    <circle cx="850" cy="60" r="2"><animate attributeName="opacity" values="0.3;0.9;0.3" dur="1.9s" repeatCount="indefinite"/></circle>
+    <circle cx="940" cy="130" r="1.5"><animate attributeName="opacity" values="0.5;1;0.5" dur="2.3s" repeatCount="indefinite"/></circle>
+    <circle cx="50" cy="190" r="1.8"><animate attributeName="opacity" values="0.3;0.8;0.3" dur="2.6s" repeatCount="indefinite"/></circle>
+    <circle cx="950" cy="200" r="1.6"><animate attributeName="opacity" values="0.4;0.9;0.4" dur="2s" repeatCount="indefinite"/></circle>
+  </g>
+
+  <!-- Glowing Stars (Bigger) -->
+  <g>
+    <circle cx="180" cy="80" r="4" fill="url(#starGlow)" opacity="0.6">
+      <animate attributeName="r" values="3;6;3" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="600" cy="70" r="4" fill="url(#starGlow)" opacity="0.5">
+      <animate attributeName="r" values="3;6;3" dur="3.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="820" cy="40" r="3" fill="url(#starGlow)" opacity="0.7">
+      <animate attributeName="r" values="2;5;2" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- Moon -->
+  <circle cx="850" cy="110" r="70" fill="url(#moonGlow)" />
+  <circle cx="850" cy="110" r="40" fill="#fff8dc" />
+  <circle cx="870" cy="95" r="7" fill="#d4c5a0" opacity="0.4" />
+  <circle cx="840" cy="120" r="6" fill="#d4c5a0" opacity="0.35" />
+  <circle cx="860" cy="130" r="4" fill="#d4c5a0" opacity="0.3" />
+  <circle cx="830" cy="100" r="5" fill="#d4c5a0" opacity="0.3" />
+  <circle cx="880" cy="115" r="3" fill="#d4c5a0" opacity="0.25" />
+
+  <!-- Shooting Star -->
+  <g>
+    <line x1="900" y1="50" x2="780" y2="140" stroke="#fff" stroke-width="2" opacity="0.8">
+      <animate attributeName="x1" values="950;850;750;650;550" dur="5s" repeatCount="indefinite"/>
+      <animate attributeName="y1" values="30;80;130;180;230" dur="5s" repeatCount="indefinite"/>
+      <animate attributeName="x2" values="830;730;630;530;430" dur="5s" repeatCount="indefinite"/>
+      <animate attributeName="y2" values="120;170;220;270;320" dur="5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="1;0.7;0.3;0.7;1" dur="5s" repeatCount="indefinite"/>
+    </line>
+  </g>
+
+  <!-- Fireflies / Magic Dust -->
+  <g>
+    <circle cx="120" cy="300" r="3" fill="#ffdd44" filter="url(#glowFilter)">
+      <animate attributeName="cy" values="300;280;300;320;300" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="cx" values="120;140;120;100;120" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.2;0.8;0.2" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="200" cy="250" r="2.5" fill="#ffdd44" filter="url(#glowFilter)">
+      <animate attributeName="cy" values="250;230;250;270;250" dur="3.5s" repeatCount="indefinite"/>
+      <animate attributeName="cx" values="200;220;200;180;200" dur="3.5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.3;0.9;0.3" dur="2.5s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="780" cy="350" r="2.5" fill="#ffdd44" filter="url(#glowFilter)">
+      <animate attributeName="cy" values="350;330;350;370;350" dur="4.5s" repeatCount="indefinite"/>
+      <animate attributeName="cx" values="780;800;780;760;780" dur="4.5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.1;0.7;0.1" dur="1.8s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="880" cy="280" r="2" fill="#ffdd44" filter="url(#glowFilter)">
+      <animate attributeName="cy" values="280;260;280;300;280" dur="3.8s" repeatCount="indefinite"/>
+      <animate attributeName="cx" values="880;900;880;860;880" dur="3.8s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.4;0.9;0.4" dur="2.2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="450" cy="200" r="2" fill="#ffdd44" filter="url(#glowFilter)">
+      <animate attributeName="cy" values="200;180;200;220;200" dur="5s" repeatCount="indefinite"/>
+      <animate attributeName="cx" values="450;470;450;430;450" dur="5s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.2;0.6;0.2" dur="3s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="550" cy="380" r="2.5" fill="#ffdd44" filter="url(#glowFilter)">
+      <animate attributeName="cy" values="380;360;380;400;380" dur="4.2s" repeatCount="indefinite"/>
+      <animate attributeName="cx" values="550;570;550;530;550" dur="4.2s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.3;0.8;0.3" dur="2.8s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <!-- Tree Branch (Full Width) -->
+  <path d="M-20,450 Q100,430 200,460 Q350,500 500,460 Q650,420 800,460 Q900,490 1020,450" stroke="#2d1a0b" stroke-width="18" fill="none" stroke-linecap="round"/>
+  <path d="M-20,450 Q100,430 200,460 Q350,500 500,460 Q650,420 800,460 Q900,490 1020,450" stroke="#4a2e1b" stroke-width="14" fill="none" stroke-linecap="round"/>
+
+  <!-- Branch Texture -->
+  <path d="M50,445 Q80,440 120,448" stroke="#3d1f0b" stroke-width="2" fill="none" opacity="0.5"/>
+  <path d="M300,472 Q340,478 380,470" stroke="#3d1f0b" stroke-width="2" fill="none" opacity="0.5"/>
+  <path d="M550,452 Q590,445 630,455" stroke="#3d1f0b" stroke-width="2" fill="none" opacity="0.5"/>
+  <path d="M750,468 Q790,475 830,465" stroke="#3d1f0b" stroke-width="2" fill="none" opacity="0.5"/>
+
+  <!-- Small Branches -->
+  <path d="M180,455 Q200,410 230,395" stroke="#3d1f0b" stroke-width="6" fill="none" stroke-linecap="round"/>
+  <path d="M230,395 Q260,385 280,390" stroke="#3d1f0b" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M580,462 Q600,420 630,405" stroke="#3d1f0b" stroke-width="5" fill="none" stroke-linecap="round"/>
+  <path d="M630,405 Q660,395 680,400" stroke="#3d1f0b" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M820,462 Q840,430 860,420" stroke="#3d1f0b" stroke-width="4" fill="none" stroke-linecap="round"/>
+  <path d="M860,420 Q880,415 890,420" stroke="#3d1f0b" stroke-width="3" fill="none" stroke-linecap="round"/>
+
+  <!-- Leaves -->
+  <g fill="#1a3a1a" opacity="0.85">
+    <ellipse cx="235" cy="390" rx="20" ry="8" transform="rotate(-30,235,390)"/>
+    <ellipse cx="260" cy="395" rx="15" ry="6" transform="rotate(-15,260,395)"/>
+    <ellipse cx="275" cy="385" rx="12" ry="5" transform="rotate(-40,275,385)"/>
+    <ellipse cx="635" cy="398" rx="18" ry="7" transform="rotate(20,635,398)"/>
+    <ellipse cx="660" cy="405" rx="14" ry="6" transform="rotate(10,660,405)"/>
+    <ellipse cx="680" cy="395" rx="12" ry="5" transform="rotate(30,680,395)"/>
+    <ellipse cx="865" cy="415" rx="16" ry="7" transform="rotate(-10,865,415)"/>
+    <ellipse cx="885" cy="420" rx="12" ry="5" transform="rotate(-25,885,420)"/>
+    <ellipse cx="890" cy="410" rx="10" ry="4" transform="rotate(-40,890,410)"/>
+    <!-- Lower leaves -->
+    <ellipse cx="150" cy="450" rx="14" ry="6" transform="rotate(-20,150,450)"/>
+    <ellipse cx="700" cy="455" rx="14" ry="6" transform="rotate(15,700,455)"/>
+  </g>
+
+  <!-- THE OWL (Centered, Bigger) -->
+  <g transform="translate(500, 400) scale(1.2)">
+    <!-- Shadow on branch -->
+    <ellipse cx="0" cy="55" rx="55" ry="14" fill="#000" opacity="0.35">
+      <animate attributeName="ry" values="14;17;14" dur="0.8s" repeatCount="indefinite"/>
+    </ellipse>
+
+    <!-- Body -->
+    <ellipse cx="0" cy="8" rx="58" ry="52" fill="url(#owlBody)"/>
+    <ellipse cx="0" cy="18" rx="38" ry="32" fill="url(#bellyGrad)"/>
+
+    <!-- Feather Texture -->
+    <g stroke="#4a2e1b" stroke-width="1.2" fill="none" opacity="0.4">
+      <path d="M-28,8 Q0,14 28,8"/>
+      <path d="M-32,20 Q0,26 32,20"/>
+      <path d="M-30,32 Q0,38 30,32"/>
+      <path d="M-22,44 Q0,50 22,44"/>
+    </g>
+
+    <!-- Wings -->
+    <path d="M-48,-2 Q-70,-18 -85,-32 Q-75,-10 -58,4 Q-53,4 -48,-2" fill="#6b3f1a"/>
+    <path d="M48,-2 Q70,-18 85,-32 Q75,-10 58,4 Q53,4 48,-2" fill="#6b3f1a"/>
+    <path d="M-55,-5 Q-75,-15 -80,-26" stroke="#4a2e1b" stroke-width="1.5" fill="none" opacity="0.5"/>
+    <path d="M55,-5 Q75,-15 80,-26" stroke="#4a2e1b" stroke-width="1.5" fill="none" opacity="0.5"/>
+
+    <!-- Ear Tufts -->
+    <polygon points="-40,-38 -54,-66 -28,-50" fill="#5a3412"/>
+    <polygon points="40,-38 54,-66 28,-50" fill="#5a3412"/>
+    <polygon points="-36,-42 -46,-60 -30,-50" fill="#7a4a1a"/>
+    <polygon points="36,-42 46,-60 30,-50" fill="#7a4a1a"/>
+
+    <!-- Glowing Eye Backing -->
+    <circle cx="-22" cy="-5" r="24" fill="url(#eyeGlow)" filter="url(#glowFilter)"/>
+    <circle cx="22" cy="-5" r="24" fill="url(#eyeGlow)" filter="url(#glowFilter)"/>
+
+    <!-- Eye Sockets -->
+    <circle cx="-22" cy="-5" r="19" fill="#fde68a" stroke="#7a4a1a" stroke-width="2.5"/>
+    <circle cx="22" cy="-5" r="19" fill="#fde68a" stroke="#7a4a1a" stroke-width="2.5"/>
+
+    <!-- Pupils -->
+    <circle cx="-22" cy="-5" r="13" fill="#0f172a">
+      <animate attributeName="r" values="13;4;13" dur="3.5s" repeatCount="indefinite" keyTimes="0;0.95;1"/>
+    </circle>
+    <circle cx="22" cy="-5" r="13" fill="#0f172a">
+      <animate attributeName="r" values="13;4;13" dur="3.5s" repeatCount="indefinite" keyTimes="0;0.95;1"/>
+    </circle>
+
+    <!-- Eye Highlights -->
+    <circle cx="-19" cy="-10" r="4.5" fill="#fff"/>
+    <circle cx="25" cy="-10" r="4.5" fill="#fff"/>
+    <circle cx="-25" cy="-2" r="2" fill="#fff" opacity="0.6"/>
+    <circle cx="19" cy="-2" r="2" fill="#fff" opacity="0.6"/>
+
+    <!-- Beak -->
+    <polygon points="-9,14 9,14 0,26" fill="#f59e0b" stroke="#b45309" stroke-width="1.2"/>
+    <polygon points="-4,15 4,15 0,21" fill="#fbbf24" opacity="0.6"/>
+
+    <!-- Cere -->
+    <ellipse cx="0" cy="10" rx="7" ry="3.5" fill="#fbbf24" opacity="0.3"/>
+
+    <!-- Facial Disc Feathers -->
+    <path d="M-22,-22 Q-38,-18 -42,-6" stroke="#d97706" stroke-width="2" fill="none" opacity="0.5"/>
+    <path d="M22,-22 Q38,-18 42,-6" stroke="#d97706" stroke-width="2" fill="none" opacity="0.5"/>
+
+    <!-- Chest Fluff -->
+    <ellipse cx="-9" cy="32" rx="7" ry="5" fill="#f5c542" opacity="0.5"/>
+    <ellipse cx="9" cy="34" rx="7" ry="5" fill="#f5c542" opacity="0.5"/>
+    <ellipse cx="0" cy="40" rx="6" ry="4" fill="#f5c542" opacity="0.4"/>
+
+    <!-- Feet / Claws -->
+    <g stroke="#5a3412" stroke-width="3" stroke-linecap="round" fill="none">
+      <path d="M-20,54 L-27,62"/>
+      <path d="M-20,54 L-18,62"/>
+      <path d="M-20,54 L-13,62"/>
+      <path d="M20,54 L13,62"/>
+      <path d="M20,54 L22,62"/>
+      <path d="M20,54 L27,62"/>
+    </g>
+    <g fill="#5a3412">
+      <circle cx="-27" cy="62" r="2.5"/>
+      <circle cx="-18" cy="62" r="2.5"/>
+      <circle cx="-13" cy="62" r="2.5"/>
+      <circle cx="13" cy="62" r="2.5"/>
+      <circle cx="22" cy="62" r="2.5"/>
+      <circle cx="27" cy="62" r="2.5"/>
+    </g>
+
+    <!-- "Hoot" Bubble -->
+    <g opacity="0.8">
+      <ellipse cx="-90" cy="-70" rx="35" ry="20" fill="#fff" stroke="#ccc" stroke-width="1.2"/>
+      <polygon points="-60,-50 -48,-36 -38,-50" fill="#fff" stroke="#ccc" stroke-width="1.2"/>
+      <text x="-90" y="-65" text-anchor="middle" font-family="monospace, sans-serif" font-size="14" fill="#333" font-weight="bold">hoo</text>
+    </g>
+
+    <!-- Floating Feather -->
+    <g opacity="0.7">
+      <path d="M0,0 Q6,-12 0,-24 Q-6,-12 0,0" fill="#d97706" filter="url(#softGlow)">
+        <animateTransform attributeName="transform" type="translate" values="70,-50; 80,-70; 90,-50; 70,-50" dur="7s" repeatCount="indefinite"/>
+        <animateTransform attributeName="transform" type="rotate" values="0,0,0; 35,0,0; -25,0,0; 0,0,0" dur="7s" repeatCount="indefinite" additive="sum"/>
+        <animate attributeName="opacity" values="0.6;0.9;0.3;0.6" dur="3s" repeatCount="indefinite"/>
+      </path>
+    </g>
+  </g>
+
+  <!-- Bottom Text -->
+  <text x="500" y="560" text-anchor="middle" font-family="monospace" font-size="14" fill="#fbbf24" letter-spacing="3" opacity="0.9">
+    wise.owl · SudhirDevOps1 · 2026
+  </text>
+  <text x="500" y="582" text-anchor="middle" font-family="monospace" font-size="10" fill="#666" letter-spacing="2">
+    🦉 always watching · never blinking · forever hooting
+  </text>
+</svg>
