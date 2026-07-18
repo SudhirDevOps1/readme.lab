@@ -4,7 +4,7 @@
 
 ### Craft a GitHub profile that *breathes* — not one that bores.
 
-**1500+ real, working assets** · a live **Profile Builder** · animated SVG banners · live-editable pets · mermaid diagrams · playable games · badges · stat cards · README templates
+**1500+ real, working assets** · a live **Profile Builder** · animated SVG banners (standard + 25 premium cinematic) · live-editable pets · mermaid diagrams · playable games · badges · stat cards · README templates
 Every item previews live, edits inline, renames, copies & drops straight into your `README.md`. A built-in **live SVG code editor** lets you tweak any banner or pet's code and see it render instantly.
 
 🔗 **Live:** [readme-lab.pages.dev](https://readme-lab.pages.dev/) · **Repo:** [github.com/SudhirDevOps1/readme.lab](https://github.com/SudhirDevOps1/readme.lab)
@@ -23,7 +23,7 @@ Every item previews live, edits inline, renames, copies & drops straight into yo
 | Section | Count | What each item is |
 |---------|-------|-------------------|
 | ⚡ **Profile Builder** | 1 | Toggle 14 sections · assembles a full README live from your identity fields |
-| ◼ **SVG Banners** | 208 | Real animated SVG (SMIL) · **live code editor** · fills name/role/handle live |
+| ◼ **SVG Banners** | 233 | 208 standard (800×200) + 25 premium cinematic (1000×600) · **live code editor** · fills name/role/handle live |
 | § **READMEs** | 24 | Full markdown templates · live preview / edit / source view |
 | ✂ **Snippets** | 637 | Real shields.io / skillicons / capsule / workflow markdown · README builder |
 | 🐾 **Pets** | 126 | Animated SVGs · **live code editor** + color / speed / size + rename |
@@ -139,6 +139,22 @@ const t33 = (p: Pal, n: string, r: string, h: string) =>
    </svg>`;
 // then: const TEMPLATES = [...existing, t33];
 // each template auto-generates 6 palette variants
+```
+
+### Add a new premium banner (1000×600 cinematic)
+
+```ts
+// src/data/premiumBanners.ts  →  add a const string at the bottom, then push to RAW[]
+const myBanner = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 600" width="100%" height="100%">
+  <defs>...</defs>
+  <rect width="1000" height="600" fill="#0a0a1a"/>
+  <!-- use {{NAME}} {{ROLE}} {{HANDLE}} placeholders -->
+  <text x="500" y="200" text-anchor="middle" font-size="48" fill="#fff">__NAME__</text>
+  ...
+</svg>`;
+// In RAW array: { id: 'my-banner', name: 'My Banner', style: '...', palette: '...', svg: myBanner },
+// Each premium banner is 1000×600 with full gradients/filters/particles
+// GitHub renders them as static images (SMIL animations may not play on github.com)
 ```
 
 ### Add a new snippet

@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import { BANNERS_LIGHT_BG as BANNERS, fillBanner } from './data/banners';
+import { PREMIUM_BANNERS, fillPremiumBanner } from './data/premiumBanners';
 import { PETS, renderPet } from './data/pets';
 import { GAMES_META } from './games';
 import { TEMPLATES, fillTemplate } from './data/templates';
@@ -134,13 +135,20 @@ function BannerTab({ name, role, handle, copied, onCopy, onDownload }: {
   const [active, setActive] = useState<string | null>(null);
   const [rename, setRename] = useState('');
 
-  const filtered = BANNERS.filter(b =>
+  // Combine both standard + premium banners
+  const allBanners = [
+    ...BANNERS,
+    ...PREMIUM_BANNERS.map(b => ({ ...b, svg: fillPremiumBanner(b.svg, { name, role, handle }) })),
+  ];
+  const filtered = allBanners.filter(b =>
     !search || b.name.toLowerCase().includes(search.toLowerCase()) || b.style.toLowerCase().includes(search.toLowerCase()) || b.palette.toLowerCase().includes(search.toLowerCase())
   );
-  const current = active ? BANNERS.find(b => b.id === active) : null;
+  const current = active ? allBanners.find(b => b.id === active) : null;
 
   if (current) {
-    const filled = fillBanner(current.svg, { name, role, handle });
+    // For premium, placeholder already filled; for standard, use fillBanner
+    const isPremium = current.id.startsWith('premium-');
+    const filled = isPremium ? current.svg : fillBanner(current.svg, { name, role, handle });
     const fname = (rename || current.id).toLowerCase().replace(/\s+/g,'-');
     const md = `![${current.name}](https://raw.githubusercontent.com/${handle}/${handle}/main/${fname}.svg)`;
     return (
@@ -189,7 +197,7 @@ function BannerTab({ name, role, handle, copied, onCopy, onDownload }: {
       </div>
       <div className="grid gap-5 md:grid-cols-2">
         {filtered.map(b => {
-          const filled = fillBanner(b.svg, { name, role, handle });
+          const filled = b.id.startsWith('premium-') ? b.svg : fillBanner(b.svg, { name, role, handle });
           return (
             <article key={b.id} className="group overflow-hidden rounded-2xl border border-slate-800 bg-[#12151a] transition-all hover:border-amber-500/40">
               <button onClick={()=>setActive(b.id)} className="relative block aspect-[1180/610] w-full overflow-hidden bg-[#0b0d10]">
@@ -592,7 +600,7 @@ export default function App() {
     finally { setLoadingUser(false); }
   };
 
-  const bannerCount = BANNERS.length;
+  const bannerCount = BANNERS.length + PREMIUM_BANNERS.length;
   const petCount = PETS.length;
   const gameCount = GAMES_META.length;
   const themeCount = STAT_THEMES.length;
