@@ -1,7 +1,8 @@
 import { useMemo, useState } from 'react';
 import { BANNERS_LIGHT_BG as BANNERS, fillBanner } from './data/banners';
 import { PREMIUM_BANNERS, fillPremiumBanner } from './data/premiumBanners';
-import { PETS, renderPet } from './data/pets';
+import { PETS } from './data/pets';
+import { PREMIUM_PETS, renderPremiumPet } from './data/premiumPets';
 import { GAMES_META } from './games';
 import { TEMPLATES, fillTemplate } from './data/templates';
 import { SNIPPETS, SNIPPET_CATEGORIES, fillSnippet } from './data/snippets';
@@ -135,7 +136,8 @@ function BannerTab({ name, role, handle, copied, onCopy, onDownload }: {
   const [active, setActive] = useState<string | null>(null);
   const [rename, setRename] = useState('');
 
-  // Combine both standard + premium banners
+  // Combine both standard ({{NAME}}) + premium (already filled with __NAME__) banners.
+  // Premium banners prepend their fields; standard banners are filled at render via fillBanner.
   const allBanners = [
     ...BANNERS,
     ...PREMIUM_BANNERS.map(b => ({ ...b, svg: fillPremiumBanner(b.svg, { name, role, handle }) })),
@@ -146,8 +148,9 @@ function BannerTab({ name, role, handle, copied, onCopy, onDownload }: {
   const current = active ? allBanners.find(b => b.id === active) : null;
 
   if (current) {
-    // For premium, placeholder already filled; for standard, use fillBanner
-    const isPremium = current.id.startsWith('premium-');
+    // Premium banners (id starts with 'premium-' OR svg contains __NAME__) already have
+    // the name/role/handle filled in. Standard banners use fillBanner at render time.
+    const isPremium = current.id.startsWith('premium-') || current.svg.includes('__NAME__');
     const filled = isPremium ? current.svg : fillBanner(current.svg, { name, role, handle });
     const fname = (rename || current.id).toLowerCase().replace(/\s+/g,'-');
     const md = `![${current.name}](https://raw.githubusercontent.com/${handle}/${handle}/main/${fname}.svg)`;
@@ -193,11 +196,12 @@ function BannerTab({ name, role, handle, copied, onCopy, onDownload }: {
     <div>
       <div className="mb-4 flex items-center gap-2">
         <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="search banners…" className="rounded-lg border border-slate-800 bg-[#0b0d10] px-3 py-2 text-xs text-white placeholder-slate-600 focus:border-amber-500 focus:outline-none w-56"/>
-        <span className="font-mono text-[11px] text-slate-500">{filtered.length} of {BANNERS.length} · click any to open editor</span>
+        <span className="font-mono text-[11px] text-slate-500">{filtered.length} of {allBanners.length} · click any to open editor</span>
       </div>
       <div className="grid gap-5 md:grid-cols-2">
         {filtered.map(b => {
-          const filled = b.id.startsWith('premium-') ? b.svg : fillBanner(b.svg, { name, role, handle });
+          const isPremium = b.id.startsWith('premium-') || b.svg.includes('__NAME__');
+          const filled = isPremium ? b.svg : fillBanner(b.svg, { name, role, handle });
           return (
             <article key={b.id} className="group overflow-hidden rounded-2xl border border-slate-800 bg-[#12151a] transition-all hover:border-amber-500/40">
               <button onClick={()=>setActive(b.id)} className="relative block aspect-[1180/610] w-full overflow-hidden bg-[#0b0d10]">
@@ -356,17 +360,19 @@ function PetTab({ handle, copied, onCopy, onDownload }: {
   const [petScale, setPetScale] = useState(1);
   const [customName, setCustomName] = useState('');
 
-  const current = PETS.find(p => p.id === active) || PETS[0];
+  // Combine regular + premium pets
+  const allPets = [...PETS, ...PREMIUM_PETS];
+  const current = allPets.find(p => p.id === active) || allPets[0];
   const displayName = customName || current.name;
   const fileName = displayName.toLowerCase().replace(/\s+/g,'-');
-  const svgStr = renderPet(current, {
+  const svgStr = renderPremiumPet(current as any, {
     color: petColor || undefined,
     speed: petSpeed,
     scale: petScale,
   });
   const md = `![${displayName}](https://raw.githubusercontent.com/${handle}/${handle}/main/${fileName}.svg)`;
 
-  const filtered = PETS.filter(p =>
+  const filtered = allPets.filter(p =>
     !search || p.name.toLowerCase().includes(search.toLowerCase()) || p.vibe.toLowerCase().includes(search.toLowerCase())
   );
 
@@ -381,7 +387,7 @@ function PetTab({ handle, copied, onCopy, onDownload }: {
             </button>
           ))}
         </div>
-        <div className="mt-3 text-center font-mono text-[10px] text-slate-500">{filtered.length} of {PETS.length} pets</div>
+        <div className="mt-3 text-center font-mono text-[10px] text-slate-500">{filtered.length} of {allPets.length} pets</div>
       </div>
       <div className="rounded-2xl border border-slate-800 bg-[#12151a] p-5">
         <div className="mb-4 flex flex-col sm:flex-row items-start justify-between gap-3">
@@ -601,7 +607,7 @@ export default function App() {
   };
 
   const bannerCount = BANNERS.length + PREMIUM_BANNERS.length;
-  const petCount = PETS.length;
+  const petCount = PETS.length + PREMIUM_PETS.length;
   const gameCount = GAMES_META.length;
   const themeCount = STAT_THEMES.length;
   const colorCount = BADGE_COLORS.length;

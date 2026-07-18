@@ -1172,8 +1172,9 @@ const RAW: Array<Omit<PremiumBanner,'svg'> & {svg: string}> = [
   { id: 'ink-wash', name: 'Ink Wash Painting', style: 'eastern · zen', palette: 'sepia/ink', svg: ink },
 ];
 
-// Each banner has placeholders converted to __XXX__ so the .map(svg=>svg) loop is fast.
-const PH: PremiumBanner[] = RAW.map(b => ({ ...b, svg: ph(b.svg) }));
+// Each banner's svg already has __XXX__ placeholders (added at author time), so ph() is a no-op
+// but we keep the pipeline for consistency. Prefix resource ids with 'premium-' so App can detect them.
+const PH: PremiumBanner[] = RAW.map(b => ({ ...b, id: 'premium-' + b.id, svg: ph(b.svg) }));
 
 export const PREMIUM_BANNERS: PremiumBanner[] = PH;
 
