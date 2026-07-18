@@ -1,6 +1,22 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1180 610" width="1180" height="610">
   <rect width="1180" height="610" fill="#0a0a0a"/>
 
+  <!-- Background Grid Pattern -->
+  <g opacity="0.05" stroke="#00ffff" stroke-width="0.5">
+    <line x1="0" y1="50" x2="1180" y2="50"/>
+    <line x1="0" y1="100" x2="1180" y2="100"/>
+    <line x1="0" y1="150" x2="1180" y2="150"/>
+    <line x1="0" y1="200" x2="1180" y2="200"/>
+    <line x1="0" y1="250" x2="1180" y2="250"/>
+    <line x1="0" y1="300" x2="1180" y2="300"/>
+    <line x1="0" y1="350" x2="1180" y2="350"/>
+    <line x1="0" y1="400" x2="1180" y2="400"/>
+    <line x1="0" y1="450" x2="1180" y2="450"/>
+    <line x1="0" y1="500" x2="1180" y2="500"/>
+    <line x1="0" y1="550" x2="1180" y2="550"/>
+    <line x1="0" y1="600" x2="1180" y2="600"/>
+  </g>
+
   <!-- Glitch Effect – Main Name -->
   <g font-family="Impact, sans-serif" font-size="180" font-weight="900">
     <text x="590" y="360" text-anchor="middle" fill="#ff003c">
@@ -13,6 +29,11 @@
     </text>
     <text x="590" y="360" text-anchor="middle" fill="#fff">Sudhir Singh</text>
   </g>
+
+  <!-- Username Subtitle -->
+  <text x="590" y="400" font-family="monospace" font-size="20" fill="#888" text-anchor="middle">
+    @SudhirDevOps1
+  </text>
 
   <!-- Animated Neon Lines -->
   <g fill="#00ffff" opacity=".7">
@@ -30,66 +51,118 @@
     </rect>
   </g>
 
-  <!-- SYS Header -->
+  <!-- Top Left - SYS Header -->
   <text x="60" y="80" font-family="monospace" font-size="14" fill="#ff003c">
     SYS://PROFILE_SudhirDevOps1
   </text>
   <text x="60" y="100" font-family="monospace" font-size="11" fill="#888">
-    STATUS: ACTIVE · 2026
+    STATUS: ACTIVE · 2026 · BIHAR, INDIA
   </text>
 
-  <!-- Role & Slogan -->
-  <text x="60" y="560" font-family="monospace" font-size="14" fill="#00ffff">
-    &gt; Full-Stack Developer
+  <!-- Top Left - Repositories Count -->
+  <text x="60" y="130" font-family="monospace" font-size="12" fill="#00ffff">
+    📁 82 Repositories
   </text>
-  <text x="60" y="580" font-family="monospace" font-size="14" fill="#00ffff">
-    &gt; DevOps Enthusiast · 3D &amp; Game Designer
+  <text x="60" y="150" font-family="monospace" font-size="12" fill="#00ffff">
+    👥 10 Followers · 12 Following
   </text>
-  <text x="60" y="600" font-family="monospace" font-size="12" fill="#888">
-    glitch.exe · v2026 · 0x00FF
+
+  <!-- Top Left - Project Highlights -->
+  <text x="60" y="180" font-family="monospace" font-size="11" fill="#888">
+    🔥 TOP PROJECTS:
+  </text>
+  <text x="60" y="198" font-family="monospace" font-size="10" fill="#fff">
+    • FlowTrack Pro – AI Study Tracker
+  </text>
+  <text x="60" y="213" font-family="monospace" font-size="10" fill="#fff">
+    • readme.lab – README Editor
+  </text>
+  <text x="60" y="228" font-family="monospace" font-size="10" fill="#fff">
+    • chor-sipahi-game – Online Multiplayer
+  </text>
+  <text x="60" y="243" font-family="monospace" font-size="10" fill="#fff">
+    • PrismAnalytics – Privacy-First Analytics
   </text>
 
   <!-- Right Panel - Profile Stats -->
   <g stroke="#fff" fill="none">
     <!-- Stats Card -->
-    <rect x="900" y="50" width="220" height="150" rx="4"/>
-    <text x="1010" y="78" font-family="monospace" font-size="12" fill="#00ffff" text-anchor="middle">
+    <rect x="900" y="40" width="220" height="220" rx="6"/>
+    <text x="1010" y="68" font-family="monospace" font-size="13" fill="#00ffff" text-anchor="middle">
       📊 PROFILE STATS
     </text>
-    <line x1="910" y1="88" x2="1110" y2="88" stroke="#333" stroke-width="1"/>
+    <line x1="910" y1="78" x2="1110" y2="78" stroke="#333" stroke-width="1"/>
 
     <!-- Repositories -->
-    <text x="920" y="110" font-family="monospace" font-size="11" fill="#888">
+    <text x="920" y="102" font-family="monospace" font-size="11" fill="#888">
       Repositories
     </text>
-    <text x="1100" y="110" font-family="monospace" font-size="11" fill="#fff" text-anchor="end">
-      80+
+    <text x="1100" y="102" font-family="monospace" font-size="13" fill="#fff" text-anchor="end">
+      82
     </text>
 
     <!-- Followers -->
-    <text x="920" y="130" font-family="monospace" font-size="11" fill="#888">
+    <text x="920" y="122" font-family="monospace" font-size="11" fill="#888">
       Followers
     </text>
-    <text x="1100" y="130" font-family="monospace" font-size="11" fill="#fff" text-anchor="end">
+    <text x="1100" y="122" font-family="monospace" font-size="13" fill="#fff" text-anchor="end">
       10
     </text>
 
     <!-- Stars -->
-    <text x="920" y="150" font-family="monospace" font-size="11" fill="#888">
-      Stars Earned
+    <text x="920" y="142" font-family="monospace" font-size="11" fill="#888">
+      Total Stars
     </text>
-    <text x="1100" y="150" font-family="monospace" font-size="11" fill="#fff" text-anchor="end">
-      42
+    <text x="1100" y="142" font-family="monospace" font-size="13" fill="#fff" text-anchor="end">
+      ⭐ 42
+    </text>
+
+    <!-- Joined -->
+    <text x="920" y="162" font-family="monospace" font-size="11" fill="#888">
+      Joined
+    </text>
+    <text x="1100" y="162" font-family="monospace" font-size="11" fill="#fff" text-anchor="end">
+      Sep 2025
+    </text>
+
+    <!-- Top Language -->
+    <text x="920" y="182" font-family="monospace" font-size="11" fill="#888">
+      Top Language
+    </text>
+    <text x="1100" y="182" font-family="monospace" font-size="11" fill="#fff" text-anchor="end">
+      TypeScript
     </text>
 
     <!-- Tech Stack Badge -->
-    <rect x="910" y="165" width="200" height="20" rx="4" fill="#1a1a2e" stroke="#333"/>
-    <text x="1010" y="179" font-family="monospace" font-size="9" fill="#00ffff" text-anchor="middle">
-      🔧 React · TS · Cloudflare · Rust · Python
+    <rect x="910" y="200" width="200" height="45" rx="4" fill="#1a1a2e" stroke="#333"/>
+    <text x="1010" y="218" font-family="monospace" font-size="9" fill="#00ffff" text-anchor="middle">
+      🔧 Tech Stack
+    </text>
+    <text x="1010" y="235" font-family="monospace" font-size="8" fill="#aaa" text-anchor="middle">
+      React · TS · Cloudflare · Python · Rust
     </text>
   </g>
 
-  <!-- Bottom - Activity Indicator -->
+  <!-- Bottom Left - Role & Slogan -->
+  <text x="60" y="530" font-family="monospace" font-size="14" fill="#00ffff">
+    &gt; Full-Stack Developer
+  </text>
+  <text x="60" y="550" font-family="monospace" font-size="14" fill="#00ffff">
+    &gt; DevOps Enthusiast · 3D &amp; Game Designer
+  </text>
+  <text x="60" y="570" font-family="monospace" font-size="12" fill="#888">
+    &gt; BCA Student · Privacy-First · Edge Native
+  </text>
+
+  <!-- Bottom Right - Version -->
+  <text x="1120" y="530" font-family="monospace" font-size="11" fill="#888" text-anchor="end">
+    glitch.exe · v2026 · 0x00FF
+  </text>
+  <text x="1120" y="550" font-family="monospace" font-size="10" fill="#888" text-anchor="end">
+    READY · DEPLOY · SCALE
+  </text>
+
+  <!-- Activity Indicator -->
   <g>
     <circle cx="1120" cy="580" r="4" fill="#00ffff">
       <animate attributeName="opacity" values="1;0.2;1" dur="1.2s" repeatCount="indefinite"/>
@@ -99,9 +172,9 @@
     </text>
   </g>
 
-  <!-- Left Decorative - "Build. Secure. Deploy." -->
-  <text x="60" y="530" font-family="monospace" font-size="16" fill="#ff003c" opacity=".6">
-    Build. Secure. Deploy.
+  <!-- Left Decorative - Quote -->
+  <text x="60" y="600" font-family="monospace" font-size="11" fill="#ff003c" opacity=".5">
+    "Build. Secure. Deploy."
   </text>
 
   <!-- Glitch Lines - Random Flashes -->
@@ -110,5 +183,8 @@
   </rect>
   <rect x="0" y="400" width="1180" height="1" fill="#00ffff" opacity=".3">
     <animate attributeName="opacity" values="0;0.5;0" dur="1.8s" repeatCount="indefinite" begin="0.3s"/>
+  </rect>
+  <rect x="0" y="490" width="1180" height="1" fill="#ff003c" opacity=".2">
+    <animate attributeName="opacity" values="0;0.4;0" dur="2.2s" repeatCount="indefinite" begin="0.8s"/>
   </rect>
 </svg>
