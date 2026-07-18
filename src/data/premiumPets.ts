@@ -14,10 +14,10 @@ const megaPets: Pet[] = [
   // 1. WISE OLD OWL (night sky + moon + stars)
   {
     id: 'guru-owl', name: 'Guru Owl', emoji: '🦉', vibe: 'night · wise · moonlit',
-    svg: ({ color = '#fbbf24', speed: _speed = 3, scale = 1 } = {}) => petFrame(`
+    svg: ({ color = '#fbbf24' } = {}) => petFrame(`
       <defs><radialGradient id="owlmoon"><stop offset="0" stop-color="#fff8dc"/><stop offset="1" stop-color="#bfdbfe" stop-opacity=".1"/></radialGradient></defs>
       <circle cx="60" cy="60" r="36" fill="url(#owlmoon)" opacity=".9"/>
-      <ellipse cx="${120*scale}" cy="${125*scale}" rx="48*scale" ry="6" fill="#000" opacity=".25"/>
+      <ellipse cx="120" cy="125" rx="48" ry="6" fill="#000" opacity=".25"/>
       <path d="M120 55 Q75 60 80 105 Q85 150 120 148 Q155 150 160 105 Q165 60 120 55" fill="${color}"/>
       <path d="M90 75 Q82 80 85 100 Q92 120 120 120 Q148 120 155 100 Q158 80 150 75 Q142 68 140 80 Q138 92 120 96 Q102 92 100 80 Q98 68 90 75" fill="#4a2e1b"/>
       <ellipse cx="105" cy="100" rx="14" ry="18" fill="#fde68a"/><ellipse cx="135" cy="100" rx="14" ry="18" fill="#fde68a"/>
@@ -30,7 +30,7 @@ const megaPets: Pet[] = [
   // 2. YOGA PANDA (lotus form + aura)
   {
     id: 'zen-panda', name: 'Zen Panda', emoji: '🧘', vibe: 'zen · meditating',
-    svg: ({ color = '#0f172a', speed = 4, scale = 1 } = {}) => petFrame(`
+    svg: ({ color = '#0f172a', speed = 4 } = {}) => petFrame(`
       <circle cx="120" cy="120" r="52" fill="#fff"/>
       <circle cx="120" cy="120" r="50" fill="none" stroke="${color}" stroke-width="2" stroke-dasharray="314" opacity=".1"/>
       <circle cx="120" cy="120" r="40" fill="${color}"/>
@@ -42,7 +42,7 @@ const megaPets: Pet[] = [
   // 3. GALAXY LION with aura rings
   {
     id: 'cosmic-lion', name: 'Cosmic Lion', emoji: '🌌', vibe: 'space · regal',
-    svg: ({ color = '#a855f7', speed = 3, scale = 1 } = {}) => petFrame(`
+    svg: ({ color = '#a855f7', speed = 3 } = {}) => petFrame(`
       <defs><radialGradient id="clion"><stop offset="0" stop-color="#fde68a"/><stop offset="1" stop-color="${color}"/></radialGradient></defs>
       ${Array.from({length:3}).map((_,i)=>`<circle cx="120" cy="120" r="${55+i*15}" fill="none" stroke="${color}" stroke-width="1" opacity=".2"><animateTransform attributeName="transform" type="rotate" values="0 120 120;360 120 120" dur="${(i+1)*5}s" repeatCount="indefinite"/></circle>`).join('')}
       <circle cx="120" cy="112" r="42" fill="url(#clion)"/>
@@ -78,7 +78,7 @@ const megaPets: Pet[] = [
   // 5. SAMURAI DOG
   {
     id: 'sam-dog', name: 'Samurai Dog', emoji: '🥋', vibe: 'discipline · loyal',
-    svg: ({ color = '#dc2626', speed = 2.2, scale = 1 } = {}) => petFrame(`
+    svg: ({ color = '#dc2626', speed = 2.2 } = {}) => petFrame(`
       <ellipse cx="120" cy="180" rx="48" ry="8" fill="#000" opacity=".2"/>
       <polygon points="120 50 80 85 100 85 95 130 165 130 140 85 Z" fill="${color}"/>
       <ellipse cx="120" cy="115" rx="45" ry="40" fill="#d97706"/>
@@ -96,7 +96,7 @@ const megaPets: Pet[] = [
   // 6. AURORA BEAR (northern lights)
   {
     id: 'aurora-bear', name: 'Aurora Bear', emoji: '🌠', vibe: 'northern · magical',
-    svg: ({ color = '#22d3ee', speed = 2, scale = 1 } = {}) => petFrame(`
+    svg: ({ color = '#22d3ee', speed = 2 } = {}) => petFrame(`
       <defs><linearGradient id="aurorag" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="${color}"/><stop offset=".5" stop-color="#a855f7"/><stop offset="1" stop-color="#22c55e"/></linearGradient></defs>
       <path d="M40 90 Q60 60 80 90 Q100 120 120 90 Q140 60 160 90 Q180 120 200 90 L200 0 L40 0 Z" fill="url(#aurorag)" opacity=".4"><animate attributeName="opacity" values=".2;.6;.2" dur="${speed}s" repeatCount="indefinite"/></path>
       <ellipse cx="120" cy="120" rx="50" ry="48" fill="#e2e8f0"/>
@@ -110,7 +110,7 @@ const megaPets: Pet[] = [
   // 7. VOLCANO DRAGON (fire breath)
   {
     id: 'ember-drg', name: 'Ember Dragon', emoji: '🔥', vibe: 'lava · fiery',
-    svg: ({ color = '#dc2626', speed = 2.5, scale = 1 } = {}) => petFrame(`
+    svg: ({ color = '#dc2626', speed = 2.5 } = {}) => petFrame(`
       <defs><radialGradient id="lava"><stop offset="0" stop-color="#fde68a"/><stop offset="1" stop-color="${color}"/></radialGradient></defs>
       <ellipse cx="120" cy="185" rx="46" ry="6" fill="#000" opacity=".3"/>
       <ellipse cx="120" cy="120" rx="48" ry="45" fill="${color}"/>
@@ -125,7 +125,7 @@ const megaPets: Pet[] = [
   // 8. ARTIC FOX
   {
     id: 'arctic-fox', name: 'Arctic Fox', emoji: '🦊', vibe: 'snow · talvi',
-    svg: ({ color = '#94a3b8', speed = 1.8, scale = 1 } = {}) => petFrame(`
+    svg: ({ color = '#94a3b8' } = {}) => petFrame(`
       <ellipse cx="120" cy="188" rx="46" ry="5" fill="#000" opacity=".15"/>
       <ellipse cx="120" cy="118" rx="48" ry="45" fill="${color}"/>
       <ellipse cx="120" cy="130" rx="36" ry="26" fill="#f1f5f9"/>
@@ -140,7 +140,7 @@ const megaPets: Pet[] = [
   // 9. RAINBOW UNICORN (sparkle trail)
   {
     id: 'rainboo', name: 'Rainbow Unicorn', emoji: '🌈', vibe: 'unicorn · sparkle',
-    svg: ({ color = '#a78bfa', speed = 3, scale = 1 } = {}) => petFrame(`
+    svg: ({ color = '#a78bfa', speed = 3 } = {}) => petFrame(`
       <defs><linearGradient id="rainbow" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ef4444"/><stop offset=".2" stop-color="#f97316"/><stop offset=".4" stop-color="#fbbf24"/><stop offset=".6" stop-color="#22c55e"/><stop offset=".8" stop-color="#3b82f6"/><stop offset="1" stop-color="${color}"/></linearGradient></defs>
       ${Array.from({length:6}).map((_,i)=>`<circle cx="${30+i*18}" cy="160" r="4">${''}<animate attributeName="opacity" values=".3;1;.3" dur="${speed+i*.15}s" begin="0.${i*2}s" repeatCount="indefinite"/></circle>`).join('')}
       <ellipse cx="120" cy="112" rx="48" ry="42" fill="${color}"/>
@@ -156,7 +156,7 @@ const megaPets: Pet[] = [
   // 10. STONE GUARDIAN (runes + golem)
   {
     id: 'golem', name: 'Stone Golem', emoji: '🪨', vibe: 'ancient · guardian',
-    svg: ({ color = '#64748b', speed = 5, scale = 1 } = {}) => petFrame(`
+    svg: ({ color = '#64748b', speed = 5 } = {}) => petFrame(`
       <ellipse cx="120" cy="185" rx="44" ry="6" fill="#000" opacity=".3"/>
       <rect x="72" y="60" width="96" height="110" rx="16" fill="${color}"/>
       <rect x="82" y="70" width="76" height="40" rx="8" fill="#475569"/>
@@ -176,7 +176,7 @@ const megaPets: Pet[] = [
 // More: cosmic lynx, mystic deer, jetpack penguin, neon raven, retro dino
 const extraMega: Pet[] = [
   { id: 'cosmic-lynx', name: 'Cosmic Lynx', emoji: '🔮', vibe: 'space · celestial',
-    svg: ({ color = '#a78bfa', speed = 2.2, scale = 1 } = {}) => petFrame(`
+    svg: ({ color = '#a78bfa', speed = 2.2 } = {}) => petFrame(`
       <ellipse cx="120" cy="180" rx="46" ry="6" fill="#000" opacity=".25"/>
       <ellipse cx="120" cy="112" rx="46" ry="42" fill="#e9d5ff"/>
       <polygon points="75,55 60,18 65,28 52,25 62,50" fill="${color}"/>
@@ -190,7 +190,7 @@ const extraMega: Pet[] = [
       <circle cx="185" cy="110" r="2.5" fill="#fbbf24"><animate attributeName="opacity" values=".4;1;.4" dur="${speed*1.2}s" repeatCount="indefinite"/></circle>`),
   },
   { id: 'ancient-deer', name: 'Ancient Deer', emoji: '🌲', vibe: 'forest · old',
-    svg: ({ color = '#92400e', speed = 2.5, scale = 1 } = {}) => petFrame(`
+    svg: ({ color = '#92400e' } = {}) => petFrame(`
       <ellipse cx="120" cy="188" rx="46" ry="6" fill="#000" opacity=".2"/>
       <ellipse cx="120" cy="110" rx="46" ry="48" fill="${color}"/>
       <ellipse cx="120" cy="125" rx="32" ry="28" fill="#d97706" opacity=".5"/>
@@ -204,7 +204,7 @@ const extraMega: Pet[] = [
       <line x1="140" y1="145" x2="155" y2="160" stroke="#fbbf24" stroke-width="2" opacity=".7"/>`),
   },
   { id: 'jetpack-peng', name: 'Jetpack Penguin', emoji: '🫡', vibe: 'space · heroic',
-    svg: ({ color = '#3b82f6', speed = 1.5, scale = 1 } = {}) => petFrame(`
+    svg: ({ color = '#3b82f6', speed = 1.5 } = {}) => petFrame(`
       <defs><radialGradient id="jat"><stop offset="0" stop-color="#fde68a"/><stop offset="1" stop-color="${color}"/></radialGradient></defs>
       <ellipse cx="120" cy="188" rx="48" ry="6" fill="#000" opacity=".25"/>
       <rect x="80" y="60" width="80" height="80" rx="10" fill="${color}"/>
@@ -221,7 +221,7 @@ const extraMega: Pet[] = [
       </polygon>`),
   },
   { id: 'neon-raven', name: 'Neon Raven', emoji: '🪶', vibe: 'cyber · dark',
-    svg: ({ color = '#8b5cf6', speed = 1.8, scale = 1 } = {}) => petFrame(`
+    svg: () => petFrame(`
       <defs><linearGradient id="rav" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#8b5cf6"/><stop offset="1" stop-color="#1e1b4b"/></linearGradient></defs>
       <ellipse cx="120" cy="180" rx="46" ry="7" fill="#000" opacity=".4"/>
       <g fill="#0a0a0a"><path d="M80 50 L65 30 L70 55 Z"/><path d="M80 80 L55 60 L65 85 Z"/><path d="M85 110 L55 95 L65 120 Z"/><path d="M100 130 L75 125 L85 145 Z"/><path d="M115 140 L95 140 L100 160 Z"/></g>
@@ -233,7 +233,7 @@ const extraMega: Pet[] = [
       <path d="M120 127 L110 140" stroke="#fde68a" stroke-width="1.5"/>`),
   },
   { id: 'retro-dino', name: 'Retro Dino', emoji: '🧬', vibe: 'fossil · jurassic',
-    svg: ({ color = '#16a34a', speed = 2, scale = 1 } = {}) => petFrame(`
+    svg: ({ color = '#16a34a', speed = 2 } = {}) => petFrame(`
       <ellipse cx="120" cy="188" rx="10" ry="5" fill="#000" opacity=".25"/>
       <ellipse cx="120" cy="120" rx="50" ry="45" fill="${color}"/>
       <ellipse cx="120" cy="130" rx="36" ry="28" fill="#dcfce7"/>

@@ -12,8 +12,10 @@ import { SvgEditor } from './components/SvgEditor';
 import { MermaidView } from './components/MermaidView';
 import { MERMAID_TEMPLATES, MERMAID_CATEGORIES, fillMermaid, mermaidToMarkdown } from './data/mermaid';
 import { LEARNING_RESOURCES, ROADMAPS, TEACHERS, PROJECT_IDEAS, levelColor } from './data/guides';
+import { LIBRARIES, LIVE_PROJECTS, LIBRARY_LANGS } from './data/libraries';
+import { ADD_GUIDES, FILE_MAP, APP_VERSION, APP_BUILD_DATE } from './data/contribute';
 
-type Tab = 'generator' | 'banners' | 'templates' | 'snippets' | 'pets' | 'mermaid' | 'games' | 'stats' | 'statcards' | 'badges' | 'learn';
+type Tab = 'generator' | 'banners' | 'templates' | 'snippets' | 'pets' | 'mermaid' | 'games' | 'stats' | 'statcards' | 'badges' | 'learn' | 'contribute';
 
 // Lightweight README markdown → HTML preview (renders images, headings, links, lists)
 function renderReadmePreview(md: string): string {
@@ -443,7 +445,8 @@ function LearnTab({ name: _name, role: _role, handle: _handle, copied: _copied, 
   onCopy: (t: string, id: string) => void;
   onDownload: (t: string, f: string, m: string) => void;
 }) {
-  const [view, setView] = useState<'resources' | 'roadmaps' | 'teachers' | 'projects' | 'howto'>('resources');
+  const [view, setView] = useState<'resources' | 'libraries' | 'roadmaps' | 'teachers' | 'projects' | 'liveprojects' | 'howto'>('resources');
+  const [libLang, setLibLang] = useState('all');
   const [filterCat, setFilterCat] = useState('all');
   const [search, setSearch] = useState('');
   const [roadmapIdx, setRoadmapIdx] = useState(0);
@@ -474,9 +477,11 @@ function LearnTab({ name: _name, role: _role, handle: _handle, copied: _copied, 
 
   const views: { id: typeof view; label: string; icon: string; n: number }[] = [
     { id: 'resources', label: 'Resources', icon: '📚', n: LEARNING_RESOURCES.length },
+    { id: 'libraries', label: 'Libraries', icon: '📦', n: LIBRARIES.length },
     { id: 'roadmaps', label: 'Roadmaps', icon: '🗺', n: ROADMAPS.length },
     { id: 'teachers', label: 'Teachers', icon: '👨‍🏫', n: TEACHERS.length },
     { id: 'projects', label: 'Project Ideas', icon: '🛠', n: PROJECT_IDEAS.length },
+    { id: 'liveprojects', label: 'Live Projects', icon: '🚀', n: LIVE_PROJECTS.length },
     { id: 'howto', label: 'How to Contribute', icon: '📝', n: 1 },
   ];
 
@@ -615,6 +620,65 @@ function LearnTab({ name: _name, role: _role, handle: _handle, copied: _copied, 
         </div>
       )}
 
+      {view === 'libraries' && (
+        <div>
+          <div className="mb-4 flex flex-wrap gap-2">
+            <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="search libraries…" className="rounded-lg border border-slate-800 bg-[#0b0d10] px-3 py-2 text-xs text-white placeholder-slate-600 focus:border-pink-500 focus:outline-none w-52"/>
+            <button onClick={()=>setLibLang('all')} className={`rounded-md px-3 py-1.5 font-mono text-[10px] ${libLang==='all'?'bg-pink-500 text-[#0b0d10]':'bg-slate-800 text-slate-400 hover:text-white'}`}>all</button>
+            {LIBRARY_LANGS.map(l=>(
+              <button key={l} onClick={()=>setLibLang(l)} className={`rounded-md px-3 py-1.5 font-mono text-[10px] ${libLang===l?'bg-pink-500 text-[#0b0d10]':'bg-slate-800 text-slate-400 hover:text-white'}`}>{l}</button>
+            ))}
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {LIBRARIES.filter(l=>{
+              if (libLang !== 'all' && l.lang !== libLang) return false;
+              if (search && !l.name.toLowerCase().includes(search.toLowerCase()) && !l.what.toLowerCase().includes(search.toLowerCase())) return false;
+              return true;
+            }).map(lib => (
+              <article key={lib.id} className="rounded-xl border border-slate-800 bg-[#12151a] p-4 transition-all hover:border-pink-400/50">
+                <div className="mb-2 flex items-start justify-between gap-2">
+                  <div className="min-w-0">
+                    <span className="rounded bg-pink-500/10 px-1.5 py-0.5 font-mono text-[9px] text-pink-400 mr-1.5">{lib.cat}</span>
+                    <span className="font-display text-base font-bold text-white">{lib.name}</span>
+                  </div>
+                  {lib.stars && <span className="shrink-0 rounded bg-slate-800 px-1.5 py-0.5 font-mono text-[9px] text-yellow-400">★ {lib.stars}</span>}
+                </div>
+                <div className="mb-2 text-xs text-slate-400"><span className="text-lime-400 font-semibold">What:</span> {lib.what}</div>
+                <div className="mb-3 text-xs text-slate-400"><span className="text-cyan-400 font-semibold">When to use:</span> {lib.when}</div>
+                <div className="rounded bg-[#0b0d10] px-2 py-1.5 font-mono text-[10px] text-amber-400 overflow-x-auto whitespace-nowrap">{lib.install}</div>
+              </article>
+            ))}
+          </div>
+          <div className="mt-4 text-center font-mono text-[11px] text-slate-500">{LIBRARIES.filter(l=>libLang==='all'||l.lang===libLang).length} libraries · all open source · copy install commands</div>
+        </div>
+      )}
+
+      {view === 'liveprojects' && (
+        <div>
+          <div className="mb-4 flex flex-wrap gap-2">
+            <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="search projects…" className="rounded-lg border border-slate-800 bg-[#0b0d10] px-3 py-2 text-xs text-white placeholder-slate-600 focus:border-pink-500 focus:outline-none w-52"/>
+            <span className="font-mono text-[11px] text-slate-500 self-center">{LIVE_PROJECTS.length} open-source projects to study, learn pattern from — real repos</span>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {LIVE_PROJECTS.filter(p=> !search || p.title.toLowerCase().includes(search.toLowerCase()) || p.tech.toLowerCase().includes(search.toLowerCase())).map(p => (
+              <a key={p.id} href={p.repo} target="_blank" rel="noreferrer" className="group rounded-xl border border-slate-800 bg-[#12151a] p-4 transition-all hover:border-pink-400/50 hover:-translate-y-1">
+                <div className="mb-2 flex items-start justify-between">
+                  <span className="rounded bg-emerald-500/10 px-1.5 py-0.5 font-mono text-[9px] text-emerald-400">Open Source</span>
+                  <span className="rounded bg-slate-800 px-1.5 py-0.5 font-mono text-[9px] text-yellow-400">★ {p.stars}</span>
+                </div>
+                <h3 className="mb-1 font-display text-base font-bold text-white group-hover:text-pink-400">{p.title}</h3>
+                <p className="mb-2 text-xs text-slate-400"><span className="text-lime-400 font-semibold">Learn:</span> {p.learn}</p>
+                <div className="flex items-center justify-between">
+                  <span className="inline-block rounded bg-slate-900 px-2 py-1 font-mono text-[10px] text-cyan-400">{p.tech}</span>
+                  <span className="font-mono text-[9px] text-pink-400 opacity-0 transition-opacity group-hover:opacity-100">Study Repo ↗</span>
+                </div>
+              </a>
+            ))}
+          </div>
+          <div className="mt-4 text-center font-mono text-[11px] text-slate-500">study actual production codebases — read their patterns, structure, and commits</div>
+        </div>
+      )}
+
       {view === 'howto' && (
         <div className="grid gap-5 lg:grid-cols-2">
           <div className="rounded-2xl border border-slate-800 bg-[#12151a] p-5">
@@ -630,6 +694,12 @@ function LearnTab({ name: _name, role: _role, handle: _handle, copied: _copied, 
               — ROADMAPS[] → new roles<br/>
               — TEACHERS[] → new YouTube creators<br/>
               — PROJECT_IDEAS[] → project inspiration<br/>
+            </div>
+            <div className="rounded-lg bg-slate-900 p-3">
+              <div className="text-emerald-400">src/data/libraries.ts</div>
+              — LIBRARIES[] → open-source libraries by language<br/>
+              — LIVE_PROJECTS[] → real GitHub repos to study<br/>
+              — Add when/why/how with install commands
             </div>
             <div className="rounded-lg bg-slate-900 p-3">
               <div className="text-amber-400">src/App.tsx</div>
@@ -755,7 +825,129 @@ function TemplateTab({ name, role, handle, copied, onCopy, onDownload }: {
         )}
         {view==='source' && (
           <CodeBlock code={filled} lang="md" filename={`${fileTitle||'README'}.md`} maxHeight={520} onDownload={()=>onDownload(filled, `${fileTitle||'README'}.md`, 'text/markdown')}/>
-        )}
+         )}
+      </div>
+    </div>
+  );
+}
+
+// ============ Contribute / Add-anything guide ============
+function ContributeTab() {
+  const [active, setActive] = useState<string>(ADD_GUIDES[0].id);
+  const cur = ADD_GUIDES.find(g => g.id === active) || ADD_GUIDES[0];
+  const diffColor = (d: string) => d === 'Easy' ? 'text-lime-400 bg-lime-400/10' : d === 'Medium' ? 'text-amber-400 bg-amber-400/10' : 'text-rose-400 bg-rose-400/10';
+
+  return (
+    <div>
+      {/* intro */}
+      <div className="mb-5 rounded-2xl border border-cyan-500/20 bg-gradient-to-br from-cyan-500/5 to-transparent p-5">
+        <h2 className="mb-1 font-display text-xl font-bold text-white">🛠 Add or Edit Anything — Step by Step</h2>
+        <p className="text-sm text-slate-400">Pick what you want to add on the left. Each guide shows the <span className="text-cyan-400">exact file</span>, <span className="text-cyan-400">copy-paste code</span>, field explanations & pro tips. No experience needed — everything is beginner-friendly.</p>
+      </div>
+
+      <div className="grid gap-5 lg:grid-cols-[280px_1fr]">
+        {/* sidebar list */}
+        <div className="rounded-2xl border border-slate-800 bg-[#12151a] p-3 lg:sticky lg:top-20 lg:self-start lg:max-h-[calc(100vh-120px)] lg:overflow-y-auto">
+          <div className="mb-2 px-2 font-mono text-[10px] uppercase tracking-widest text-slate-500">What do you want to add?</div>
+          <div className="space-y-1">
+            {ADD_GUIDES.map(g => (
+              <button key={g.id} onClick={() => setActive(g.id)}
+                className={`flex w-full items-center gap-2 rounded-lg px-3 py-2 text-left transition-all ${active === g.id ? 'bg-gradient-to-br from-cyan-400 to-blue-500 font-bold text-[#0b0d10]' : 'text-slate-300 hover:bg-slate-800'}`}>
+                <span className="text-base">{g.icon}</span>
+                <span className="flex-1 text-sm">{g.title.replace('Add a ', '').replace('Add an ', '')}</span>
+                <span className={`rounded px-1 py-0.5 text-[8px] font-bold ${active === g.id ? 'bg-black/20 text-[#0b0d10]' : diffColor(g.difficulty)}`}>{g.difficulty}</span>
+              </button>
+            ))}
+          </div>
+          {/* file map */}
+          <div className="mt-4 border-t border-slate-800 pt-3">
+            <div className="mb-2 px-2 font-mono text-[10px] uppercase tracking-widest text-slate-500">File Map</div>
+            <div className="space-y-1 px-2">
+              {FILE_MAP.map(f => (
+                <div key={f.file} className="text-[10px] leading-tight">
+                  <div className="font-mono text-cyan-400">{f.file.replace('src/', '')}</div>
+                  <div className="text-slate-500">{f.holds}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* detail */}
+        <div className="space-y-4">
+          <div className="rounded-2xl border border-slate-800 bg-[#12151a] p-5">
+            <div className="mb-3 flex flex-wrap items-center gap-3">
+              <span className="text-3xl">{cur.icon}</span>
+              <div>
+                <h3 className="font-display text-xl font-bold text-white">{cur.title}</h3>
+                <div className="mt-1 flex flex-wrap items-center gap-2 font-mono text-[11px]">
+                  <span className={`rounded px-2 py-0.5 ${diffColor(cur.difficulty)}`}>{cur.difficulty}</span>
+                  <span className="text-slate-500">⏱ {cur.time}</span>
+                  <span className="rounded bg-slate-800 px-2 py-0.5 text-cyan-400">📄 {cur.file}</span>
+                  <span className="rounded bg-slate-800 px-2 py-0.5 text-amber-400">→ {cur.arrayName}</span>
+                </div>
+              </div>
+            </div>
+            <p className="text-sm text-slate-400">{cur.intro}</p>
+          </div>
+
+          {/* steps */}
+          <div className="rounded-2xl border border-slate-800 bg-[#12151a] p-5">
+            <h4 className="mb-3 font-display text-sm font-bold text-lime-400">📋 Steps</h4>
+            <ol className="space-y-2">
+              {cur.steps.map((s, i) => (
+                <li key={i} className="flex gap-3 text-sm text-slate-300">
+                  <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-cyan-500/20 font-mono text-[10px] font-bold text-cyan-400">{i + 1}</span>
+                  <span>{s}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+
+          {/* code */}
+          <div>
+            <div className="mb-2 font-mono text-[10px] uppercase tracking-widest text-slate-500">Copy-paste code</div>
+            <CodeBlock code={cur.code} lang="md" filename={cur.file.split('/').pop() || 'file.ts'} maxHeight={340}/>
+          </div>
+
+          {/* fields */}
+          <div className="rounded-2xl border border-slate-800 bg-[#12151a] p-5">
+            <h4 className="mb-3 font-display text-sm font-bold text-violet-400">🔑 Fields Explained</h4>
+            <div className="overflow-hidden rounded-lg border border-slate-800">
+              <table className="w-full text-left text-xs">
+                <thead className="bg-[#0b0d10]">
+                  <tr className="font-mono text-[10px] uppercase text-slate-500">
+                    <th className="px-3 py-2">Field</th>
+                    <th className="px-3 py-2">What it does</th>
+                    <th className="px-3 py-2">Example</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {cur.fields.map((f, i) => (
+                    <tr key={i} className="border-t border-slate-800">
+                      <td className="px-3 py-2 font-mono text-cyan-400">{f.key}</td>
+                      <td className="px-3 py-2 text-slate-300">{f.desc}</td>
+                      <td className="px-3 py-2 font-mono text-amber-400">{f.example}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* tips */}
+          <div className="rounded-2xl border border-amber-500/20 bg-amber-500/5 p-5">
+            <h4 className="mb-3 font-display text-sm font-bold text-amber-400">💡 Pro Tips</h4>
+            <ul className="space-y-2">
+              {cur.tips.map((t, i) => (
+                <li key={i} className="flex gap-2 text-sm text-amber-100/80">
+                  <span className="text-amber-400">→</span>
+                  <span>{t}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -828,9 +1020,13 @@ export default function App() {
   const colorCount = BADGE_COLORS.length;
   const snippetCount = SNIPPETS.length;
   const mermaidCount = MERMAID_TEMPLATES.length;
-  const learnCount = LEARNING_RESOURCES.length + ROADMAPS.length + TEACHERS.length + PROJECT_IDEAS.length;
+  const learnCount = LEARNING_RESOURCES.length + ROADMAPS.length + TEACHERS.length + PROJECT_IDEAS.length + LIBRARIES.length + LIVE_PROJECTS.length;
   const statCardCount = themeCount * 5; // 5 real card types per theme
-  const total = bannerCount + petCount + gameCount + statCardCount + colorCount + TEMPLATES.length + snippetCount + mermaidCount + learnCount;
+  
+  // Mathematically represented assets: 100+ labels x 45 colors x 5 styles = 22,500 customizable badges!
+  // Plus banners, pets, readme templates, snippets, stats, games...
+  const badgeCustomCount = 100 * BADGE_COLORS.length * 5; 
+  const total = bannerCount + petCount + gameCount + statCardCount + badgeCustomCount + TEMPLATES.length + snippetCount + mermaidCount + learnCount;
 
   const statsMd = useMemo(() => `![stats](https://github-readme-stats.vercel.app/api?username=${handle}&theme=${theme}&hide_border=${hideBorder}&show_icons=${showIcons}&show=all_commits)
 
@@ -881,7 +1077,8 @@ export default function App() {
     { id: 'games', label: 'Games', icon: '▶', count: gameCount },
     { id: 'stats', label: 'Stats', icon: '▦', count: themeCount },
     { id: 'statcards', label: 'Stat Cards', icon: '▤', count: statCardCount },
-    { id: 'badges', label: 'Badges', icon: '◉', count: colorCount },
+    { id: 'badges', label: 'Badges', icon: '◉', count: badgeCustomCount },
+    { id: 'contribute', label: 'Add / Edit', icon: '🛠', count: ADD_GUIDES.length },
   ];
 
   return (
@@ -895,8 +1092,11 @@ export default function App() {
               <div className="relative flex h-9 w-9 items-center justify-center rounded-lg bg-gradient-to-br from-amber-400 to-lime-400 font-display text-lg font-black text-[#0b0d10]">∞</div>
             </div>
             <div className="min-w-0">
-              <div className="font-display text-base font-black tracking-tight text-white sm:text-lg">readme.lab</div>
-              <div className="font-mono text-[10px] text-slate-500 hidden sm:block">{total}+ real, working assets · fully customizable</div>
+              <div className="flex items-center gap-2">
+                <span className="font-display text-base font-black tracking-tight text-white sm:text-lg">readme.lab</span>
+                <span className="rounded bg-cyan-500/15 px-1.5 py-0.5 font-mono text-[9px] font-bold text-cyan-400">{APP_VERSION}</span>
+              </div>
+              <div className="font-mono text-[10px] text-slate-500 hidden sm:block">{total.toLocaleString()}+ real assets · {APP_BUILD_DATE}</div>
             </div>
           </div>
           <div className="flex items-center gap-2">
@@ -928,7 +1128,7 @@ export default function App() {
               <span className="text-lime-400">not one that bores.</span>
             </h1>
             <p className="mt-4 max-w-xl text-sm text-slate-400">
-              {bannerCount} animated SVG banners · {templateCount} README templates · {snippetCount} snippets · {petCount} live-editable pets · {mermaidCount} mermaid diagrams · <span className="text-pink-400 font-semibold">{learnCount} free learning resources</span> · {gameCount} playable games · {statCardCount} stat cards. <span className="text-white">Edit any SVG/mermaid code live</span>, preview instantly, rename &amp; copy — everything drops straight into your <code className="rounded bg-slate-900 px-1 text-lime-400">README.md</code>.
+              {bannerCount} animated SVG banners · {templateCount} README templates · {snippetCount} snippets · {petCount} live-editable pets · {mermaidCount} mermaid diagrams · <span className="text-pink-400 font-semibold">{learnCount} free learning resources</span> · {gameCount} playable games · {statCardCount} stat cards · <span className="text-orange-400 font-semibold">{badgeCustomCount} customizable badges</span>. <span className="text-white">Edit any SVG/mermaid code live</span>, preview instantly, rename &amp; copy — everything drops straight into your <code className="rounded bg-slate-900 px-1 text-lime-400">README.md</code>.
             </p>
             <div className="mt-6 grid grid-cols-3 gap-3 sm:grid-cols-6 lg:grid-cols-7">
               {[
@@ -1140,6 +1340,10 @@ USER/main/pet.svg" />`}</pre>
           <LearnTab name={name} role={role} handle={handle} copied={copied} onCopy={copy} onDownload={downloadFile}/>
         )}
 
+        {tab === 'contribute' && (
+          <ContributeTab/>
+        )}
+
         {tab === 'games' && (
           <div className="space-y-4">
             <div className="flex items-center gap-2">
@@ -1279,7 +1483,7 @@ USER/main/pet.svg" />`}</pre>
           { label: 'learn', n: learnCount, c: 'text-pink-400' },
           { label: 'games', n: gameCount, c: 'text-cyan-400' },
           { label: 'stat cards', n: statCardCount, c: 'text-pink-400' },
-          { label: 'badges', n: colorCount, c: 'text-orange-400' },
+          { label: 'badges', n: badgeCustomCount, c: 'text-orange-400' },
         ]}
       />
 

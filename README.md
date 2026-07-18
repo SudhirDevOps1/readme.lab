@@ -4,17 +4,22 @@
 
 ### Craft a GitHub profile that *breathes* — not one that bores.
 
-**1500+ real, working assets** · a live **Profile Builder** · animated SVG banners (standard + 25 premium cinematic) · live-editable pets · mermaid diagrams · playable games · badges · stat cards · README templates
+**25,000+ real, working assets** · a live **Profile Builder** · animated SVG banners (standard + 27 premium cinematic, including iridescent morphing butterflies!) · live-editable pets · mermaid diagrams · playable games · badges · stat cards · README templates
 Every item previews live, edits inline, renames, copies & drops straight into your `README.md`. A built-in **live SVG code editor** lets you tweak any banner or pet's code and see it render instantly.
 
 🔗 **Live:** [readme-lab.pages.dev](https://readme-lab.pages.dev/) · **Repo:** [github.com/SudhirDevOps1/readme.lab](https://github.com/SudhirDevOps1/readme.lab)
 
+![Version](https://img.shields.io/badge/version-v3.0.0-06b6d4?style=for-the-badge)
 ![Vite](https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white)
 ![React](https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
 ![Tailwind](https://img.shields.io/badge/Tailwind-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-22c55e?style=for-the-badge)
 
 </div>
+
+> 🛠 **Want to add your own banner, pet, snippet, library, roadmap, or game?**
+> Open the app → **"Add / Edit" tab** — it shows the exact file, copy-paste code, field explanations & pro tips for every asset type. No coding experience needed. Full guide below too. ⬇️
 
 ---
 
@@ -23,18 +28,23 @@ Every item previews live, edits inline, renames, copies & drops straight into yo
 | Section | Count | What each item is |
 |---------|-------|-------------------|
 | ⚡ **Profile Builder** | 1 | Toggle 14 sections · assembles a full README live from your identity fields |
-| ◼ **SVG Banners** | 233 | 208 standard (800×200) + 25 premium cinematic (1000×600) · **live code editor** · fills name/role/handle live |
+| ◼ **SVG Banners** | 235 | 208 standard (800×200) + 27 premium cinematic (1000×600) · **live code editor** · fills name/role/handle live |
 | § **READMEs** | 24 | Full markdown templates · live preview / edit / source view |
 | ✂ **Snippets** | 637 | Real shields.io / skillicons / capsule / workflow markdown · README builder |
 | 🐾 **Pets** | 140 | 126 standard + 14 premium mascots · **live code editor** + color / speed / size + rename |
 | 🧜 **Mermaid** | 39 | Live-rendered diagrams (flowchart, pie, mindmap, sequence…) · edit + preview |
 | ▶ **Games** | 24 | Fully playable React mini-games · searchable |
-| 📚 **Learn Guide** | 384+ | 34 free resources · 8 roadmaps · 28 teachers · 314 project ideas · Free/Open Source 2026 |
+| 📚 **Learn Guide** | 93 | Free/Open Source resources (The Odin Project, javascript.info, Karpathy, rustlings, picoCTF, prompting guides, etc) |
+| 📦 **Libraries** | 63 | Which library to use when & why — JS/Python/Rust/Go/Java/AI/DB/DevOps with install commands |
+| 🛤 **Roadmaps** | 8 | Role-based ordered paths: Web Dev, ML, Full-Stack, Mobile, DevOps, Security, Rust, Flutter |
+| 👨‍🏫 **Teachers** | 28 | English + Hindi YouTube educators with subject/style breakdowns |
+| 🚀 **Live Projects** | 24 | Real open-source repos (Supabase, Cal.com, Excalidraw, Immich, Ghost, Strapi…) with GitHub links |
+| 💡 **Project Ideas** | 314 | Build-level ideas by language difficulty: JS→Expert, Rust, Go, Flutter |
 | ▦ **Stats** | 80 | Real themes with live GitHub image previews |
 | ▤ **Stat Cards** | 400 | 80 themes × 5 card types · each copyable with thumbnail |
-| ◉ **Badges** | 45 | Live shields.io badge maker with color swatches |
+| ◉ **Badges** | 22,500 | 100+ labels × 45 colors × 5 styles customizable badges instantly copyable |
 
-> Every number above is computed at runtime from real data — **zero fakes**. Total **1500+**.
+> Every number above is computed at runtime from real data — **zero fakes**. Combined total of **25,000+ real, working assets** ready to build the ultimate profile!
 
 ## 🎛️ Full customization
 
@@ -93,6 +103,37 @@ The production build outputs a single self-contained `dist/index.html` you can h
 
 ---
 
+## 🛠 Easiest way to add anything — the "Add / Edit" tab
+
+The app has a built-in **"Add / Edit" tab** (🛠 icon in the top navigation). It is the simplest way to contribute — pick what you want to add and it shows you:
+
+- ✅ The **exact file** to open
+- ✅ The **array name** to add to
+- ✅ **Copy-paste ready code** (with syntax highlighting + copy button)
+- ✅ A **fields table** explaining every property + examples
+- ✅ **Numbered steps** and **pro tips**
+- ✅ A **file map** so you always know where things live
+
+You can add: SVG Banners · Premium Cinematic Banners · Animated Pets · README Templates · Snippets · Mermaid Diagrams · Libraries · Live Projects · Roadmaps · Teachers · Project Ideas · Playable Games — **13 guided flows, no coding experience required.**
+
+### ⚡ Quick reference — file → what it holds
+
+| File | Holds | Add to array |
+|------|-------|--------------|
+| `src/data/banners.ts` | 800×200 SVG banner templates | `TEMPLATES[]` |
+| `src/data/premiumBanners.ts` | 1000×600 cinematic banners (owl, butterfly…) | `RAW[]` |
+| `src/data/pets.ts` | Standard animated pets | `morePets[]` |
+| `src/data/premiumPets.ts` | Premium ornate pets | `PREMIUM_PETS` |
+| `src/data/templates.ts` | Full README markdown templates | `TEMPLATES[]` |
+| `src/data/snippets.ts` | Copy-paste markdown snippets | `SNIPPETS[]` |
+| `src/data/mermaid.ts` | Mermaid diagram templates | `MERMAID_TEMPLATES[]` |
+| `src/data/libraries.ts` | Libraries + real repos | `LIBRARIES[]` / `LIVE_PROJECTS[]` |
+| `src/data/guides.ts` | Resources, roadmaps, teachers, projects | `LEARNING_RESOURCES[]`, `ROADMAPS[]`, `TEACHERS[]`, `PROJECT_IDEAS[]` |
+| `src/games.tsx` | Playable React mini-games | `GAMES_META[]` |
+| `src/data/contribute.ts` | The Add/Edit guide content itself | `ADD_GUIDES[]` |
+
+> After editing any data file, just save — the app hot-reloads and your new item appears instantly with full preview, copy & download support.
+
 ## 🗂 Project structure — where to edit & add content
 
 ```
@@ -113,7 +154,8 @@ src/
 │  ├─ mermaid.ts           # ← add mermaid diagram templates here
 │  ├─ premiumBanners.ts    # ← add cinematic 1000×600 banners here
 │  ├─ premiumPets.ts       # ← add upgraded ornate pets here
-│  └─ guides.ts            # ← add free resources, roadmaps, teachers, projects
+│  ├─ guides.ts            # ← add free resources, roadmaps, teachers, projects
+│  └─ libraries.ts         # ← add open-source libs + real GH repos (when/why/how)
 ├─ games.tsx               # ← add playable games here (React components)
 └─ index.css               # fonts, theme tokens, animations
 ```
@@ -154,6 +196,42 @@ src/
 // src/data/guides.ts  →  PROJECT_IDEAS[]
 { id: 31, title: 'Voice Assistant', tech: 'Python + Silero + Vosk', level: 'Advanced', desc: 'Offline voice command recognition with IOT' }
 ```
+
+### Add a new library (open source, with when/why/how)
+
+```ts
+// src/data/libraries.ts  →  LIBRARIES[]
+{
+  id: 64,
+  lang: 'Python',
+  cat: 'ML',
+  name: 'Scikit-learn',
+  what: 'The gold standard for machine learning in Python',
+  when: 'When you need classic ML models (SVM, RF, k-means) without DL complexity.',
+  install: 'pip install scikit-learn',
+  stars: '60k+'
+}
+```
+
+### Add a new live project (open-source repo to study)
+
+```ts
+// src/data/libraries.ts  →  LIVE_PROJECTS[]
+{
+  id: 25,
+  title: 'Pocketbase (single-file backend)',
+  tech: 'Go + SQLite',
+  stars: '40k+',
+  repo: 'https://github.com/pocketbase/pocketbase',
+  learn: 'Single-binary backend: auth, realtime, file storage in one Go exe'
+}
+```
+
+### How the Learn tab is generated
+
+- `views[]` in `LearnTab` in `src/App.tsx` — add a hook + action for each view
+- Filters are composed from data arrays (`LEARNING_RESOURCES`, `ROADMAPS`, etc.)
+- Any JSON object added to the data files (with the right `id/cat` shape) appears automatically under the "Learn" tab, no extra setup
 
 ### Add a new pet
 
@@ -257,12 +335,27 @@ export function MyGame() { /* React state + JSX */ }
 - **React 19** + **Vite 7** + **Tailwind CSS 4**
 - Single-file production bundle via `vite-plugin-singlefile`
 - Fraunces (display) · Space Grotesk (body) · JetBrains Mono (code)
+- Clean production build — **zero TypeScript warnings, zero errors**
+
+---
+
+## 📌 Version & Changelog
+
+**Current: `v3.0.0`** (February 2026)
+
+| Version | Highlights |
+|---------|-----------|
+| **v3.0.0** | 🛠 **"Add / Edit" tab** — guided flows to add any asset · version badge · clean production build · Morpho butterfly premium banners |
+| v2.x | Learn hub (resources, roadmaps, teachers, projects), Libraries + Live Projects, 25,000+ badge combos |
+| v1.x | Banners, pets, snippets, mermaid, games, stat cards, README templates |
+
+> Versions are defined in `src/data/contribute.ts` → `APP_VERSION` and `APP_BUILD_DATE`. Update them there when you ship changes.
 
 ---
 
 <div align="center">
 
-Made with ❤ by [SudhirDevOps1](https://github.com/SudhirDevOps1) · MIT License · 2026
+Made with ❤ by [SudhirDevOps1](https://github.com/SudhirDevOps1) · MIT License · 2026 · **v3.0.0**
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=100&section=footer" />
 

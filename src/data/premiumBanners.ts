@@ -1170,6 +1170,179 @@ const RAW: Array<Omit<PremiumBanner,'svg'> & {svg: string}> = [
   { id: 'concrete', name: 'Concrete Industrial', style: 'brutalist · raw', palette: 'gray/charcoal', svg: concrete },
   { id: 'garden', name: 'Floral Garden', style: 'nature · spring', palette: 'green/yellow', svg: garden },
   { id: 'ink-wash', name: 'Ink Wash Painting', style: 'eastern · zen', palette: 'sepia/ink', svg: ink },
+  {
+    id: 'morpho-static',
+    name: 'Morpho Iridescent',
+    style: 'nature · butterfly · static',
+    palette: 'blue/gold',
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="skyMorph" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a0a1a" />
+      <stop offset="100%" stop-color="#1a1a3e" />
+    </linearGradient>
+    <radialGradient id="wingGradM" cx="40%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#60a5fa" />
+      <stop offset="30%" stop-color="#3b82f6" />
+      <stop offset="55%" stop-color="#1d4ed8" />
+      <stop offset="75%" stop-color="#1e3a5f" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </radialGradient>
+    <radialGradient id="wingGradM2" cx="60%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#93c5fd" />
+      <stop offset="40%" stop-color="#3b82f6" />
+      <stop offset="70%" stop-color="#1e40af" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </radialGradient>
+    <radialGradient id="eyeM" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="60%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#020617" />
+    </radialGradient>
+    <filter id="wingGlowM" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" />
+      <feMerge>
+        <feMergeNode />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+  </defs>
+
+  <rect width="500" height="400" fill="url(#skyMorph)" />
+
+  <g opacity="0.3">
+    <circle cx="100" cy="100" r="3" fill="#60a5fa">
+      <animate attributeName="opacity" values="0.1;0.5;0.1" dur="3s" repeatCount="indefinite" />
+    </circle>
+    <circle cx="400" cy="300" r="2" fill="#93c5fd">
+      <animate attributeName="opacity" values="0.2;0.6;0.2" dur="2.5s" repeatCount="indefinite" />
+    </circle>
+  </g>
+
+  <g transform="translate(180, 180)">
+    <path d="M0,0 Q-40,-60 -100,-80 Q-140,-90 -160,-60 Q-180,-30 -140,10 Q-120,30 -100,50 Q-80,70 -60,80 Q-40,60 -20,30 Z" fill="url(#wingGradM)" stroke="#1e3a5f" stroke-width="2" filter="url(#wingGlowM)" />
+    <path d="M0,0 Q-60,-30 -120,-60" stroke="#1e40af" stroke-width="1" fill="none" opacity="0.4" />
+    <path d="M0,0 Q-80,-10 -140,0" stroke="#1e40af" stroke-width="1" fill="none" opacity="0.4" />
+    <circle cx="-80" cy="-40" r="6" fill="#fbbf24" opacity="0.4" filter="url(#wingGlowM)" />
+  </g>
+
+  <g transform="translate(180, 180)">
+    <path d="M0,0 Q40,-60 100,-80 Q140,-90 160,-60 Q180,-30 140,10 Q120,30 100,50 Q80,70 60,80 Q40,60 20,30 Z" fill="url(#wingGradM2)" stroke="#1e3a5f" stroke-width="2" filter="url(#wingGlowM)" />
+    <path d="M0,0 Q60,-30 120,-60" stroke="#1e40af" stroke-width="1" fill="none" opacity="0.4" />
+    <circle cx="80" cy="-40" r="6" fill="#fbbf24" opacity="0.4" filter="url(#wingGlowM)" />
+  </g>
+
+  <g transform="translate(180, 180)">
+    <path d="M0,0 Q-30,40 -50,80 Q-60,110 -40,130 Q-10,140 0,100 Q10,130 20,100 Q30,80 10,40 Z" fill="url(#wingGradM)" stroke="#1e3a5f" stroke-width="1.5" />
+  </g>
+
+  <g transform="translate(180, 180)">
+    <path d="M0,0 Q30,40 50,80 Q60,110 40,130 Q10,140 0,100 Q-10,130 -20,100 Q-30,80 -10,40 Z" fill="url(#wingGradM2)" stroke="#1e3a5f" stroke-width="1.5" />
+  </g>
+
+  <g transform="translate(180, 180)">
+    <ellipse cx="0" cy="-5" rx="6" ry="14" fill="#0f172a" stroke="#1e293b" stroke-width="1" />
+    <ellipse cx="0" cy="15" rx="5" ry="20" fill="#0f172a" stroke="#1e293b" stroke-width="1" />
+    <circle cx="0" cy="-20" r="7" fill="#0f172a" stroke="#1e293b" stroke-width="1" />
+    <circle cx="-4" cy="-22" r="3" fill="url(#eyeM)" />
+    <circle cx="4" cy="-22" r="3" fill="url(#eyeM)" />
+    <circle cx="-3" cy="-23" r="1.2" fill="#fbbf24" opacity="0.7" />
+    <path d="M-4,-27 Q-15,-45 -20,-50" stroke="#0f172a" stroke-width="1.5" fill="none" />
+    <path d="M4,-27 Q15,-45 20,-50" stroke="#0f172a" stroke-width="1.5" fill="none" />
+  </g>
+
+  <text x="250" y="360" text-anchor="middle" font-family="monospace" font-size="13" fill="#60a5fa" letter-spacing="3" opacity="0.7">MORPHO · __NAME__</text>
+</svg>`
+  },
+  {
+    id: 'morpho-flutter',
+    name: 'Morpho Fluttering',
+    style: 'nature · butterfly · animated',
+    palette: 'blue/cyan',
+    svg: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 400" width="100%" height="100%">
+  <defs>
+    <linearGradient id="skyFlut" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a0a1a" />
+      <stop offset="100%" stop-color="#1a1a3e" />
+    </linearGradient>
+    <radialGradient id="wingGradF" cx="40%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#60a5fa" />
+      <stop offset="30%" stop-color="#3b82f6" />
+      <stop offset="55%" stop-color="#1d4ed8" />
+      <stop offset="75%" stop-color="#1e3a5f" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </radialGradient>
+    <radialGradient id="wingGradF2" cx="60%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#93c5fd" />
+      <stop offset="40%" stop-color="#3b82f6" />
+      <stop offset="70%" stop-color="#1e40af" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </radialGradient>
+    <radialGradient id="eyeF" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#1e293b" /><stop offset="100%" stop-color="#020617" />
+    </radialGradient>
+    <filter id="wingGlowF" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" /><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <rect width="500" height="400" fill="url(#skyFlut)" />
+
+  <g opacity="0.4">
+    <circle cx="100" cy="100" r="3" fill="#60a5fa">
+      <animate attributeName="cy" values="100;80;120;100" dur="4s" repeatCount="indefinite"/>
+      <animate attributeName="opacity" values="0.1;0.6;0.1" dur="2s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="400" cy="300" r="2" fill="#93c5fd">
+      <animate attributeName="cy" values="300;280;320;300" dur="3.5s" repeatCount="indefinite"/>
+    </circle>
+  </g>
+
+  <g transform="translate(250, 200)">
+    <animateTransform attributeName="transform" type="translate" values="250,200;250,190;250,210;250,200" dur="3s" repeatCount="indefinite" additive="replace"/>
+
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="0,0,0;-30,0,0;0,0,0" dur="0.4s" repeatCount="indefinite"/>
+      <path d="M0,0 Q-40,-60 -100,-80 Q-140,-90 -160,-60 Q-180,-30 -140,10 Q-120,30 -100,50 Q-80,70 -60,80 Q-40,60 -20,30 Z" fill="url(#wingGradF)" stroke="#1e3a5f" stroke-width="2" filter="url(#wingGlowF)"/>
+      <path d="M0,0 Q-60,-30 -120,-60" stroke="#1e40af" stroke-width="1" fill="none" opacity="0.4"/>
+      <circle cx="-80" cy="-40" r="6" fill="#fbbf24" opacity="0.4" filter="url(#wingGlowF)"/>
+    </g>
+
+    <g>
+      <animateTransform attributeName="transform" type="rotate" values="0,0,0;30,0,0;0,0,0" dur="0.4s" repeatCount="indefinite"/>
+      <path d="M0,0 Q40,-60 100,-80 Q140,-90 160,-60 Q180,-30 140,10 Q120,30 100,50 Q80,70 60,80 Q40,60 20,30 Z" fill="url(#wingGradF2)" stroke="#1e3a5f" stroke-width="2" filter="url(#wingGlowF)"/>
+      <path d="M0,0 Q60,-30 120,-60" stroke="#1e40af" stroke-width="1" fill="none" opacity="0.4"/>
+      <circle cx="80" cy="-40" r="6" fill="#fbbf24" opacity="0.4" filter="url(#wingGlowF)"/>
+    </g>
+
+    <g>
+      <path d="M0,0 Q-30,40 -50,80 Q-60,110 -40,130 Q-10,140 0,100 Q10,130 20,100 Q30,80 10,40 Z" fill="url(#wingGradF)" stroke="#1e3a5f" stroke-width="1.5" />
+      <circle cx="-25" cy="80" r="5" fill="#fbbf24" opacity="0.3"/>
+    </g>
+    <g>
+      <path d="M0,0 Q30,40 50,80 Q60,110 40,130 Q10,140 0,100 Q-10,130 -20,100 Q-30,80 -10,40 Z" fill="url(#wingGradF2)" stroke="#1e3a5f" stroke-width="1.5" />
+      <circle cx="25" cy="80" r="5" fill="#fbbf24" opacity="0.3"/>
+    </g>
+
+    <ellipse cx="0" cy="-5" rx="6" ry="14" fill="#0f172a" stroke="#1e293b" stroke-width="1" />
+    <ellipse cx="0" cy="15" rx="5" ry="20" fill="#0f172a" stroke="#1e293b" stroke-width="1" />
+    <circle cx="0" cy="-20" r="7" fill="#0f172a" stroke="#1e293b" stroke-width="1" />
+    <circle cx="-4" cy="-22" r="3" fill="url(#eyeF)"/>
+    <circle cx="4" cy="-22" r="3" fill="url(#eyeF)"/>
+    <!-- Antennae with sway -->
+    <path d="M-4,-27 Q-15,-45 -20,-50" stroke="#0f172a" stroke-width="1.5" fill="none">
+      <animate attributeName="d" values="M-4,-27 Q-15,-45 -20,-50;M-4,-27 Q-10,-48 -15,-52;M-4,-27 Q-15,-45 -20,-50" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <path d="M4,-27 Q15,-45 20,-50" stroke="#0f172a" stroke-width="1.5" fill="none">
+      <animate attributeName="d" values="M4,-27 Q15,-45 20,-50;M4,-27 Q10,-48 15,-52;M4,-27 Q15,-45 20,-50" dur="2s" repeatCount="indefinite"/>
+    </path>
+    <circle cx="-20" cy="-50" r="2" fill="#1e293b" />
+    <circle cx="20" cy="-50" r="2" fill="#1e293b" />
+  </g>
+
+  <text x="250" y="375" text-anchor="middle" font-family="monospace" font-size="13" fill="#60a5fa" letter-spacing="3" opacity="0.7">MORPHO · __NAME__</text>
+</svg>`
+  },
 ];
 
 // Each banner's svg already has __XXX__ placeholders (added at author time), so ph() is a no-op
