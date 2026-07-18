@@ -16,6 +16,13 @@ Every item previews live, edits inline, renames, copies & drops straight into yo
 ![Tailwind](https://img.shields.io/badge/Tailwind-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)
 
 </div>
+---
+##Demo
+
+<div align="center">
+  <img src="./public/sudhir.svg" alt="Blaze logo" width="200" />
+</div>
+
 
 ---
 
