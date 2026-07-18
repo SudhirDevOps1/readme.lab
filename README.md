@@ -188,7 +188,7 @@ export function MyGame() { /* React state + JSX */ }
 ---
 
 <div align="center">
-  <img src="./public/blaze.svg" alt="Blaze logo" width="200" />
+  <img src="./public/blaze.svg" alt="Blaze logo" width="500" />
   <br>
   Made with ❤ by <a href="https://github.com/SudhirDevOps1">SudhirDevOps1</a> · MIT License · 2026
   <br>
