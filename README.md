@@ -26,9 +26,10 @@ Every item previews live, edits inline, renames, copies & drops straight into yo
 | ◼ **SVG Banners** | 233 | 208 standard (800×200) + 25 premium cinematic (1000×600) · **live code editor** · fills name/role/handle live |
 | § **READMEs** | 24 | Full markdown templates · live preview / edit / source view |
 | ✂ **Snippets** | 637 | Real shields.io / skillicons / capsule / workflow markdown · README builder |
-| 🐾 **Pets** | 126 | Animated SVGs · **live code editor** + color / speed / size + rename |
+| 🐾 **Pets** | 140 | 126 standard + 14 premium mascots · **live code editor** + color / speed / size + rename |
 | 🧜 **Mermaid** | 39 | Live-rendered diagrams (flowchart, pie, mindmap, sequence…) · edit + preview |
 | ▶ **Games** | 24 | Fully playable React mini-games · searchable |
+| 📚 **Learn Guide** | 384+ | 34 free resources · 8 roadmaps · 28 teachers · 314 project ideas · Free/Open Source 2026 |
 | ▦ **Stats** | 80 | Real themes with live GitHub image previews |
 | ▤ **Stat Cards** | 400 | 80 themes × 5 card types · each copyable with thumbnail |
 | ◉ **Badges** | 45 | Live shields.io badge maker with color swatches |
@@ -109,9 +110,49 @@ src/
 │  ├─ pets.ts              # ← add animated pets here
 │  ├─ templates.ts         # ← add README templates here
 │  ├─ snippets.ts          # ← add markdown snippets here
-│  └─ mermaid.ts           # ← add mermaid diagram templates here
+│  ├─ mermaid.ts           # ← add mermaid diagram templates here
+│  ├─ premiumBanners.ts    # ← add cinematic 1000×600 banners here
+│  ├─ premiumPets.ts       # ← add upgraded ornate pets here
+│  └─ guides.ts            # ← add free resources, roadmaps, teachers, projects
 ├─ games.tsx               # ← add playable games here (React components)
 └─ index.css               # fonts, theme tokens, animations
+```
+
+### Add a new Learn resource (free/Open Source)
+
+```ts
+// src/data/guides.ts  →  LEARNING_RESOURCES[]
+{
+  id: 35,
+  cat: 'Your Topic',
+  title: 'Your Course',
+  desc: 'Free platform or YouTube channel with tutorials',
+  link: 'https://github.com/or-youtube.example',
+  level: 'Beginner',
+  tag: 'Free'
+}
+```
+
+### Add a new roadmap
+
+```ts
+// src/data/guides.ts  →  ROADMAPS[]
+{
+  id: 'rust-basics',
+  role: 'Rust Developer',
+  desc: 'From Zero to production Rust, 3-6 months.',
+  steps: [
+    { title: 'Rust Core', detail: 'Ownership, borrow checker', tag: 'Fundamentals' },
+    { title: 'Concurrrency', detail: 'threads, channels, tokio', tag: 'Advanced' },
+  ],
+}
+```
+
+### Add a new project idea
+
+```ts
+// src/data/guides.ts  →  PROJECT_IDEAS[]
+{ id: 31, title: 'Voice Assistant', tech: 'Python + Silero + Vosk', level: 'Advanced', desc: 'Offline voice command recognition with IOT' }
 ```
 
 ### Add a new pet

@@ -14,7 +14,7 @@ const megaPets: Pet[] = [
   // 1. WISE OLD OWL (night sky + moon + stars)
   {
     id: 'guru-owl', name: 'Guru Owl', emoji: '🦉', vibe: 'night · wise · moonlit',
-    svg: ({ color = '#fbbf24', speed = 3, scale = 1 } = {}) => petFrame(`
+    svg: ({ color = '#fbbf24', speed: _speed = 3, scale = 1 } = {}) => petFrame(`
       <defs><radialGradient id="owlmoon"><stop offset="0" stop-color="#fff8dc"/><stop offset="1" stop-color="#bfdbfe" stop-opacity=".1"/></radialGradient></defs>
       <circle cx="60" cy="60" r="36" fill="url(#owlmoon)" opacity=".9"/>
       <ellipse cx="${120*scale}" cy="${125*scale}" rx="48*scale" ry="6" fill="#000" opacity=".25"/>

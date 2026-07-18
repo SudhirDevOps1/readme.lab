@@ -11,8 +11,9 @@ import { SiteFooter } from './components/SiteFooter';
 import { SvgEditor } from './components/SvgEditor';
 import { MermaidView } from './components/MermaidView';
 import { MERMAID_TEMPLATES, MERMAID_CATEGORIES, fillMermaid, mermaidToMarkdown } from './data/mermaid';
+import { LEARNING_RESOURCES, ROADMAPS, TEACHERS, PROJECT_IDEAS, levelColor } from './data/guides';
 
-type Tab = 'generator' | 'banners' | 'templates' | 'snippets' | 'pets' | 'mermaid' | 'games' | 'stats' | 'statcards' | 'badges';
+type Tab = 'generator' | 'banners' | 'templates' | 'snippets' | 'pets' | 'mermaid' | 'games' | 'stats' | 'statcards' | 'badges' | 'learn';
 
 // Lightweight README markdown → HTML preview (renders images, headings, links, lists)
 function renderReadmePreview(md: string): string {
@@ -435,6 +436,220 @@ function PetTab({ handle, copied, onCopy, onDownload }: {
   );
 }
 
+// ============ Learn sub-component ============
+function LearnTab({ name: _name, role: _role, handle: _handle, copied: _copied, onCopy: _onCopy, onDownload: _onDownload }: {
+  name: string; role: string; handle: string;
+  copied: string | null;
+  onCopy: (t: string, id: string) => void;
+  onDownload: (t: string, f: string, m: string) => void;
+}) {
+  const [view, setView] = useState<'resources' | 'roadmaps' | 'teachers' | 'projects' | 'howto'>('resources');
+  const [filterCat, setFilterCat] = useState('all');
+  const [search, setSearch] = useState('');
+  const [roadmapIdx, setRoadmapIdx] = useState(0);
+  const [levelFilter, setLevelFilter] = useState('all');
+  const [langFilter, setLangFilter] = useState('all');
+
+  const cats = Array.from(new Set(LEARNING_RESOURCES.map(r => r.cat)));
+  const filteredRes = LEARNING_RESOURCES.filter(r => {
+    if (filterCat !== 'all' && r.cat !== filterCat) return false;
+    if (search && !r.title.toLowerCase().includes(search.toLowerCase()) && !r.desc.toLowerCase().includes(search.toLowerCase())) return false;
+    return true;
+  });
+
+  const filteredProjects = PROJECT_IDEAS.filter(p => {
+    const cleanLevel = p.level.replace(/ + .*/gi,'').trim().toLowerCase();
+    if (levelFilter !== 'all' && !cleanLevel.startsWith(levelFilter.toLowerCase())) return false;
+    if (search && !p.title.toLowerCase().includes(search.toLowerCase()) && !p.tech.toLowerCase().includes(search.toLowerCase())) return false;
+    return true;
+  });
+
+  const filteredTeachers = TEACHERS.filter(t => {
+    if (langFilter !== 'all' && !t.lang.toLowerCase().includes(langFilter.toLowerCase())) return false;
+    if (search && !t.name.toLowerCase().includes(search.toLowerCase()) && !t.channel.toLowerCase().includes(search.toLowerCase())) return false;
+    return true;
+  });
+
+  const currentRm = ROADMAPS[roadmapIdx] || ROADMAPS[0];
+
+  const views: { id: typeof view; label: string; icon: string; n: number }[] = [
+    { id: 'resources', label: 'Resources', icon: '📚', n: LEARNING_RESOURCES.length },
+    { id: 'roadmaps', label: 'Roadmaps', icon: '🗺', n: ROADMAPS.length },
+    { id: 'teachers', label: 'Teachers', icon: '👨‍🏫', n: TEACHERS.length },
+    { id: 'projects', label: 'Project Ideas', icon: '🛠', n: PROJECT_IDEAS.length },
+    { id: 'howto', label: 'How to Contribute', icon: '📝', n: 1 },
+  ];
+
+  return (
+    <div>
+      {/* view switcher */}
+      <div className="mb-5 mb-6 flex flex-wrap gap-1.5 rounded-xl border border-slate-800 bg-[#12151a] p-1">
+        {views.map(v => (
+          <button
+            key={v.id} onClick={() => setView(v.id)}
+            className={`flex shrink-0 items-center gap-1.5 rounded-lg px-3 py-2 font-mono text-xs transition-all ${view===v.id?'bg-gradient-to-br from-pink-400 to-amber-400 font-bold text-[#0b0d10]':'text-slate-400 hover:bg-slate-800 hover:text-white'}`}>
+            <span>{v.icon}</span><span>{v.label}</span>
+            <span className={`rounded-full px-1 py-0 text-[9px] ${view===v.id?'bg-[#0b0d10]/20 text-[#0b0d10]':'bg-slate-800 text-slate-400'}`}>{v.n}</span>
+          </button>
+        ))}
+      </div>
+
+      {view === 'resources' && (
+        <div>
+          <div className="mb-4 flex flex-wrap gap-2">
+            <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="search courses…" className="rounded-lg border border-slate-800 bg-[#0b0d10] px-3 py-2 text-xs text-white placeholder-slate-600 focus:border-pink-500 focus:outline-none w-52"/>
+            <button onClick={()=>setFilterCat('all')} className={`rounded-md px-3 py-1.5 font-mono text-[10px] ${filterCat==='all'?'bg-pink-500 text-[#0b0d10]':'bg-slate-800 text-slate-400 hover:text-white'}`}>all</button>
+            {cats.map(c=>(
+              <button key={c} onClick={()=>setFilterCat(c)} className={`rounded-md px-3 py-1.5 font-mono text-[10px] ${filterCat===c?'bg-pink-500 text-[#0b0d10]':'bg-slate-800 text-slate-400 hover:text-white'}`}>{c}</button>
+            ))}
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {filteredRes.map(r => (
+              <a key={r.id} href={r.link} target="_blank" rel="noreferrer" className="group rounded-xl border border-slate-800 bg-[#12151a] p-4 transition-all hover:border-pink-400/50 hover:-translate-y-1">
+                <div className="mb-2 flex items-start justify-between">
+                  <span className="rounded bg-pink-500/10 px-1.5 py-0.5 font-mono text-[9px] text-pink-400">{r.cat}</span>
+                  {r.tag && <span className="rounded bg-amber-500/20 px-1.5 py-0.5 font-mono text-[9px] text-amber-400">{r.tag}</span>}
+                </div>
+                <h3 className="mb-1 font-display text-base font-bold text-white group-hover:text-pink-400">{r.title}</h3>
+                <p className="mb-3 line-clamp-2 text-xs text-slate-400">{r.desc}</p>
+                <div className="flex items-center justify-between">
+                  <span className={`font-mono text-[10px] ${levelColor(r.level)}`}>{r.level}</span>
+                  <span className="font-mono text-[9px] text-pink-400 opacity-0 transition-opacity group-hover:opacity-100">Open ↗</span>
+                </div>
+              </a>
+            ))}
+          </div>
+          <div className="mt-4 text-center font-mono text-[11px] text-slate-500">showing {filteredRes.length} of {LEARNING_RESOURCES.length} free resources</div>
+        </div>
+      )}
+
+      {view === 'roadmaps' && (
+        <div className="grid gap-5 lg:grid-cols-[300px_1fr]">
+          <div className="rounded-2xl border border-slate-800 bg-[#12151a] p-3 lg:sticky lg:top-20 lg:self-start">
+            <div className="mb-3 font-mono text-[10px] uppercase tracking-widest text-slate-500">Choose a role</div>
+            <div className="space-y-1.5">
+              {ROADMAPS.map((rm,i) => (
+                <button key={rm.id} onClick={()=>setRoadmapIdx(i)} className={`w-full rounded-lg p-2.5 text-left transition-all ${roadmapIdx===i?'bg-gradient-to-br from-pink-400 to-amber-400 text-[#0b0d10]':'text-slate-300 hover:bg-slate-800'}`}>
+                  <div className="text-sm font-bold">{rm.role}</div>
+                  <div className={`text-[10px] mt-0.5 ${roadmapIdx===i?'text-[#0b0d10]/70':'text-slate-500'}`}>{rm.desc}</div>
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="rounded-2xl border border-slate-800 bg-[#12151a] p-6">
+            <h3 className="mb-2 font-display text-2xl font-bold text-white">{currentRm.role}</h3>
+            <p className="mb-6 text-sm text-slate-400">{currentRm.desc}</p>
+            <div className="relative max-w-xl">
+              {currentRm.steps.map((step, i) => (
+                <div key={i} className="relative pb-6 pl-8 last:pb-0">
+                  <div className={`absolute left-[11px] top-0 -ml-0.5 h-full w-px ${i===currentRm.steps.length-1?'bg-gradient-to-b from-pink-500 to-transparent':'bg-slate-700'}`}/>
+                  <div className={`absolute left-[7px] top-1 h-4 w-4 rounded-full ${i===0?'bg-pink-500 ring-4 ring-pink-500/20':'bg-slate-800 ring-4 ring-slate-800/20'}`}/>
+                  <div className="rounded-lg border border-slate-800 bg-[#0b0d10] p-4 hover:border-pink-400/40 transition-all">
+                    <div className="mb-1 flex items-center justify-between">
+                      <span className="font-display text-sm font-bold text-white">{step.title}</span>
+                      <span className="rounded bg-pink-500/10 px-2 py-0.5 font-mono text-[9px] text-pink-400">{step.tag}</span>
+                    </div>
+                    <p className="text-xs text-slate-400">{step.detail}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {view === 'teachers' && (
+        <div>
+          <div className="mb-4 flex flex-wrap items-center gap-2">
+            <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="search teachers…" className="rounded-lg border border-slate-800 bg-[#0b0d10] px-3 py-2 text-xs text-white placeholder-slate-600 focus:border-pink-500 focus:outline-none w-48"/>
+            <button onClick={()=>setLangFilter('all')} className={`rounded-md px-3 py-1.5 font-mono text-[10px] ${langFilter==='all'?'bg-pink-500 text-[#0b0d10]':'bg-slate-800 text-slate-400 hover:text-white'}`}>All Languages</button>
+            <button onClick={()=>setLangFilter('english')} className={`rounded-md px-3 py-1.5 font-mono text-[10px] ${langFilter==='english'?'bg-lime-400 text-[#0b0d10]':'bg-slate-800 text-slate-400 hover:text-white'}`}>🇬🇧 English</button>
+            <button onClick={()=>setLangFilter('hindi')} className={`rounded-md px-3 py-1.5 font-mono text-[10px] ${langFilter==='hindi'?'bg-orange-400 text-[#0b0d10]':'bg-slate-800 text-slate-400 hover:text-white'}`}>🇮🇳 Hindi</button>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {filteredTeachers.map(t => (
+              <a key={t.id} href={`https://youtube.com/${t.channel}`} target="_blank" rel="noreferrer"
+                className="group rounded-xl border border-slate-800 bg-[#12151a] p-4 transition-all hover:border-pink-400/50 hover:-translate-y-1">
+                <div className="mb-2 flex items-center gap-3">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-pink-400 to-amber-400 font-display text-base font-bold text-[#0b0d10]">{t.name[0]}</div>
+                  <div className="min-w-0">
+                    <h3 className="font-display text-base font-bold text-white group-hover:text-pink-400 truncate">{t.name}</h3>
+                    <span className="font-mono text-[10px] text-pink-400">{t.channel}</span>
+                  </div>
+                </div>
+                <p className="mb-3 text-xs italic text-slate-400 line-clamp-2">"{t.explic}"</p>
+                <div className="flex flex-wrap gap-1">
+                  {t.subjects.map(s=>(
+                    <span key={s} className="rounded bg-slate-800 px-1.5 py-0.5 font-mono text-[9px] text-slate-300">{s}</span>
+                  ))}
+                </div>
+              </a>
+            ))}
+          </div>
+          <div className="mt-4 text-center font-mono text-[11px] text-slate-500">showing {filteredTeachers.length} of {TEACHERS.length} teachers</div>
+        </div>
+      )}
+
+      {view === 'projects' && (
+        <div>
+          <div className="mb-4 flex flex-wrap items-center gap-2">
+            <input value={search} onChange={e=>setSearch(e.target.value)} placeholder="search projects…" className="rounded-lg border border-slate-800 bg-[#0b0d10] px-3 py-2 text-xs text-white placeholder-slate-600 focus:border-pink-500 focus:outline-none w-52"/>
+            <button onClick={()=>setLevelFilter('all')} className={`rounded-md px-3 py-1.5 font-mono text-[10px] ${levelFilter==='all'?'bg-pink-500 text-[#0b0d10]':'bg-slate-800 text-slate-400 hover:text-white'}`}>All Levels</button>
+            {['Beginner','Intermediate','Advanced','Expert'].map(l=>(
+              <button key={l} onClick={()=>setLevelFilter(l)} className={`rounded-md px-3 py-1.5 font-mono text-[10px] ${levelFilter===l?'bg-lime-400 text-[#0b0d10]':'bg-slate-800 text-slate-400 hover:text-white'}`}>{l}</button>
+            ))}
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {filteredProjects.map(p => (
+              <article key={p.id} className="rounded-xl border border-slate-800 bg-[#12151a] p-4 transition-all hover:border-pink-400/50">
+                <div className="mb-2 flex items-start justify-between">
+                  <h3 className="font-display text-base font-bold text-white">{p.title}</h3>
+                  <span className={`shrink-0 rounded bg-slate-800 px-1.5 py-0.5 font-mono text-[9px] ${levelColor(p.level)}`}>{p.level}</span>
+                </div>
+                <p className="mb-3 line-clamp-2 text-xs text-slate-400">{p.desc}</p>
+                <span className="inline-block rounded bg-slate-900 px-2 py-1 font-mono text-[10px] text-cyan-400">{p.tech}</span>
+              </article>
+            ))}
+          </div>
+          <div className="mt-4 text-center font-mono text-[11px] text-slate-500">showing {filteredProjects.length} of {PROJECT_IDEAS.length} project ideas</div>
+        </div>
+      )}
+
+      {view === 'howto' && (
+        <div className="grid gap-5 lg:grid-cols-2">
+          <div className="rounded-2xl border border-slate-800 bg-[#12151a] p-5">
+            <h3 className="mb-3 font-display text-lg font-bold text-amber-400">Add New Resources</h3>
+            <p className="mb-3 text-xs text-slate-400">Contribute: add new resource with this format &mdash; shared freely on GitHub.</p>
+            <CodeBlock code={`// Edit src/data/guides.ts\n// at LEARNING_RESOURCES[] add:\n{\n  id: 35,\n  cat: 'Your Category',\n  title: 'Course Name',\n  desc: 'Free video series covering basics',\n  link: 'https://youtube.com/channel',\n  level: 'Beginner',\n  tag: 'Useful'\n}`} lang="md" filename="guides.ts" maxHeight={220}/>
+          </div>
+          <div className="rounded-2xl border border-slate-800 bg-[#12151a] p-5 space-y-3 font-mono text-[11px] text-slate-400">
+            <h3 className="font-display text-base font-bold text-amber-400">File Structure Reference</h3>
+            <div className="rounded-lg bg-slate-900 p-3">
+              <div className="text-lime-400">src/data/guides.ts</div>
+              — LEARNING_RESOURCES[] → add courses<br/>
+              — ROADMAPS[] → new roles<br/>
+              — TEACHERS[] → new YouTube creators<br/>
+              — PROJECT_IDEAS[] → project inspiration<br/>
+            </div>
+            <div className="rounded-lg bg-slate-900 p-3">
+              <div className="text-amber-400">src/App.tsx</div>
+              — LearnTab component renders this UI<br/>
+              — Update views[] to add modes<br/>
+              — Titel labels/analysis state
+            </div>
+            <div className="rounded-lg bg-slate-900 p-3">
+              <div className="text-pink-400">This tab is fully editable</div>
+              — Click a roadmap to explore<br/>
+              — Filter by level/subject/lang<br/>
+              — Open any resource directly
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 // ============ Templates sub-component ============
 function TemplateTab({ name, role, handle, copied, onCopy, onDownload }: {
   name: string; role: string; handle: string;
@@ -613,8 +828,9 @@ export default function App() {
   const colorCount = BADGE_COLORS.length;
   const snippetCount = SNIPPETS.length;
   const mermaidCount = MERMAID_TEMPLATES.length;
+  const learnCount = LEARNING_RESOURCES.length + ROADMAPS.length + TEACHERS.length + PROJECT_IDEAS.length;
   const statCardCount = themeCount * 5; // 5 real card types per theme
-  const total = bannerCount + petCount + gameCount + statCardCount + colorCount + TEMPLATES.length + snippetCount + mermaidCount;
+  const total = bannerCount + petCount + gameCount + statCardCount + colorCount + TEMPLATES.length + snippetCount + mermaidCount + learnCount;
 
   const statsMd = useMemo(() => `![stats](https://github-readme-stats.vercel.app/api?username=${handle}&theme=${theme}&hide_border=${hideBorder}&show_icons=${showIcons}&show=all_commits)
 
@@ -661,6 +877,7 @@ export default function App() {
     { id: 'snippets', label: 'Snippets', icon: '✂', count: snippetCount },
     { id: 'pets', label: 'Pets', icon: '🐾', count: petCount },
     { id: 'mermaid', label: 'Mermaid', icon: '🧜', count: mermaidCount },
+    { id: 'learn', label: 'Learn', icon: '📚', count: learnCount },
     { id: 'games', label: 'Games', icon: '▶', count: gameCount },
     { id: 'stats', label: 'Stats', icon: '▦', count: themeCount },
     { id: 'statcards', label: 'Stat Cards', icon: '▤', count: statCardCount },
@@ -711,7 +928,7 @@ export default function App() {
               <span className="text-lime-400">not one that bores.</span>
             </h1>
             <p className="mt-4 max-w-xl text-sm text-slate-400">
-              {bannerCount} animated SVG banners · {templateCount} README templates · {snippetCount} snippets · {petCount} live-editable pets · {mermaidCount} mermaid diagrams · {gameCount} playable games · {statCardCount} stat cards. <span className="text-white">Edit any SVG/mermaid code live</span>, preview instantly, rename &amp; copy — everything drops straight into your <code className="rounded bg-slate-900 px-1 text-lime-400">README.md</code>.
+              {bannerCount} animated SVG banners · {templateCount} README templates · {snippetCount} snippets · {petCount} live-editable pets · {mermaidCount} mermaid diagrams · <span className="text-pink-400 font-semibold">{learnCount} free learning resources</span> · {gameCount} playable games · {statCardCount} stat cards. <span className="text-white">Edit any SVG/mermaid code live</span>, preview instantly, rename &amp; copy — everything drops straight into your <code className="rounded bg-slate-900 px-1 text-lime-400">README.md</code>.
             </p>
             <div className="mt-6 grid grid-cols-3 gap-3 sm:grid-cols-6 lg:grid-cols-7">
               {[
@@ -720,6 +937,7 @@ export default function App() {
                 {n:snippetCount, l:'snippets', c:'text-violet-400'},
                 {n:petCount, l:'pets', c:'text-lime-400'},
                 {n:mermaidCount, l:'mermaid', c:'text-teal-400'},
+                {n:learnCount, l:'learn', c:'text-pink-400'},
                 {n:gameCount, l:'games', c:'text-cyan-400'},
                 {n:statCardCount, l:'stat cards', c:'text-pink-400'},
                 {n:colorCount, l:'badge colors', c:'text-orange-400'},
@@ -918,6 +1136,10 @@ USER/main/pet.svg" />`}</pre>
           <MermaidTab name={name} role={role} handle={handle} copied={copied} onCopy={copy} onDownload={downloadFile}/>
         )}
 
+        {tab === 'learn' && (
+          <LearnTab name={name} role={role} handle={handle} copied={copied} onCopy={copy} onDownload={downloadFile}/>
+        )}
+
         {tab === 'games' && (
           <div className="space-y-4">
             <div className="flex items-center gap-2">
@@ -1054,6 +1276,7 @@ USER/main/pet.svg" />`}</pre>
           { label: 'snippets', n: snippetCount, c: 'text-violet-400' },
           { label: 'pets', n: petCount, c: 'text-lime-400' },
           { label: 'mermaid', n: mermaidCount, c: 'text-teal-400' },
+          { label: 'learn', n: learnCount, c: 'text-pink-400' },
           { label: 'games', n: gameCount, c: 'text-cyan-400' },
           { label: 'stat cards', n: statCardCount, c: 'text-pink-400' },
           { label: 'badges', n: colorCount, c: 'text-orange-400' },
