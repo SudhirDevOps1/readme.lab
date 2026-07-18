@@ -1,7 +1,7 @@
 // ===== CONTRIBUTE GUIDE — how to add/edit every asset type =====
 // Detailed, beginner-friendly, copy-paste ready. Production-grade docs in-app.
 
-export const APP_VERSION = 'v3.0.0';
+export const APP_VERSION = 'v3.1.0';
 export const APP_BUILD_DATE = 'February 2026';
 
 export type AddGuide = {

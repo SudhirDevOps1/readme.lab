@@ -341,10 +341,11 @@ export function MyGame() { /* React state + JSX */ }
 
 ## 📌 Version & Changelog
 
-**Current: `v3.0.0`** (February 2026)
+**Current: `v3.1.0`** (February 2026)
 
 | Version | Highlights |
 |---------|-----------|
+| **v3.1.0** | 🚀 **Production Scale-Up:** 25,000+ real assets · 500+ Open Source Libraries · 200+ Live GitHub projects to study · Built-in Contribution Guide Tab |
 | **v3.0.0** | 🛠 **"Add / Edit" tab** — guided flows to add any asset · version badge · clean production build · Morpho butterfly premium banners |
 | v2.x | Learn hub (resources, roadmaps, teachers, projects), Libraries + Live Projects, 25,000+ badge combos |
 | v1.x | Banners, pets, snippets, mermaid, games, stat cards, README templates |
@@ -355,7 +356,7 @@ export function MyGame() { /* React state + JSX */ }
 
 <div align="center">
 
-Made with ❤ by [SudhirDevOps1](https://github.com/SudhirDevOps1) · MIT License · 2026 · **v3.0.0**
+Made with ❤ by [SudhirDevOps1](https://github.com/SudhirDevOps1) · MIT License · 2026 · **v3.1.0**
 
 <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=100&section=footer" />
 

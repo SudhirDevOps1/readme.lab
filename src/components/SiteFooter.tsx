@@ -1,3 +1,5 @@
+import { APP_VERSION, APP_BUILD_DATE } from '../data/contribute';
+
 export function SiteFooter({ total, counts }: {
   total: number;
   counts: { label: string; n: number; c: string }[];
@@ -121,12 +123,12 @@ export function SiteFooter({ total, counts }: {
           </div>
           <div className="flex items-center gap-2 font-mono text-[11px] text-slate-600">
             <span className="inline-flex h-1.5 w-1.5 rounded-full bg-lime-400" style={{ animation: 'pulseSoft 2s infinite' }} />
-            built with React + Vite + Tailwind · 2026
+            built with React + Vite + Tailwind · {APP_VERSION} ({APP_BUILD_DATE})
           </div>
         </div>
 
         <div className="mt-6 text-center font-mono text-[10px] text-slate-700">
-          made with <span className="text-red-400">❤</span> · every asset is real, none are fake · MIT
+          made with <span className="text-red-400">❤</span> by SudhirDevOps1 · every asset is real, none are fake · MIT
         </div>
       </div>
 
