@@ -179,10 +179,11 @@ export function MyGame() { /* React state + JSX */ }
 - Fraunces (display) · Space Grotesk (body) · JetBrains Mono (code)
 
 ---
+
 <div align="center">
-  <img src="public/blaze.svg" alt="Blaze logo" width="400" />
+  <img src="./public/blaze.svg" alt="Blaze logo" width="200" />
   <br>
-  Made with ❤ by [SudhirDevOps1](https://github.com/SudhirDevOps1) · MIT License · 2026
+  Made with ❤ by <a href="https://github.com/SudhirDevOps1">SudhirDevOps1</a> · MIT License · 2026
   <br>
   <img src="https://capsule-render.vercel.app/api?type=waving&color=gradient&height=100&section=footer" />
 </div>
